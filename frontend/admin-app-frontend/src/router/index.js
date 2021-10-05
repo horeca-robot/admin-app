@@ -7,6 +7,7 @@ import MenuPage from '../pages/MenuPage'
 import RobotsPage from '../pages/RobotsPage'
 import MapPage from '../pages/MapPage'
 import SettingsPage from '../pages/SettingsPage'
+import ApiExamplePage from '../pages/ApiExamplePage'
 
 //Define Routes
 const routes = [
@@ -57,7 +58,15 @@ const routes = [
         meta: {
             requiresAuth: true
         }
-    }
+    },
+    {
+      path: '/testpage',
+      name: 'testpage',
+      component: ApiExamplePage,
+      meta: {
+          requiresAuth: false
+      }
+  }
 ]
 
 //Create Router
