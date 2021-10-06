@@ -13,14 +13,16 @@ public class ApiResponse {
     public static ApiResponse Ok(Optional<String> message){
         ApiResponse response = new ApiResponse();
         response.success = true;
-        response.message = message.get();
+        if(message.isPresent())
+            response.message = message.get();
         return response;
     }
 
     public static ApiResponse Error(Optional<String> message){
         ApiResponse response = new ApiResponse();
         response.success = false;
-        response.message = message.get();
+        if(message.isPresent())
+            response.message = message.get();
         return response;
     }
 

@@ -4,6 +4,8 @@ import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.LoginModel;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,19 +33,19 @@ public class SignInController {
     }
 
     @PostMapping("/authenticate")
-    public ApiResponse authenticate(@RequestBody LoginModel loginModel) throws Exception{
+    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel){
         if(loginModel.getEmail().isBlank() || loginModel.getPassword().isBlank())
-            return ApiResponse.Error(Optional.of("Not all fields are filled in."));
+            return new ResponseEntity<>(ApiResponse.Error(Optional.of("Not all fields are filled in.")), HttpStatus.BAD_REQUEST);
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
         }
         catch(BadCredentialsException e) {
-            throw new Exception("Incorrect email or password", e);
+            return new ResponseEntity<>(ApiResponse.Error(Optional.of("Incorrect email or password.")).AddData("exception", e), HttpStatus.BAD_REQUEST);
         }
 
         final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
         final String jwt = signInService.generateJWT(userDetails);
-        return ApiResponse.Ok(Optional.of("Success")).AddData("jwt", jwt);
+        return new ResponseEntity<>(ApiResponse.Ok(Optional.empty()).AddData("jwt", jwt), HttpStatus.OK);
     }
 }
