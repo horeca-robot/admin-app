@@ -10,13 +10,39 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+
+	flatDir {
+		dirs 'libs'
+	}
+}
+
+configurations {
+	// configuration that holds jars to include in the jar
+	extraLibs
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.h2database:h2'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation name: 'database-library-1.0-SNAPSHOT'
+	extraLibs name: 'database-library-1.0-SNAPSHOT'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+jar {
+	from {
+		configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
