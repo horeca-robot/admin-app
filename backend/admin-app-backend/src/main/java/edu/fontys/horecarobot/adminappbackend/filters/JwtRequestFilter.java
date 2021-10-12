@@ -2,6 +2,7 @@ package edu.fontys.horecarobot.adminappbackend.filters;
 
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,16 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final SignInService signInService;
     private final JwtUtil jwtUtil;
-
-    @Autowired
-    public JwtRequestFilter(SignInService signInService, JwtUtil jwtUtil){
-        this.signInService = signInService;
-        this.jwtUtil = jwtUtil;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

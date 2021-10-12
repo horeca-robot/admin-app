@@ -2,6 +2,7 @@ package edu.fontys.horecarobot.adminappbackend.security;
 
 import edu.fontys.horecarobot.adminappbackend.filters.JwtRequestFilter;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private final SignInService signInService;
     private final JwtRequestFilter jwtRequestFilter;
-
-    @Autowired
-    public SecurityConfigurer(SignInService signInService, JwtRequestFilter jwtRequestFilter){
-        this.signInService = signInService;
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -47,6 +43,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     //TODO: Add password encoding
+    @SuppressWarnings("deprecation")
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();

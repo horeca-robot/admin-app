@@ -18,6 +18,8 @@ public class JwtUtil {
     @Value("${jwt.key}")
     private String JWT_KEY;
 
+    private static final long H_24 = 1000 * 60 * 60 * 24;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -49,7 +51,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) //24 Hours
+                .setExpiration(new Date(System.currentTimeMillis() + H_24))
                 .signWith(SignatureAlgorithm.HS256, JWT_KEY)
                 .compact();
     }
