@@ -3,7 +3,6 @@
     <div>
         <label for="name">Restaurant Name&nbsp;</label>
         <input id="name" ref="name" type="text" v-model="restaurantName">
-        {{ restaurantName }}
     </div>
     <br>
     <br>
@@ -11,8 +10,10 @@
         <label for="name">Restaurant Logo</label>
       <img style="width: 100% !important; height: 100% !important" :src="`${previewImageData}`"/>
     </div>
-
     <input ref="fileInput" accept="image/png, image/gif, image/jpeg" type="file" @input="previewImage" />
+    <br>
+    <br>
+    <button v-on:click="uploadImage" :disabled="canUpload == 0">Upload</button>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
     return {
       restaurantName: "",
       previewImageData: null,
+      canUpload: false,
     };
   },
 
@@ -36,6 +38,7 @@ export default {
 
         reader.onload = (e) => {
           this.previewImageData = e.target.result;
+          this.canUpload = true;
         };
 
         reader.readAsDataURL(file[0]);
@@ -43,6 +46,10 @@ export default {
         this.$emit("input", file[0]);
       }
     },
+
+    uploadImage(){
+      
+    }
   },
 };
 </script>
