@@ -1,6 +1,5 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-import edu.fontys.horecarobot.adminappbackend.TestRepo;
 import edu.fontys.horecarobot.databaselibrary.models.Product;
 import edu.fontys.horecarobot.databaselibrary.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
