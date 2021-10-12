@@ -33,7 +33,7 @@ export default {
         }
     },
     methods: {
-        async handleSubmit(e) {
+        async handleLogIn(e) {
             e.preventDefault()
 
             if(!this.email.trim() || !this.password.trim()){
