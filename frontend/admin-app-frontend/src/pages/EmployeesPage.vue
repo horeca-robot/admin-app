@@ -48,16 +48,11 @@ export default {
       },
       async removeEmployee(employee_id) {
         if(typeof employee_id !== 'undefined' && employee_id !== null) {
-            var employees = this.employees.filter(employee => {
-                return employee.id != employee_id;
-            });
+            axios.delete(`http://localhost:3000/employees/${employee_id}`);
 
-            console.log(employees);
-            
-            //this.employees = [];
-            //const res = await axios.post("http://localhost:3000/employees", { employees: employees});
-            //this.employees = [...this.employees, res.data];
-        }    
+            const res = await axios.get('http://localhost:3000/employees');
+            this.employees = res.data;
+        }  
       } 
   }
 }
