@@ -1,11 +1,16 @@
 <template>
     <div id="employees">
         <h1>Employees</h1>
-        <input type="text" placeholder="add username here" v-model="employeeUsername" @keyup.enter="addEmployee">
-        <input type="text" placeholder="add pincode here" v-model="employeePincode" @keyup.enter="addEmployee">
-        <ul>
-            <li v-for="employee of employees" :key="employee.id" >{{employee.username}} , {{employee.pincode}}</li>  
-        </ul>
+        <form>
+            <input type="text" placeholder="add username here" v-model="employeeUsername" autofocus required minlength="4">
+            <input type="text" pattern="[0-9]" placeholder="add pincode here" v-model="employeePincode" required minlength="4"> 
+            <button v-on:click="addEmployee($event)">Add</button>      
+        </form>
+        <ul v-for="employee of employees" :key="employee.id">
+            <li>         
+                {{employee.username}} , {{employee.pincode}}
+            </li>  
+        </ul>  
     </div>
 </template>
 
@@ -30,22 +35,28 @@ export default {
       }
   },
   methods: {
-      async addEmployee() {
-          if (this.employeeUsername != '' && this.employeePincode != '') {
+      async addEmployee() {      
+        if (this.employeePincode.length >= 4 && this.employeeUsername.length >= 4 && isNaN(parseInt(this.employeePincode)) == false) {
             const res = await axios.post("http://localhost:3000/employees", { username: this.employeeUsername, pincode: this.employeePincode});
 
             this.employees = [...this.employees, res.data];
 
             this.employeeUsername = '';
             this.employeePincode = '';
-          }
+        }      
       }
   }
 }
 </script>
 
 <style scoped>
-#employees input:first-of-type {
+#employees input:first-of-type  {
     margin-right: 10px;
+}
+#employees button {
+    margin-left: 8px;
+}
+#employees button:hover {
+    cursor: pointer;
 }
 </style>
