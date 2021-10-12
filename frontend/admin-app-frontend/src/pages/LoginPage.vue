@@ -17,7 +17,7 @@
         </div>
         <div class="section" >
             <p class="forgot-password">Forgot Password?</p>
-            <button class="btn" @click="handleSubmit">Log In</button>
+            <button class="btn" @click="handleLogIn">Log In</button>
         </div>
     </div>
 </template>
@@ -179,5 +179,6 @@ export default {
     .btn:hover{
         transform: scale(1.025);
         box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
     }
 </style>
