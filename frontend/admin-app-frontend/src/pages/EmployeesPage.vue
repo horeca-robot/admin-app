@@ -9,7 +9,6 @@
         <ul v-for="employee of employees" :key="employee.id">
             <li>         
                 {{employee.username}} , {{employee.pincode}}
-                <button v-on:click="removeEmployee(employee.id)">Remove</button>
             </li>  
         </ul>  
     </div>
@@ -45,15 +44,7 @@ export default {
             this.employeeUsername = '';
             this.employeePincode = '';
         }      
-      },
-      async removeEmployee(employee_id) {
-        if(typeof employee_id !== 'undefined' && employee_id !== null) {
-            axios.delete(`http://localhost:3000/employees/${employee_id}`);
-
-            const res = await axios.get('http://localhost:3000/employees');
-            this.employees = res.data;
-        }  
-      } 
+      }
   }
 }
 </script>
