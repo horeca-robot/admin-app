@@ -8,7 +8,7 @@
         </div>
         <div>
         <label> Image</label>
-        <input type="file" id="img" name="img" accept="image/*" @change="SubmittedImage"/>  <br>
+        <input type="file" id="img" name="img" accept="image/*" @change="FileSelected"/>  <br>
         </div>
         <div>
         <label> Price</label>
@@ -37,13 +37,13 @@ export default {
     name: 'AddProduct',
     data(){
         return{
+            id: '',
             name: '',
             img: '',
             price: 0,
             discountPrice: 0, 
             description: '', 
             alcohol: false,
-            products: []
         }
     },
     methods:{
@@ -60,12 +60,11 @@ export default {
                 price: this.price,
                 discountPrice: this.discountPrice,
                 description: this.description,
-                alcohol: this.alcohol
+                alcohol: this.alcohol,
+                img : this.img
             }
 
             this.$emit('add-product', newProduct)
-            this.products = [...this.products, newProduct]
-            console.log(this.products.length)
 
             this.name = ''
             this.price = 0

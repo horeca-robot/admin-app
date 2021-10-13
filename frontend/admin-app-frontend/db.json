@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "name": "henk",
+      "price": 3,
+      "discountPrice": 3,
+      "description": "3",
+      "alcohol": false,
+      "img": "",
+      "id": 1
+    },
+    {
+      "name": "3453",
+      "price": 3,
+      "discountPrice": 3,
+      "description": "3",
+      "alcohol": false,
+      "img": "",
+      "id": 2
+    },
+    {
+      "name": "3",
+      "price": 3,
+      "discountPrice": 3,
+      "description": "3",
+      "alcohol": false,
+      "img": "",
+      "id": 3
+    },
+    {
+      "name": "123",
+      "price": 123,
+      "discountPrice": 123,
+      "description": "123",
+      "alcohol": false,
+      "img": "",
+      "id": 4
+    }
+  ]
+}
