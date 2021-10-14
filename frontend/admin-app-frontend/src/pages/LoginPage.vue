@@ -42,8 +42,8 @@ export default {
             }
 
             const payload = { 
-                'email' : this.email, 
-                'password' : this.password 
+                email: this.email, 
+                password: this.password 
             };
 
             const response = await api.signIn(payload);
