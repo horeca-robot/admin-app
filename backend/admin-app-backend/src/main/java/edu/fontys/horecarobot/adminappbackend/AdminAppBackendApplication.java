@@ -1,0 +1,21 @@
+package edu.fontys.horecarobot.adminappbackend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@EntityScan("edu.fontys.horecarobot.databaselibrary")
+@ComponentScan("edu.fontys.horecarobot.databaselibrary")
+public class AdminAppBackendApplication {
+
+	public static void main(String[] args) {
+		try {
+			SpringApplication.run(AdminAppBackendApplication.class, args);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+}
