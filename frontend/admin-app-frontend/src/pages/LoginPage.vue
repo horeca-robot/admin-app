@@ -68,7 +68,6 @@ export default {
 
 <style scoped>
     .panel{
-        position: absolute;
         min-width: 500px;
         width: 32.5vw;
         min-height: fit-content;
@@ -78,7 +77,7 @@ export default {
         left: 0;
         right: 0;
         margin: auto;
-        background-color: white;
+        background-color: var(--secondary-color);
         box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.5);
         border-radius: 10px;
         display: flex;
@@ -97,13 +96,14 @@ export default {
         font-weight: 400;
         font-style: normal;
         font-size: 4em;
-        color: rgba(0, 0, 0, 0.85);
+        color: var(--text-color);
+        opacity: 0.85;
     }
 
     .input{
         width: 75%;
         height: 50px;
-        border: 3px solid rgb(1, 87, 228);
+        border: 3px solid var(--primary-color);
         border-radius: 10px;
         display: flex;
         align-items: center;
@@ -112,7 +112,8 @@ export default {
 
     .icon{
         font-size: 2rem;
-        color: rgba(0, 0, 0, 0.85);
+        color: var(--text-color);
+        opacity: 0.85;
         margin: 20px;
         min-width: 32px;
         display: flex;
@@ -120,7 +121,8 @@ export default {
     }
 
     .line{
-        border: 1px solid rgba(0, 0, 0, 0.85);
+        border: 1px solid var(--text-color);
+        opacity: 0.85;
         height: 35px;
     }
 
@@ -130,10 +132,12 @@ export default {
         font-weight: 400;
         font-style: normal;
         font-size: 1.5rem;
-        color: rgba(0, 0, 0, 0.85);
+        color: var(--text-color);
+        opacity: 0.85;
         height: 0px;
         width: 100%;
         border: none;
+        background: var(--secondary-color);
     }
 
     .input-field:focus{
@@ -144,11 +148,12 @@ export default {
         font-weight: 400;
         font-style: normal;
         font-size: 1.5rem;
-        color: rgb(1, 87, 228);
+        color: var(--primary-color);
+        opacity: 1;
     }
 
     .forgot-password:hover{
-        color: rgba(1, 87, 228, 0.85);
+        opacity: 0.85 !important;
         cursor: pointer;
     }
 
@@ -160,8 +165,8 @@ export default {
         font-weight: 400;
         font-style: normal;
         font-size: 2rem;
-        color: white;
-        background: #0157E4;
+        color: var(--secondary-color);
+        background: var(--primary-color);
         border-radius: 10px;
         border: none;
         display: flex;
