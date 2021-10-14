@@ -48,14 +48,8 @@ export default {
 
             const response = await api.signIn(payload);
 
-            const result = {
-                    success: response.data["success"],
-                    message: response.data["message"],
-                    token: response.data["data"]["jwt"]
-                }
-
-            if(result.success){
-                localStorage.setItem('jwt', result.token)
+            if(response.success){
+                localStorage.setItem('jwt', response.token)
 
                 if(this.$route.params.nextUrl != null) {
                     this.$router.push(this.$route.params.nextUrl)
@@ -65,7 +59,7 @@ export default {
                 }
             }
             else{
-                alert(result.message)
+                alert(response.message)
             }
         }
     }

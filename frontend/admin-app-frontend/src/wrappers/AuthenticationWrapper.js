@@ -7,11 +7,19 @@ export default {
 
     async signIn(data) {
 
+        var response;
+
         try{
-            return await axios.post(`${baseUrl}/api/SignIn/authenticate`, data)
+            response =  await axios.post(`${baseUrl}/api/SignIn/authenticate`, data)
         }
         catch(error){
-            return error.response
+            response = error.response
+        }
+
+        return {
+            success: response.data["success"],
+            message: response.data["message"],
+            token: response.data["data"]["jwt"]
         }
     }
 } 
