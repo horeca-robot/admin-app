@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import api from "../wrappers/ApiWrapper"
+import api from "../wrappers/AuthenticationWrapper.js"
 
 export default {
     data() {
