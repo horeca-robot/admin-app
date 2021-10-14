@@ -68,10 +68,17 @@ const router = createRouter({
 
 //Check before entering page
 router.beforeEach((to, from, next) => {
-    //Redirect to login
+    //Redirect when trying to access home page
     if(to.path === '/'){
-        localStorage.setItem('jwt', 'test')
-        next({ name: 'login' })
+      if (localStorage.getItem('jwt') == null) {
+        next({
+          name: 'login',
+          params: { nextUrl: to.fullPath }
+        })
+      } 
+      else {
+        next({ name: 'employees' })
+      } 
     }   
 
     //AuthenticationState
@@ -83,7 +90,20 @@ router.beforeEach((to, from, next) => {
         })
       } 
       else {
-        next()
+        const claims = parseJwt(localStorage.getItem("jwt"))
+        const isExpired = checkExpiration(claims["exp"])
+
+        if(isExpired){
+          localStorage.removeItem("jwt")
+
+          next({
+            name: 'login',
+            params: { nextUrl: to.fullPath }
+          })
+        }
+        else{
+          next()
+        }
       }
     } 
     else if (to.matched.some(record => record.meta.guest)) {
@@ -98,5 +118,24 @@ router.beforeEach((to, from, next) => {
       next()
     }
 })
+
+//Get claims from JWT
+function parseJwt (token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+}
+
+//Check expiration date of JWT
+function checkExpiration (exp) {
+  const expDate = new Date(exp * 1000)
+  const currentDate = new Date()
+
+  return expDate.getTime() <= currentDate.getTime();
+}
 
 export default router
