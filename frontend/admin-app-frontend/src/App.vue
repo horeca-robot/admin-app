@@ -43,8 +43,8 @@ export default {
 }
 
 :root{
-  --primary-color: rgb(255, 0, 0);
-  --secondary-color: rgb(0, 0, 0);
-  --text-color: rgb(0, 0, 0, 1);
+  --primary-color: rgb(1, 87, 228);
+  --secondary-color: rgb(255, 255, 255);
+  --text-color: rgb(0, 0, 0);
 }
 </style>
