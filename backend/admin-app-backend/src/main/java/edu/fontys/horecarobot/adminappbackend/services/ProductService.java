@@ -18,14 +18,12 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void saveProduct(ProductModel productModel)
-    {
+    public void saveProduct(ProductModel productModel){
         var product = createProduct(productModel);
         productRepository.save(product);
     }
 
-    private Product createProduct(ProductModel productModel)
-    {
+    private Product createProduct(ProductModel productModel){
         Product p = new Product();
         p.setName(productModel.getName());
         p.setDescription(productModel.getDescription());
