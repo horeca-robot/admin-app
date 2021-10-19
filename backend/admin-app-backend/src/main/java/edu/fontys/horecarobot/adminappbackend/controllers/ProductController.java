@@ -1,7 +1,6 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.ProductModel;
 import edu.fontys.horecarobot.adminappbackend.services.ProductService;
 import edu.fontys.horecarobot.databaselibrary.models.Product;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +18,13 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<ApiResponse> CreateProduct(@RequestBody ProductModel product)
+    public ResponseEntity<ApiResponse> CreateProduct(@RequestBody Product product)
     {
         if(product.getName().isBlank() || product.getPrice() <= 0 || product.getDiscountPrice() <= 0)
             return new ResponseEntity<>(ApiResponse.error("Not all fields are filled in"), HttpStatus.BAD_REQUEST);
 
         if(productService.PostProduct(product))
-            return new ResponseEntity<>(ApiResponse.ok("Done"), HttpStatus.OK);
+            return new ResponseEntity<>(ApiResponse.ok("Product has been posted to the database"), HttpStatus.OK);
         else
             return new ResponseEntity<>(ApiResponse.error(), HttpStatus.BAD_REQUEST);
     }
