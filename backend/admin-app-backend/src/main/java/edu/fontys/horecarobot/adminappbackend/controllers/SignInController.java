@@ -4,7 +4,6 @@ import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.LoginModel;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping(path = "api/SignIn")
-@CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class SignInController {
 
