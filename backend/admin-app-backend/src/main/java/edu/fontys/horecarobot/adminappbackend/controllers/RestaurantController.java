@@ -3,8 +3,8 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+@CrossOrigin(origins = "*")
 @RestController
-@CrossOrigin
 @RequestMapping("api/restaurant")
 public class RestaurantController {
 
@@ -14,5 +14,11 @@ public class RestaurantController {
         if(multipartFile.isEmpty()) return "File is empty";
 
         return String.format("File %s has been uploaded", multipartFile.getName());
+    }
+
+    @GetMapping(path = "/test")
+    public String PleaseWork()
+    {
+        return  "I Work";
     }
 }

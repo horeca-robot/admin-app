@@ -1,51 +1,69 @@
 <template>
   <div id="container">
     <h2>Settings</h2>
-    <hr id="divider">
-    <br>
+    <hr id="divider" />
+    <br />
     <div id="inputs">
       <label id="nameLabel" for="name">Restaurant Name&nbsp;</label>
-      <input id="name" type="text" v-model="restaurantName">
+      <input id="name" type="text" v-model="restaurantName" />
 
       <label id="primaryColorLabel" for="primaryColor">Primary Color Website&nbsp;</label>
-      <input id="primaryColor" type="color" v-model="primaryColor">
+      <input id="primaryColor" type="color" v-model="primaryColor" />
 
       <label id="secondaryColorLabel" for="secondaryColor">Secondary Color Website&nbsp;</label>
-      <input id="secondaryColor" type="color" v-model="secondaryColor">
+      <input id="secondaryColor" type="color" v-model="secondaryColor" />
     </div>
-    <br>
-    <ImagePreview ref="preview"/>
+
+    <div class="row">
+      <div class="block">
+        <label for="imagePreview">Website Logo</label>
+        <ImagePreview id="imagePreview" ref="preview" />
+      </div>
+
+      <div class="block">
+        <label for="imagePreview2">Background Website</label>
+        <ImagePreview id="imagePreview2" ref="preview2" />
+      </div>
+      <div class="block"></div>
+    </div>
+
     <button v-on:click="uploadImage">Test</button>
   </div>
 </template>
 
 <script>
-import ImagePreview from '../components/ImagePreview.vue'
+import ImagePreview from "../components/ImagePreview.vue";
+import api from "../wrappers/Test.js"
+
 
 export default {
   data() {
     return {
       restaurantName: "",
       primaryColor: "#1200ff",
-      secondaryColor: "#ff0021"
+      secondaryColor: "#ff0021",
     };
   },
 
-  components:{
-    ImagePreview
+  components: {
+    ImagePreview,
   },
 
   methods: {
-    uploadImage(){
-      console.log(this.$refs.preview.base64)
-    }
+   async uploadImage() {
+      //console.log(this.$refs.preview.base64);
+      await api.getTest();
+    },
   },
 };
 </script>
 
 <style scoped>
+input {
+  height: 30px;
+}
 
-body{
+body {
   box-sizing: border-box;
 }
 
@@ -54,40 +72,53 @@ body{
   height: 25%;
 }
 
-#container{
-    margin-top: 5%;
-    margin-left: 4%;
-    margin-right: 2.5%;
-    width: 80%;
-    background-color: #FFFFFF;
+#container {
+  margin-top: 5%;
+  margin-left: 4%;
+  margin-right: 2.5%;
+  width: 80%;
+  background-color: #ffffff;
 }
 
-#container h2{
+#container h2 {
   margin-left: 2.5%;
 }
 
-#divider{
+#divider {
   margin-left: 2.5%;
   margin-right: 2.5%;
 }
 
-#inputs{
+#inputs {
   margin-left: 3%;
 }
 
-#name{
+#name {
   margin-right: 6%;
 }
 
-#secondaryColorLabel{
+#secondaryColorLabel {
   margin-left: 10%;
 }
 
-#primaryColorLabel{
+#primaryColorLabel {
   margin-left: 5%;
 }
 
-label{
+label {
   font-weight: bold;
+  font-size: 20px;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 3%;
+  margin-top: 5%;
+}
+.block {
+  width: 45%;
 }
 </style>
