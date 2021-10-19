@@ -13,7 +13,7 @@ import ColorUtil from './utils/ColorUtil.js'
 
 export default {
   name: 'App',
-  components: { Background, NavigationBar },
+  components: { Background, NavigationBar},
   created(){
     ColorUtil.getTextColor()
   },

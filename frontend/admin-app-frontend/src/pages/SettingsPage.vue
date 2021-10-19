@@ -1,67 +1,93 @@
 <template>
   <div id="container">
-    <div>
-        <label for="name">Restaurant Name&nbsp;</label>
-        <input id="name" ref="name" type="text" v-model="restaurantName">
+    <h2>Settings</h2>
+    <hr id="divider">
+    <br>
+    <div id="inputs">
+      <label id="nameLabel" for="name">Restaurant Name&nbsp;</label>
+      <input id="name" type="text" v-model="restaurantName">
+
+      <label id="primaryColorLabel" for="primaryColor">Primary Color Website&nbsp;</label>
+      <input id="primaryColor" type="color" v-model="primaryColor">
+
+      <label id="secondaryColorLabel" for="secondaryColor">Secondary Color Website&nbsp;</label>
+      <input id="secondaryColor" type="color" v-model="secondaryColor">
     </div>
     <br>
-    <br>
-    <div id="imagePreviewWrapper">
-        <label for="name">Restaurant Logo</label>
-      <img style="width: 100% !important; height: 100% !important" :src="`${previewImageData}`"/>
-    </div>
-    <input ref="fileInput" accept="image/png, image/gif, image/jpeg" type="file" @input="previewImage" />
-    <br>
-    <br>
-    <button v-on:click="uploadImage" :disabled="canUpload == 0">Upload</button>
+    <ImagePreview ref="preview"/>
+    <button v-on:click="uploadImage">Test</button>
   </div>
 </template>
 
 <script>
+import ImagePreview from '../components/ImagePreview.vue'
+
 export default {
   data() {
     return {
       restaurantName: "",
-      previewImageData: null,
-      canUpload: false,
+      primaryColor: "#1200ff",
+      secondaryColor: "#ff0021"
     };
   },
 
+  components:{
+    ImagePreview
+  },
+
   methods: {
-    previewImage() {
-      let input = this.$refs.fileInput;
-
-      let file = input.files;
-
-      if (file && file[0]) {
-        let reader = new FileReader();
-
-        reader.onload = (e) => {
-          this.previewImageData = e.target.result;
-          this.canUpload = true;
-        };
-
-        reader.readAsDataURL(file[0]);
-
-        this.$emit("input", file[0]);
-      }
-    },
-
     uploadImage(){
-      
+      console.log(this.$refs.preview.base64)
     }
   },
 };
 </script>
 
 <style scoped>
+
+body{
+  box-sizing: border-box;
+}
+
 #imagePreviewWrapper {
-  width: 50%;
-  height: 50%;
+  width: 25%;
+  height: 25%;
 }
 
 #container{
-    margin-top: 2.5%;
-    margin-left: 2.5%;
+    margin-top: 5%;
+    margin-left: 4%;
+    margin-right: 2.5%;
+    width: 80%;
+    background-color: #FFFFFF;
+}
+
+#container h2{
+  margin-left: 2.5%;
+}
+
+#divider{
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+#inputs{
+  margin-left: 3%;
+}
+
+#name{
+  margin-right: 6%;
+}
+
+#secondaryColorLabel{
+  margin-left: 10%;
+}
+
+#primaryColorLabel{
+  margin-left: 5%;
+}
+
+label{
+  font-weight: bold;
 }
 </style>
