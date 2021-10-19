@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/SignIn")
+@CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class SignInController {
 

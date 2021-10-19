@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping(path = "api/Robot")
-//@CrossOrigin(origins = "http://localhost:4000")
+@CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class RobotController {
 
