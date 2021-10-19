@@ -27,4 +27,9 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getProducts(){
+        var products = productService.getAllProducts();
+        return new ResponseEntity<>(ApiResponse.ok().addData("list", products), HttpStatus.OK);
+    }
 }
