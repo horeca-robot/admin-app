@@ -2,6 +2,7 @@
     <div id="container">
         <input @input="previewImage" placeholder="Selecteer een afbeelding" ref="fileInput" type="file" accept="image/png, image/gif, image/jpeg">
         <br>
+        <br>
         <img id="preview" :src="base64">
     </div>
 </template>
@@ -39,5 +40,8 @@ export default {
 </script>
 
 <style scoped>
-
+#preview{
+    width: 300px;
+    height: 300px;
+}
 </style>
