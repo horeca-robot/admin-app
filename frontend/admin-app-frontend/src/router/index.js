@@ -54,7 +54,7 @@ const routes = [{
         name: 'settings',
         component: SettingsPage,
         meta: {
-            requiresAuth: false
+            requiresAuth: true
         }
     }
 ]
