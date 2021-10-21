@@ -20,7 +20,7 @@ public class ProductService {
     }
 
     public void addProduct(ProductModel productModel){
-        var product = createProduct(productModel);
+        var product = convertToProduct(productModel);
         productRepository.save(product);
     }
 
@@ -28,7 +28,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    private Product createProduct(ProductModel productModel){
+    private Product convertToProduct(ProductModel productModel){
         Product p = new Product();
         p.setName(productModel.getName());
         p.setDescription(productModel.getDescription());
