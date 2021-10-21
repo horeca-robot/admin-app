@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "api/Product")
 @CrossOrigin(origins = "http://localhost:4000")
@@ -30,5 +32,11 @@ public class ProductController {
     public ResponseEntity<?> getProducts(){
         var products = productService.getAllProducts();
         return new ResponseEntity<>(ApiResponse.ok().addData("list", products), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable UUID id){
+        productService.removeProduct(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
