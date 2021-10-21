@@ -29,7 +29,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and()
+                .csrf().disable()
                 .authorizeRequests().antMatchers("/api/SignIn/authenticate").permitAll() //API endpoint with /api/SignIn/authenticate permits all users
                 .anyRequest().authenticated() //Every other API endpoint is authenticated
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
