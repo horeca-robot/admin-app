@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <input @input="previewImage" placeholder="Selecteer een afbeelding" ref="fileInput" type="file" accept="image/png, image/gif, image/jpeg">
+        <input @input="previewImage" ref="fileInput" type="file" accept="image/png, image/gif, image/jpeg">
         <br>
         <br>
         <img id="preview" :src="base64">

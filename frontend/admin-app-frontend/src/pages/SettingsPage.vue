@@ -1,191 +1,164 @@
 <template>
   <div id="container">
-    <h2>Settings</h2>
-    <hr id="divider" />
-    <br />
-
-    <div id="container-body">
-      <div id="inputs">
-        <label id="nameLabel" for="name">Restaurant Name&nbsp;</label>
-        <input id="name" type="text" v-model="restaurantName" />
-
-        <label id="primaryColorLabel" for="primaryColor"
-          >Primary Color Website&nbsp;</label
-        >
-        <input id="primaryColor" type="color" v-model="primaryColor" />
-
-        <label id="secondaryColorLabel" for="secondaryColor"
-          >Secondary Color Website&nbsp;</label
-        >
-        <input id="secondaryColor" type="color" v-model="secondaryColor" />
+    <div id="base">
+      <div id="base-nav" class="tabs">
+        <ul class="tabs-list">
+          <li ref="websiteBtn" v-on:click.prevent="setTab" data-tab="website" class="active"><a data-tab="website" href="#">Website Settings</a></li>
+          <li ref="restaurantBtn" v-on:click.prevent="setTab" data-tab="restaurant"><a data-tab="restaurant" href="#">Restaurant Settings</a></li>
+        </ul>
       </div>
-
-      <div class="row">
-        <div class="block">
-          <label for="imagePreview">Website Logo</label>
-          <ImagePreview class="m-t" id="imagePreview" ref="websiteLogo" />
+      <div id="base-content">
+        <div ref="websiteTab" class="tab active">
+          <WebsiteSettings/>
         </div>
-
-        <div class="block" style="margin-left: 8% !important">
-          <label for="imagePreview2">Background Website</label>
-            <ImagePreview
-              class="m-t"
-              id="imagePreview2"
-              ref="websiteBackground"
-            />
-          </div>
-
-        <div class="block">&nbsp;</div>
+        <div ref="restaurantTab" class="tab">
+          <RestaurantSettings/>
+        </div>
       </div>
-    </div>
-
-    <hr id="divider" />
-
-    <div id="container-footer">
-      <button type="submit" id="save-btn" v-on:click="saveSettings">
-        Save
-      </button>
     </div>
   </div>
 </template>
 
 <script>
-import ImagePreview from "../components/ImagePreview.vue";
-import api from "../wrappers/RestaurantWrapper";
+import WebsiteSettings from "../components/WebsiteSettings.vue"
+import RestaurantSettings from "../components/RestaurantSettings.vue"
 
-export default {
-  data() {
-    return {
-      restaurantName: "",
-      primaryColor: "#1200ff",
-      secondaryColor: "#ff0021",
-    };
-  },
-
-  components: {
-    ImagePreview,
-  },
-
-  methods: {
-    async saveSettings() {
-      var logo = this.$refs.websiteLogo.base64;
-
-      var background = this.$refs.websiteBackground.base64;
-
-      const payload = {
-        name: this.restaurantName,
-        primarycolor: this.primaryColor,
-        secondarycolor: this.secondaryColor,
-        logo: logo,
-        background: background,
-      };
-
-      var response = await api.saveSettings(payload);
-
-      console.log(response);
+export default{
+    data() {
+        return {
+        }
     },
-  },
-};
+    components:{
+        WebsiteSettings,
+        RestaurantSettings,
+    },
+    methods: {
+        setTab(e){
+            
+            e.preventDefault();
+
+            switch(e.path[0].getAttribute("data-tab"))
+            {
+                case 'website':
+                    this.$refs.websiteBtn.classList.add('active')
+                    this.$refs.websiteTab.classList.add('active')
+                    this.$refs.websiteTab.style.display = 'block !important'
+
+                    this.$refs.restaurantBtn.classList.remove('active')
+                    this.$refs.restaurantTab.classList.remove('active')
+                    this.$refs.restaurantTab.style.display = 'none !important';
+                break;
+
+                case 'restaurant':
+                    this.$refs.restaurantBtn.classList.add('active')
+                    this.$refs.restaurantTab.classList.add('active')
+                    this.$refs.restaurantTab.style.display = 'block !important'
+
+                    this.$refs.websiteBtn.classList.remove('active')
+                    this.$refs.websiteTab.classList.remove('active')
+                    this.$refs.websiteTab.style.display = 'none !important'
+                    break;
+                
+                default: break;
+            }
+        }
+    },
+}
 </script>
 
 <style scoped>
-input {
-  height: 30px;
-  font-size: 16px;
-}
-
-#container-footer {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  padding-bottom: 2.5%;
-}
-
-button {
-  display: flex;
-  height: 40px;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  background-color: #2d6ace;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 18px;
-  transition-duration: 0.3s;
-}
-
-button:hover {
-  background-color: #0157e4;
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 5px 5px 0 rgba(0, 0, 0, 0.19);
-}
-
-button:active {
-  transform: translateY(4px);
-}
-
-#container-body {
-  overflow: hidden scroll;
-  height: 36rem;
-}
-
-#imagePreviewWrapper {
-  width: 25%;
-  height: 25%;
-}
-
 #container {
-  top: 15%;
-  right: 0;
+  top: 0;
   bottom: 0;
+  right: 0;
   margin: auto;
-  width: 80%;
-  min-height: fit-content;
-  background-color: #ffffff;
+  height: fit-content;
+  width: fit-content;
+  text-align: left;
+  background-color: white;
 }
 
-#container h2 {
-  margin-left: 2.5%;
+#base {
+  min-width: 65vw;
+  min-height: 550px;
 }
 
-#divider {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
-#inputs {
-  margin-left: 3%;
-}
-
-#name {
-  margin-right: 6%;
-}
-
-#secondaryColorLabel {
-  margin-left: 10%;
-}
-
-#primaryColorLabel {
-  margin-left: 5%;
-}
-
-label {
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.row {
+#base-nav {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-left: 3%;
-  margin-top: 5%;
-}
-.block {
-  width: 45%;
+  background-color: #0157e4;
+  display: inline-block !important;
 }
 
-.m-t {
-  margin-top: 10px !important;
+#base-content {
+    width: 100%;
+    display: inline-block !important;
+}
+
+/* tab list item */
+.tabs .tabs-list {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+.tabs .tabs-list li {
+  width: 150px;
+  float: left;
+  margin: 0px;
+  padding: 25px 5px;
+  text-align: center;
+  background-color: transparent;
+}
+.tabs .tabs-list li:hover {
+  cursor: pointer;
+  background-color: #c4c4c426;
+}
+.tabs .tabs-list li a {
+  text-decoration: none;
+  color: white;
+}
+
+
+/* Tab content section */
+#base-content .tab{
+    display:none;
+    width:96%;
+    min-height: 400px;
+    height:auto;
+    border-radius:3px;
+    padding:20px 15px;
+    clear:both;
+}
+.tabs .tab h3{
+    border-bottom:3px solid cornflowerblue;
+    letter-spacing:1px;
+    font-weight:normal;
+    padding:5px;
+}
+.tabs .tab p{
+    line-height:20px;
+    letter-spacing: 1px;
+}
+
+/* When active state */
+.active{
+    display:block !important;
+}
+.tabs .tabs-list li.active{
+    background-color: #c4c4c426 !important;
+    color:white !important;
+}
+.active a{
+    color:white !important;
+}
+
+/* media query */
+@media screen and (max-width:360px){
+    .tabs{
+        margin:0;
+        width:96%;
+    }
+    .tabs .tabs-list li{
+        width:80px;
+    }
 }
 </style>
