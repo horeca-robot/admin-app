@@ -47,9 +47,7 @@ export default {
         changeToEdit(){
             this.isEditing = true
         },
-        handleSubmit(e){
-            e.preventDefault()
-
+        handleSubmit(){
             if(!this.id.trim() || !this.name.trim()){
                 alert('All fields need to be filled in.')
                 return

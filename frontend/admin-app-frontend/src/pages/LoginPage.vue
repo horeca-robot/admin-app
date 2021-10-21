@@ -33,8 +33,7 @@ export default {
         }
     },
     methods: {
-        async handleLogIn(e) {
-            e.preventDefault()
+        async handleLogIn() {
 
             if(!this.email.trim() || !this.password.trim()){
                 alert('All fields need to be filled in.')

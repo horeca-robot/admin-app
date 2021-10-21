@@ -70,7 +70,7 @@ public class RobotController {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         if(!robotService.doesRobotExist(id))
-            return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.NOT_FOUND);
 
         try{
             robotService.deleteRobot(id);
