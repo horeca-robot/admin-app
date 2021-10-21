@@ -30,7 +30,7 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping
+    @PostMapping(path = "/add")
     public ResponseEntity<ApiResponse> addEmployee(@RequestBody EmployeeModel employeeModel) {
         if(employeeModel.getUsername().isBlank()) {
             return new ResponseEntity<>(ApiResponse.error("Not all required fields are filled in."), HttpStatus.BAD_REQUEST);
@@ -38,6 +38,17 @@ public class EmployeeController {
 
         try {
             employeeService.addEmployeeUser(employeeModel);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(ApiResponse.error("Cannot add an employee to the database. Please try again later.").addData("exception", e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(path = "/delete")
+    public ResponseEntity<ApiResponse> deleteEmployee(@RequestBody EmployeeModel employeeModel) {
+        try {
+            employeeService.deleteEmployeeUser(employeeModel);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception e) {
