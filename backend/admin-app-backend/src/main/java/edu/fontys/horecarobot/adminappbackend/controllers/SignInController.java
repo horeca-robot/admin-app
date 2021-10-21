@@ -24,7 +24,7 @@ public class SignInController {
     @PostMapping("/authenticate")
     public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel){
         if(loginModel.getEmail().isBlank() || loginModel.getPassword().isBlank())
-            return new ResponseEntity<>(ApiResponse.error("Not all fields are filled in."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         try {
             authenticationManager.authenticate(

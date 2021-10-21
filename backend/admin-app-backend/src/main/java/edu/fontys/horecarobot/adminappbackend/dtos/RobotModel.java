@@ -1,12 +1,14 @@
 package edu.fontys.horecarobot.adminappbackend.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.lang.NonNull;
 
 @Data
-public class LoginModel {
+@AllArgsConstructor
+public class RobotModel {
     @NonNull
-    private String email;
+    private String id;
     @NonNull
-    private String password;
+    private String name;
 }
