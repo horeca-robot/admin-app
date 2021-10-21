@@ -19,24 +19,24 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductModel product){
-        if(product.getName().isBlank() || product.getPrice() <= 0)
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
-
-        productService.saveProduct((product));
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
     @GetMapping
     public ResponseEntity<?> getProducts(){
         var products = productService.getAllProducts();
         return new ResponseEntity<>(ApiResponse.ok().addData("list", products), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<?> postProduct(@RequestBody ProductModel product){
+        if(product.getName().isBlank() || product.getPrice() <= 0)
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+
+        productService.addProduct((product));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable UUID id){
-        productService.removeProduct(id);
+        productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -19,12 +19,12 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void saveProduct(ProductModel productModel){
+    public void addProduct(ProductModel productModel){
         var product = createProduct(productModel);
         productRepository.save(product);
     }
 
-    public void removeProduct(UUID id){
+    public void deleteProduct(UUID id){
         productRepository.deleteById(id);
     }
 
