@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/Employees")
@@ -20,9 +19,9 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getEmployees() {
+    public ResponseEntity<ApiResponse> getEmployeeUsers() {
         try {
-            ArrayList<EmployeeUser> employees = employeeService.getAllEmployeeUsers();
+            List<EmployeeUser> employees = employeeService.getAllEmployeeUsers();
             return new ResponseEntity<>(ApiResponse.ok().addData("employees", employees), HttpStatus.OK);
         }
         catch (Exception e) {
@@ -31,7 +30,7 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<ApiResponse> addEmployee(@RequestBody EmployeeModel employeeModel) {
+    public ResponseEntity<ApiResponse> addEmployeeUser(@RequestBody EmployeeModel employeeModel) {
         if(employeeModel.getUsername().isBlank()) {
             return new ResponseEntity<>(ApiResponse.error("Not all required fields are filled in."), HttpStatus.BAD_REQUEST);
         }
@@ -46,7 +45,7 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/delete")
-    public ResponseEntity<ApiResponse> deleteEmployee(@RequestBody EmployeeModel employeeModel) {
+    public ResponseEntity<ApiResponse> deleteEmployeeUser(@RequestBody EmployeeModel employeeModel) {
         try {
             employeeService.deleteEmployeeUser(employeeModel);
             return new ResponseEntity<>(HttpStatus.CREATED);

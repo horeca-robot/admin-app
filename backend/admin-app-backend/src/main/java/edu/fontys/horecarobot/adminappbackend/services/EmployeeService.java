@@ -7,7 +7,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,8 +16,8 @@ public class EmployeeService {
 
     private final EmployeeUserRepository employeeUserRepository;
 
-    public ArrayList<EmployeeUser> getAllEmployeeUsers() {
-        return (ArrayList<EmployeeUser>) employeeUserRepository.findAll();
+    public List<EmployeeUser> getAllEmployeeUsers() {
+        return (List<EmployeeUser>) employeeUserRepository.findAll();
     }
 
     public void addEmployeeUser(EmployeeModel employeeModel) {
