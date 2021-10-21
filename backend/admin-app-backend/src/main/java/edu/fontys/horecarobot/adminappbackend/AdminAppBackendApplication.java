@@ -17,5 +17,5 @@ public class AdminAppBackendApplication {
 			ex.printStackTrace();
 		}
 	}
-	
+
 }
