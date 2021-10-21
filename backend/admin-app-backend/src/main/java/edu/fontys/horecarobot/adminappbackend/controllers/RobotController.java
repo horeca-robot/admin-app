@@ -23,14 +23,14 @@ public class RobotController {
             return new ResponseEntity<>(ApiResponse.ok().addData("robots", robots), HttpStatus.OK);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error("Something went wrong while retrieving robots from database. Please try again later."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse> postRobot(@RequestBody RobotModel robotModel){
         if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
-            return new ResponseEntity<>(ApiResponse.error("Not all required fields are filled in."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         if(!robotService.doesUserHaveAccessToRobot(robotModel.getId()))
             return new ResponseEntity<>(ApiResponse.error("You were unable to confirm your ownership."), HttpStatus.BAD_REQUEST);
@@ -40,14 +40,14 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error("Something went wrong while trying to connect the robot to your restaurant. Please try again later."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping
     public ResponseEntity<ApiResponse> putRobot(@RequestBody RobotModel robotModel){
         if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
-            return new ResponseEntity<>(ApiResponse.error("Not all required fields are filled in."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         if(!robotService.doesRobotExist(robotModel.getId()))
             return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.BAD_REQUEST);
@@ -57,14 +57,14 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error("Something went wrong while trying to connect the robot to your restaurant. Please try again later."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteRobot(@PathVariable String id){
         if(id.isBlank())
-            return new ResponseEntity<>(ApiResponse.error("Not all required fields are filled in."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         if(!robotService.doesRobotExist(id))
             return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.BAD_REQUEST);
@@ -74,7 +74,7 @@ public class RobotController {
             return new ResponseEntity<>(ApiResponse.ok("Successfully deleted the robot from the restaurant."), HttpStatus.OK);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error("Something went wrong while trying to delete the robot from your restaurant. Please try again later."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.BAD_REQUEST);
         }
     }
 }

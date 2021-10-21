@@ -8,6 +8,9 @@ import java.util.*;
 @Data
 public class ApiResponse {
 
+    public static final String REQUIRED_FIELDS_ERROR = "Not all required fields are filled in.";
+    public static final String DATABASE_CONNECTION_ERROR = "Something went wrong, try again later.";
+
     private final boolean success;
     @Nullable
     private final String message;
