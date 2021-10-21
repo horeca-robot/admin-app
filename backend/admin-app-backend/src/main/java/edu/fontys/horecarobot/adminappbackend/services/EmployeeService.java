@@ -1,6 +1,8 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.EmployeeModel;
+import edu.fontys.horecarobot.databaselibrary.models.EmployeeUser;
+import edu.fontys.horecarobot.databaselibrary.repositories.EmployeeUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -8,22 +10,20 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
-    private ArrayList<EmployeeModel> employees;
 
-    public ArrayList<EmployeeModel> getEmployees() {
-        if(employees == null) {
-            employees = new ArrayList<>();
-        }
-        return employees;
+    private final EmployeeUserRepository employeeUserRepository;
+
+    public void addEmployeeUser(EmployeeModel employeeModel) {
+        EmployeeUser employeeUser = new EmployeeUser();
+
+        employeeUser.setUsername(employeeModel.getUsername());
+        employeeUser.setPincode(employeeModel.getPin());
+
+        employeeUserRepository.save(employeeUser);
+        employeeUserRepository.flush();
     }
 
-    public void addEmploy(EmployeeModel employeeModel) {
-        //testcode
-        var employee = new EmployeeModel();
-        employee.setUsername("employee1");
-        employee.setPin("1234");
-        this.employees.add(employee);
-
-        //employees.add(employeeModel);
+    public ArrayList<EmployeeUser> getAllEmployeeUsers() {
+        return (ArrayList<EmployeeUser>) employeeUserRepository.findAll();
     }
 }
