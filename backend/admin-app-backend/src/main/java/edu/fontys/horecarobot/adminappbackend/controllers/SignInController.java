@@ -27,14 +27,21 @@ public class SignInController {
             return new ResponseEntity<>(ApiResponse.error("Not all fields are filled in."), HttpStatus.BAD_REQUEST);
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginModel.getEmail(),
+                            loginModel.getPassword()
+                    )
+            );
+
+            final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
+            final String jwt = signInService.generateJWT(userDetails);
+            return new ResponseEntity<>(ApiResponse.ok().addData("jwt", jwt), HttpStatus.OK);
         }
         catch(BadCredentialsException e) {
-            return new ResponseEntity<>(ApiResponse.error("Incorrect email or password.").addData("exception", e), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error("Incorrect email or password."), HttpStatus.UNAUTHORIZED);
         }
 
-        final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
-        final String jwt = signInService.generateJWT(userDetails);
-        return new ResponseEntity<>(ApiResponse.ok().addData("jwt", jwt), HttpStatus.OK);
     }
+
 }
