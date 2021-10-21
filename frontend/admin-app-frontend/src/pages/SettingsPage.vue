@@ -28,12 +28,12 @@
 
         <div class="block" style="margin-left: 8% !important">
           <label for="imagePreview2">Background Website</label>
-          <ImagePreview
-            class="m-t"
-            id="imagePreview2"
-            ref="websiteBackground"
-          />
-        </div>
+            <ImagePreview
+              class="m-t"
+              id="imagePreview2"
+              ref="websiteBackground"
+            />
+          </div>
 
         <div class="block">&nbsp;</div>
       </div>
@@ -51,7 +51,7 @@
 
 <script>
 import ImagePreview from "../components/ImagePreview.vue";
-import api from "../wrappers/RestaurantWrapper"
+import api from "../wrappers/RestaurantWrapper";
 
 export default {
   data() {
@@ -68,7 +68,6 @@ export default {
 
   methods: {
     async saveSettings() {
-      
       var logo = this.$refs.websiteLogo.base64;
 
       var background = this.$refs.websiteBackground.base64;
@@ -79,11 +78,11 @@ export default {
         secondarycolor: this.secondaryColor,
         logo: logo,
         background: background,
-      }
+      };
 
       var response = await api.saveSettings(payload);
 
-      console.log(response)
+      console.log(response);
     },
   },
 };
@@ -135,10 +134,12 @@ button:active {
 }
 
 #container {
-  margin-top: 2.5%;
-  margin-left: 4%;
-  margin-right: 2.5%;
+  top: 15%;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   width: 80%;
+  min-height: fit-content;
   background-color: #ffffff;
 }
 
