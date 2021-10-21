@@ -50,7 +50,7 @@ export default {
         onSubmit(e){
             e.preventDefault()
 
-            if(!this.name || !this.price || !this.discountPrice){
+            if(!this.name || !this.price){
                 alert('Not all required fields are filled in, please check again')
                 return
             }
