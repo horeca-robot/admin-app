@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import edu.fontys.horecarobot.adminappbackend.dtos.RobotModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,8 @@ public class RobotService {
         return robotRepository.findById(id).isPresent();
     }
 
-    public ArrayList<Robot> getRobots(){
-        return new ArrayList<>(robotRepository.findAll());
+    public List<Robot> getRobots(){
+        return robotRepository.findAll();
     }
 
     public void addRobot(RobotModel robotModel){

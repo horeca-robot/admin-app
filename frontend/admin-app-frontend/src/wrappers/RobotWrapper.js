@@ -34,6 +34,7 @@ export default {
 
         try{
             response =  await axios.post(`${baseUrl}/api/Robot`, data, apiConfig)
+            console.log(response)
 
             return {
                 success: response.status === 201
@@ -54,7 +55,7 @@ export default {
         var response;
 
         try{
-            response =  await axios.put(`${baseUrl}/api/Robot`, data, apiConfig)
+            response =  await axios.put(`${baseUrl}/api/Robot/${data.id}`, data, apiConfig)
 
             return {
                 success: response.status === 201
@@ -76,14 +77,18 @@ export default {
 
         try{
             response =  await axios.delete(`${baseUrl}/api/Robot/${id}`, apiConfig)
+
+            return {
+                success: response.status === 201
+            }
         }
         catch(error){
             response = error.response
-        }
 
-        return {
-            success: response.data["success"],
-            message: response.data["message"]
+            return {
+                success: response.data["success"],
+                message: response.data["message"]
+            }
         }
     }
 } 

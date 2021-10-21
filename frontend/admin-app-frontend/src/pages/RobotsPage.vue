@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import api from '../wrappers/RobotWrapper'
+import RobotWrapper from '../wrappers/RobotWrapper'
 import Robot from '../components/robot_components/Robot.vue'
 
 export default {
@@ -41,10 +41,9 @@ export default {
     },
     methods: {
         async getRobots(){
-            const response = await api.getRobots()
+            const response = await RobotWrapper.getRobots()
 
             if(response.success){
-                console.log('oi')
                 this.robots = response.robots
             }
             else{
@@ -61,7 +60,7 @@ export default {
                 alert('Already exists a robot with this name')
             }
             else{
-                const response = await api.postRobot(payload)
+                const response = await RobotWrapper.postRobot(payload)
 
                 if(response.success){
                     alert('Succesfully added robot #' + payload.id)
@@ -78,7 +77,7 @@ export default {
                 alert('Already exists a robot with this name')
             }
             else{
-                const response = await api.putRobot(payload)
+                const response = await RobotWrapper.putRobot(payload)
 
                 if(response.success){
                     alert('Succesfully updated robot #' + payload.id)
@@ -91,7 +90,7 @@ export default {
             this.getRobots()
         },
         async deleteRobot(id){
-            const response = await api.deleteRobot(id)
+            const response = await RobotWrapper.deleteRobot(id)
 
             if(response.success){
                 await this.getRobots()
@@ -108,10 +107,10 @@ export default {
             }
         },
         doesRobotListContainId(id){
-            return this.robots.filter(r => r.id === id).length > 0;
+            return this.robots.some(r => r.id === id)
         },
         doesRobotListContainName(name){
-            return this.robots.filter(r => r.name === name).length > 0;
+            return this.robots.some(r => r.name === name)
         }
     }
 }
