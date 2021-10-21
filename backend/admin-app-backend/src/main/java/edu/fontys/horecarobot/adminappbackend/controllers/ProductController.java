@@ -22,7 +22,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<?> createProduct(@RequestBody ProductModel product){
         if(product.getName().isBlank() || product.getPrice() <= 0)
-            return new ResponseEntity<>(ApiResponse.error("Not all fields are filled in"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         productService.saveProduct((product));
         return new ResponseEntity<>(HttpStatus.CREATED);
