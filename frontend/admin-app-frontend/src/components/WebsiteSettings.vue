@@ -26,6 +26,7 @@ import api from "../wrappers/InfoWrapper.js";
 
 export default {
   mounted() {
+    this.loadInfo()
   },
   data() {
     return {
@@ -34,9 +35,6 @@ export default {
     };
   },
   methods: {
-
-    /// base+4 lenght is to long for db column
-    /// store image as blob instead? or + nosql?
     async handleSave() {
 
       const payload = {
@@ -49,6 +47,12 @@ export default {
 
       console.log(response);
     },
+
+    async loadInfo() {
+      let response = await api.getWebsiteInfo()
+
+      console.log(response);
+    }
   },
   components: {
     ImagePreview,

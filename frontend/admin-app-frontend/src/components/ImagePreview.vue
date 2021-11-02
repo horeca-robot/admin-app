@@ -60,6 +60,10 @@ export default {
         this.$emit("input", file[0]);
       }
     },
+
+    setUrl(base64) {
+      this.base64 = base64;
+    }
   },
 };
 </script>

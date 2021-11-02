@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class RestaurantService {
 
     private final RestaurantInfoRepository restaurantInfoRepository;
+    private final ImageService imageService;
 
     public boolean updateWebsiteInfo(WebsiteModel model)
     {
@@ -22,15 +23,24 @@ public class RestaurantService {
 
             restaurantInfo.setPrimaryColor(model.getPrimaryColor());
             restaurantInfo.setSecondaryColor(model.getSecondaryColor());
-            restaurantInfo.setBackgroundImage(model.getBackgroundImage());
+
+            if(model.getBackgroundImage() != null)
+            {
+                if(restaurantInfo.getBackgroundImage() != null)
+                    imageService.deleteFromDisk(restaurantInfo.getBackgroundImage());
+
+                String imageName = imageService.saveBase64ToDisk(model.getBackgroundImage());
+                restaurantInfo.setBackgroundImage(imageName);
+            }
 
             restaurantInfoRepository.saveAndFlush(restaurantInfo);
+
             return  true;
         }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
-            return  false;
+            return false;
         }
     }
 
@@ -40,7 +50,19 @@ public class RestaurantService {
 
         try {
             restaurantInfo.setName(model.getName());
-            restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
+
+            if(!restaurantInfo.getRestaurantLogo().isEmpty())
+                imageService.deleteFromDisk(restaurantInfo.getRestaurantLogo());
+
+            if(model.getRestaurantLogo() != null)
+            {
+                if(restaurantInfo.getRestaurantLogo() != null)
+                    imageService.deleteFromDisk(restaurantInfo.getRestaurantLogo());
+
+                String imageName = imageService.saveBase64ToDisk(model.getRestaurantLogo());
+                restaurantInfo.setRestaurantLogo(imageName);
+            }
+
             restaurantInfo.setOpeningTime(model.getOpeningTime());
             restaurantInfo.setClosingTime(model.getClosingTime());
             restaurantInfo.setContactPersonName(model.getContactPersonName());
@@ -49,7 +71,7 @@ public class RestaurantService {
 
             restaurantInfoRepository.saveAndFlush(restaurantInfo);
 
-            return  true;
+            return true;
         }
         catch (Exception e)
         {
@@ -68,8 +90,7 @@ public class RestaurantService {
         return WebsiteModel.from(getRestaurantInfo());
     }
 
-    private RestaurantInfo getRestaurantInfo()
-    {
+    private RestaurantInfo getRestaurantInfo() {
         try {
             var restaurantInfo = restaurantInfoRepository.getInfo();
 
@@ -77,7 +98,7 @@ public class RestaurantService {
             {
                 // Create
                 var model = new RestaurantInfo();
-                model.setName("[RESTAURANT]");
+                model.setName(" ");
 
                 restaurantInfoRepository.saveAndFlush(model);
                 return getRestaurantInfo();
