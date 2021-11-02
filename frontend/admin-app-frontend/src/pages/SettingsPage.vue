@@ -23,6 +23,7 @@
 import WebsiteSettings from "../components/WebsiteSettings.vue"
 import RestaurantSettings from "../components/RestaurantSettings.vue"
 
+
 export default{
     data() {
         return {
@@ -85,7 +86,7 @@ export default{
 
 #base-nav {
   width: 100%;
-  background-color: #0157e4;
+  background-color: #3272DC;
   display: inline-block !important;
 }
 
@@ -101,10 +102,11 @@ export default{
   padding: 0px;
 }
 .tabs .tabs-list li {
-  width: 150px;
+  width: 175px;
+  height: 5px;
   float: left;
-  margin: 0px;
-  padding: 25px 5px;
+  padding-top: 15px;
+  padding-bottom: 25px;
   text-align: center;
   background-color: transparent;
 }
@@ -144,7 +146,7 @@ export default{
     display:block !important;
 }
 .tabs .tabs-list li.active{
-    background-color: #c4c4c426 !important;
+    background-color: #0157E4 !important;
     color:white !important;
 }
 .active a{

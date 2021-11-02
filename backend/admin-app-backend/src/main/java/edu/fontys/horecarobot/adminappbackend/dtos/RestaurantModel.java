@@ -10,13 +10,7 @@ public class RestaurantModel {
 
     private String name;
 
-    private String primaryColor;
-
-    private String secondaryColor;
-
     private String restaurantLogo;
-
-    private String backgroundImage;
 
     private LocalTime openingTime;
 
@@ -27,4 +21,19 @@ public class RestaurantModel {
     private String contactPersonEmail;
 
     private String contactPersonPhone;
+
+    public static RestaurantModel from(RestaurantInfo model)
+    {
+        var restaurantModel = new RestaurantModel();
+
+        restaurantModel.setName(model.getName());
+        restaurantModel.setRestaurantLogo(model.getRestaurantLogo());
+        restaurantModel.setOpeningTime(model.getOpeningTime());
+        restaurantModel.setClosingTime(model.getClosingTime());
+        restaurantModel.setContactPersonName(model.getContactPersonName());
+        restaurantModel.setContactPersonEmail(model.getContactPersonEmail());
+        restaurantModel.setContactPersonPhone(model.getContactPersonPhone());
+
+        return  restaurantModel;
+    }
 }

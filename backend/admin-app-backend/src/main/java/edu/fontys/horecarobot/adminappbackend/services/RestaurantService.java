@@ -1,6 +1,7 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.RestaurantModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.WebsiteModel;
 import edu.fontys.horecarobot.databaselibrary.models.RestaurantInfo;
 import edu.fontys.horecarobot.databaselibrary.repositories.RestaurantInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,83 +14,81 @@ public class RestaurantService {
 
     private final RestaurantInfoRepository restaurantInfoRepository;
 
-    public RestaurantModel getRestaurantModel()
+    public boolean updateWebsiteInfo(WebsiteModel model)
     {
-        var restaurantInfoList = restaurantInfoRepository.findAll();
+        var restaurantInfo = getRestaurantInfo();
 
-        if(restaurantInfoList.isEmpty())
-            return null;
+        try {
 
-        return createRestaurantModel(restaurantInfoList.get(0));
-    }
-
-    public boolean AddRestaurantInfo(RestaurantModel model)
-    {
-        if(model == null)
-            return  false;
-
-        var restaurantInfoList = restaurantInfoRepository.findAll();
-
-        if(restaurantInfoList.isEmpty())
-        {
-            // Create new one
-            RestaurantInfo restaurantInfo = createRestaurantInfo(model);
-
-            restaurantInfoRepository.saveAndFlush(restaurantInfo);
-        }
-        else
-        {
-            // Update current
-            var restaurantInfo = restaurantInfoList.get(0);
-
-            restaurantInfo.setName(model.getName());
             restaurantInfo.setPrimaryColor(model.getPrimaryColor());
             restaurantInfo.setSecondaryColor(model.getSecondaryColor());
-            restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
             restaurantInfo.setBackgroundImage(model.getBackgroundImage());
+
+            restaurantInfoRepository.saveAndFlush(restaurantInfo);
+            return  true;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return  false;
+        }
+    }
+
+    public boolean updateRestaurantInfo(RestaurantModel model)
+    {
+        var restaurantInfo = getRestaurantInfo();
+
+        try {
+            restaurantInfo.setName(model.getName());
+            restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
             restaurantInfo.setOpeningTime(model.getOpeningTime());
             restaurantInfo.setClosingTime(model.getClosingTime());
             restaurantInfo.setContactPersonName(model.getContactPersonName());
             restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
             restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
+
+            restaurantInfoRepository.saveAndFlush(restaurantInfo);
+
+            return  true;
         }
-
-        return  true;
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return  false;
+        }
     }
 
-    private RestaurantInfo createRestaurantInfo(RestaurantModel model)
+    public RestaurantModel getRestaurantModel()
     {
-        var restaurantInfo = new RestaurantInfo();
-
-        restaurantInfo.setName(model.getName());
-        restaurantInfo.setPrimaryColor(model.getPrimaryColor());
-        restaurantInfo.setSecondaryColor(model.getSecondaryColor());
-        restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
-        restaurantInfo.setBackgroundImage(model.getBackgroundImage());
-        restaurantInfo.setOpeningTime(model.getOpeningTime());
-        restaurantInfo.setClosingTime(model.getClosingTime());
-        restaurantInfo.setContactPersonName(model.getContactPersonName());
-        restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
-        restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
-
-        return  restaurantInfo;
+        return RestaurantModel.from(getRestaurantInfo());
     }
 
-    private RestaurantModel createRestaurantModel(RestaurantInfo model)
+    public WebsiteModel getWebsiteModel()
     {
-        var restaurantModel = new RestaurantModel();
+        return WebsiteModel.from(getRestaurantInfo());
+    }
 
-        restaurantModel.setName(model.getName());
-        restaurantModel.setPrimaryColor(model.getPrimaryColor());
-        restaurantModel.setSecondaryColor(model.getSecondaryColor());
-        restaurantModel.setRestaurantLogo(model.getRestaurantLogo());
-        restaurantModel.setBackgroundImage(model.getBackgroundImage());
-        restaurantModel.setOpeningTime(model.getOpeningTime());
-        restaurantModel.setClosingTime(model.getClosingTime());
-        restaurantModel.setContactPersonName(model.getContactPersonName());
-        restaurantModel.setContactPersonEmail(model.getContactPersonEmail());
-        restaurantModel.setContactPersonPhone(model.getContactPersonPhone());
+    private RestaurantInfo getRestaurantInfo()
+    {
+        try {
+            var restaurantInfo = restaurantInfoRepository.getInfo();
 
-        return  restaurantModel;
+            if(restaurantInfo.isEmpty())
+            {
+                // Create
+                var model = new RestaurantInfo();
+                model.setName("[RESTAURANT]");
+
+                restaurantInfoRepository.saveAndFlush(model);
+                return getRestaurantInfo();
+            }
+
+            return restaurantInfo.get();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return new RestaurantInfo();
+        }
     }
 }

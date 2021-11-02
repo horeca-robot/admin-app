@@ -2,19 +2,19 @@
   <div id="container">
     <div style="float: left !important">
       <label for="background">Background Image</label>
-      <ImagePreview id="background" />
-      <button type="button">Save Settings</button>
+      <ImagePreview ref="backgroundPreview" id="background" />
+      <button @click="handleSave" type="button">Save Settings</button>
     </div>
 
     <div id="colors">
       <div>
-        <label for="primary">PrimaryColor&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <input id="primary" type="color" />
+        <label for="primary">PrimaryColor&nbsp;</label>
+        <input id="primary" type="color" v-model="primaryColor" />
       </div>
 
       <div>
-        <label for="secondary">SecondaryColor&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <input id="secondary" type="color" />
+        <label for="secondary">SecondaryColor&nbsp;</label>
+        <input id="secondary" type="color" v-model="secondaryColor" />
       </div>
     </div>
   </div>
@@ -22,7 +22,34 @@
 
 <script>
 import ImagePreview from "./ImagePreview.vue";
+import api from "../wrappers/InfoWrapper.js";
+
 export default {
+  mounted() {
+  },
+  data() {
+    return {
+      primaryColor: "#212112",
+      secondaryColor: "#212121",
+    };
+  },
+  methods: {
+
+    /// base+4 lenght is to long for db column
+    /// store image as blob instead? or + nosql?
+    async handleSave() {
+
+      const payload = {
+        primaryColor: this.primaryColor,
+        secondaryColor: this.secondaryColor,
+        backgroundImage: `${this.$refs.backgroundPreview.base64}`,
+      };
+
+      let response = await api.saveWebsiteSettings(payload);
+
+      console.log(response);
+    },
+  },
   components: {
     ImagePreview,
   },
@@ -55,24 +82,24 @@ export default {
 }
 
 button {
-    margin-top: 50px;
-    min-width: 100%;
-    height: 35px;
-    background-color: #0157E4;
-    border: none !important;
-    border-radius: 5px !important;
-    color: white !important;
-    font-family: Strait;
-    font-weight: normal;
-    font-size: 18px;
-    transition: 0.5s;
+  margin-top: 50px;
+  min-width: 100%;
+  height: 35px;
+  background-color: #0157e4;
+  border: none !important;
+  border-radius: 5px !important;
+  color: white !important;
+  font-family: Strait;
+  font-weight: normal;
+  font-size: 18px;
+  transition: 0.5s;
 }
 
-button:hover { 
-    background-color: green;
+button:hover {
+  background-color: green;
 }
 
 button:active {
-    transform: translateY(5px);
+  transform: translateY(5px);
 }
 </style>
