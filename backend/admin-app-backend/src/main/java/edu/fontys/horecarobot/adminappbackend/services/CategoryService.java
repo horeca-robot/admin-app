@@ -1,12 +1,11 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
-import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
+import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
 import edu.fontys.horecarobot.databaselibrary.models.Category;
 import edu.fontys.horecarobot.databaselibrary.repositories.CategoryRepository;
-import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
 import lombok.RequiredArgsConstructor;
-import org.h2.expression.ConcatenationOperation;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,13 +31,21 @@ public class CategoryService {
         c.setParentCategory(categoryModel.getParentCategory());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
-        return c;
+
+        categoryRepository.save(c);
     }
 
     private Category updateCategory(CategoryModel categoryModel) {
-        CategoryModel c = new CategoryModel(categoryModel.getName(), categoryModel.getImage(), categoryModel.getParentCategory());
-        Example<CategoryModel> example = Example.of(c);
+        Category c = new Category();
+        c.setName(categoryModel.getName());
+        c.setImage(categoryModel.getImage());
+        c.setParentCategory(categoryModel.getParentCategory());
+        categoryRepository.save(c);
+    }
 
-        Optional<CategoryModel> optionalCategory = categoryRepository.findOne(example);
+    private void deleteCategory(CategoryModel categoryModel)
+    {
+        Category c = new Category();
+        categoryRepository.deleteById(c.getId());
     }
 }
