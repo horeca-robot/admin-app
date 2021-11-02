@@ -3,7 +3,6 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.ProductModel;
 import edu.fontys.horecarobot.adminappbackend.services.ProductService;
-import edu.fontys.horecarobot.databaselibrary.models.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,4 +38,5 @@ public class ProductController {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }
