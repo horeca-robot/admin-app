@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,12 +19,16 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void saveProduct(ProductModel productModel){
-        var product = createProduct(productModel);
+    public void addProduct(ProductModel productModel){
+        var product = convertToProduct(productModel);
         productRepository.save(product);
     }
 
-    private Product createProduct(ProductModel productModel){
+    public void deleteProduct(UUID id){
+        productRepository.deleteById(id);
+    }
+
+    private Product convertToProduct(ProductModel productModel){
         Product p = new Product();
         p.setName(productModel.getName());
         p.setDescription(productModel.getDescription());
