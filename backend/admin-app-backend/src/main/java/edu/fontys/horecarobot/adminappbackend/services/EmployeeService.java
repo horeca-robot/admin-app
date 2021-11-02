@@ -3,12 +3,10 @@ package edu.fontys.horecarobot.adminappbackend.services;
 import edu.fontys.horecarobot.adminappbackend.dtos.EmployeeModel;
 import edu.fontys.horecarobot.databaselibrary.models.EmployeeUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.EmployeeUserRepository;
-import org.springframework.data.domain.Example;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,33 +14,30 @@ public class EmployeeService {
 
     private final EmployeeUserRepository employeeUserRepository;
 
+    public boolean doesEmployeeExist(UUID id) {
+        return employeeUserRepository.findById(id).isPresent();
+    }
+
     public List<EmployeeUser> getAllEmployeeUsers() {
-        return (List<EmployeeUser>) employeeUserRepository.findAll();
+        return employeeUserRepository.findAll();
     }
 
     public void addEmployeeUser(EmployeeModel employeeModel) {
-        EmployeeUser employeeUser = new EmployeeUser();
-
-        employeeUser.setUsername(employeeModel.getUsername());
-        employeeUser.setPincode(employeeModel.getPin());
-
-        employeeUserRepository.save(employeeUser);
-        employeeUserRepository.flush();
+        employeeUserRepository.saveAndFlush(convertFromEmployeeModel(employeeModel));
     }
 
-    public void deleteEmployeeUser(EmployeeModel employeeModel) {    
-        EmployeeUser exampleEmployeeUser = new EmployeeUser();    
-        exampleEmployeeUser.setUsername(employeeModel.getUsername());
-        exampleEmployeeUser.setPincode(employeeModel.getPin());  
-        Example<EmployeeUser> example = Example.of(exampleEmployeeUser);
-        
-        Optional<EmployeeUser> optionalEmployeeUser = employeeUserRepository.findOne(example);
+    public void updateEmployeeUser(EmployeeModel employeeModel) {
+        employeeUserRepository.saveAndFlush(convertFromEmployeeModel(employeeModel));
+    }
 
-        if (optionalEmployeeUser.isPresent()) {
-            EmployeeUser employeeUser = optionalEmployeeUser.get();       
-            employeeUserRepository.delete(employeeUser);
-        }  else {
-            throw new UsernameNotFoundException("User with username not found!");
-        }
+    public void deleteEmployeeUser(UUID id) {
+        employeeUserRepository.deleteById(id);
+    }
+
+    private EmployeeUser convertFromEmployeeModel(EmployeeModel employeeModel) {
+        var employee = new EmployeeUser();
+        employee.setUsername(employeeModel.getUsername());
+        employee.setPincode(employeeModel.getPin());
+        return employee;
     }
 }

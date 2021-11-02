@@ -1,15 +1,14 @@
 package edu.fontys.horecarobot.adminappbackend.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 
 @Data
-@RequiredArgsConstructor
-@Entity
-@Table(name = "employees")
+@AllArgsConstructor
 public class EmployeeModel {
+    @NonNull
     private String username;
+    @NonNull
     private short pin;
 }
