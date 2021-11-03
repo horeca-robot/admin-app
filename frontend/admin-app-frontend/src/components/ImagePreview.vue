@@ -61,8 +61,8 @@ export default {
       }
     },
 
-    setUrl(base64) {
-      this.base64 = base64;
+    async setBase64(b64) {
+      this.base64 = b64
     }
   },
 };
