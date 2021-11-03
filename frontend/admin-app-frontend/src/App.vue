@@ -2,7 +2,7 @@
   <div>
     <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name"/>
     <router-view :class="{'other-page': isNotLoginPage,  'login-page': !isNotLoginPage}"/>
-    <Background />
+    <Background ref="background" />
   </div>
 </template>
 
@@ -10,12 +10,34 @@
 import Background from './components/Background.vue'
 import NavigationBar from './components/NavigationBar.vue'
 import ColorUtil from './utils/ColorUtil.js'
+import api from './wrappers/InfoWrapper.js'
 
 export default {
   name: 'App',
   components: { Background, NavigationBar},
-  created(){
+  async created(){
     ColorUtil.getTextColor()
+    await this.updateCss()
+  },
+  methods: {
+    async updateBackground(){
+      await this.$refs.background.update()
+    },
+    async updateCss(){
+      let response = await api.getWebsiteSettings()
+
+        let websiteSettings = response.data.data.info
+
+        if (websiteSettings.primaryColor != null) {
+            document.documentElement.style.setProperty('--primary-color', websiteSettings.primaryColor)
+        }
+
+        if (websiteSettings.secondaryColor != null) {
+            document.documentElement.style.setProperty('--secondary-color', websiteSettings.secondaryColor)
+        }
+
+        ColorUtil.getTextColor()
+    }
   },
   computed: {
     isNotLoginPage() {
