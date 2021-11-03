@@ -6,12 +6,28 @@
 
 <script>
 import image from '../images/background.jpg'
+import api from '../wrappers/InfoWrapper.js'
 
 export default {
     name: 'Background',
     data() {
         return {
             image: image
+        }
+    },
+    async mounted(){
+        this.update()
+    },
+    methods: {
+        async update () {
+            let response = await api.getWebsiteSettings()
+
+            let websiteSettings  = response.data.data.info
+                
+            let base64 = await api.getBase64Image(websiteSettings.backgroundImage)
+
+            if(base64 != '')
+                this.image = base64
         }
     }
 }
