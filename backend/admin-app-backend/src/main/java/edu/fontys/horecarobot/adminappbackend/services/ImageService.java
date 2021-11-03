@@ -1,27 +1,25 @@
 package edu.fontys.horecarobot.adminappbackend.services;
-
 import org.springframework.stereotype.Service;
-
-import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.UUID;
+import org.apache.commons.io.*;
 
 @Service
 public class ImageService {
 
     private String BasePath;
-    private final String DirectoryName = "temp_images_folder_can_be_deleted";
 
     public ImageService()
     {
         FileSystemView fileSystemView = FileSystemView.getFileSystemView();
 
-        BasePath = fileSystemView.getHomeDirectory().getAbsolutePath() + File.separator + DirectoryName;
+        String directoryName = "temp_images_folder_can_be_deleted";
+        BasePath = fileSystemView.getHomeDirectory().getAbsolutePath() + File.separator + directoryName;
 
         File dir = new File(BasePath);
 
@@ -33,63 +31,64 @@ public class ImageService {
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
-    public byte[] getBase64FromDisk(String imageName) {
+    public String getBase64FromDisk(String imageName){
+        String base64="";
+        try{
+            InputStream inputStream = new FileInputStream(String.format("%s%s", BasePath, imageName));
 
-        String imagePath = String.format("%s%s", BasePath, imageName);
+            byte[] imageBytes = IOUtils.toByteArray(inputStream);
 
-        try {
-            File imageFile = new File(imagePath);
-            BufferedImage bufferedImage = ImageIO.read(imageFile);
-            DataBufferByte imageBytes = (DataBufferByte) bufferedImage.getRaster().getDataBuffer();
-            return imageBytes.getData();
+            base64 = Base64.getEncoder().encodeToString(imageBytes);
+
+            inputStream.close();
+
+            return "data:image/png;base64,"+base64;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
 
-        return null;
+        return "";
     }
 
     public String saveBase64ToDisk(String base64) {
 
         String imageExtension = getExtension(base64.split(",")[0]);
 
-        String imageName = String.format("%s.%s", UUID.randomUUID(),imageExtension);
+        String imageName = String.format("%s%s", UUID.randomUUID(),imageExtension);
 
         String imageData = base64.substring(base64.indexOf(',') + 1);
 
-        try{
-            InputStream imageInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(imageData.getBytes(StandardCharsets.UTF_8)));
+        InputStream imageInputStream = new ByteArrayInputStream(Base64.getDecoder().decode(imageData.getBytes(StandardCharsets.UTF_8)));
 
-            OutputStream imageOutputStream = new BufferedOutputStream(new FileOutputStream(String.format("%s%s", BasePath, imageName)));
-
+        OutputStream imageOutputStream = null;
+        try {
+            imageOutputStream = new BufferedOutputStream(new FileOutputStream(String.format("%s%s", BasePath, imageName)));
             imageOutputStream.write(imageInputStream.readAllBytes());
 
             imageInputStream.close();
-            imageInputStream.close();
+            imageOutputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
+
 
         return imageName;
     }
 
-    public boolean deleteFromDisk(String imageName) {
-        try{
-            File image = new File(String.format("%s%s",BasePath, imageName));
+    public void deleteFromDisk(String imageName) {
+        String imagePath = String.format("%s%s",BasePath, imageName);
 
-            return image.delete();
+        try{
+            Files.delete(Paths.get(imagePath));
         }
         catch (Exception e)
         {
-            return false;
+            e.printStackTrace();
         }
     }
 
@@ -98,7 +97,7 @@ public class ImageService {
             case "data:image/jpeg;base64":
                 return ".jpeg";
             case "data:image/png;base64":
-                return "png";
+                return ".png";
             default:
                 return ".unknown";
         }
