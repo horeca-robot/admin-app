@@ -14,7 +14,7 @@ export default {
         var response;
 
         try {
-            response = await axios.get(`${baseUrl}/api/info/restaurant`)
+            response = await axios.get(`${baseUrl}/api/info/restaurant`, apiConfig)
         } catch (error) {
             response = error.response
         }
@@ -36,7 +36,7 @@ export default {
         var response;
 
         try {
-            response = await axios.get(`${baseUrl}/api/info/website`)
+            response = await axios.get(`${baseUrl}/api/info/website`, apiConfig)
         } catch (error) {
             response = error.response
         }
@@ -54,4 +54,12 @@ export default {
 
         return response;
     },
+    async getBase64Image(name) {
+        let response = ''
+        await axios.get(`${baseUrl}/api/image/${name}`)
+            .then(function(rsp) {
+                response = rsp.data
+            })
+        return response
+    }
 }
