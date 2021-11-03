@@ -2,6 +2,7 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.services.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,11 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping(path = "/{name}")
-    public byte[] getImageByName(@PathVariable String name){
+    public @ResponseBody  String getImageByName(@PathVariable String name){
 
-        byte[] imageBytes = imageService.getBase64FromDisk(name);
+        String imageBytes = imageService.getBase64FromDisk(name);
 
-        return  imageBytes;
+        return imageBytes;
     }
 
 }
