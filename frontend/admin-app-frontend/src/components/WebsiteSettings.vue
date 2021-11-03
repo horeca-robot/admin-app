@@ -25,13 +25,28 @@ import ImagePreview from "./ImagePreview.vue";
 import api from "../wrappers/InfoWrapper.js";
 
 export default {
-  mounted() {
-    this.loadInfo()
+  async mounted() {
+    let response = await api.getWebsiteSettings()
+
+    let websiteSettings  = response.data.data.info;
+    
+    if(websiteSettings.primaryColor != null)
+      this.primaryColor = websiteSettings.primaryColor;
+
+    if(websiteSettings.secondaryColor)
+      this.secondaryColor = websiteSettings.secondaryColor;
+    
+    if(websiteSettings.backgroundImage != null)
+    {
+      let base64 = await api.getBase64Image(websiteSettings.backgroundImage)
+
+      this.$refs.backgroundPreview.setBase64(base64)
+    }
   },
   data() {
     return {
-      primaryColor: "#212112",
-      secondaryColor: "#212121",
+      primaryColor: "#0157e4",
+      secondaryColor: "#ffffff",
     };
   },
   methods: {
@@ -42,16 +57,13 @@ export default {
         secondaryColor: this.secondaryColor,
         backgroundImage: `${this.$refs.backgroundPreview.base64}`,
       };
-
-      let response = await api.saveWebsiteSettings(payload);
-
-      console.log(response);
+      await api.saveWebsiteSettings(payload);
+      await this.$root.updateBackground()
+      await this.$root.updateCss()
     },
 
     async loadInfo() {
-      let response = await api.getWebsiteInfo()
 
-      console.log(response);
     }
   },
   components: {
