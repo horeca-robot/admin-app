@@ -51,7 +51,7 @@ public class CategoryService {
 
     private Category convertFromCategoryModel(CategoryModel categoryModel){
         Category c = new Category();
-        c.setParentCategory(categoryModel.getParentCategory());
+        c.setParentCategories(categoryModel.getParentCategory());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
         return c;
