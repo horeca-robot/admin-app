@@ -47,7 +47,7 @@ public class CategoryController {
         {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
         if (category.isPresent()) {
             return new ResponseEntity<>(ApiResponse.ok().addData("category", category.get()), HttpStatus.OK);
         } else {
@@ -65,7 +65,7 @@ public class CategoryController {
         try
         {
             categoryService.addCategory(categoryModel);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e)
         {
