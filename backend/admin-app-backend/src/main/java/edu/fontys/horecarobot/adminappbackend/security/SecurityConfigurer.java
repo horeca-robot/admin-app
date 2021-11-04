@@ -34,6 +34,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/SignIn/authenticate").permitAll() //API endpoint with /api/SignIn/authenticate permits all users
                 .and().authorizeRequests().antMatchers("/v3/api-docs/**").permitAll() //Allows OpenAPI documentation access
                 .and().authorizeRequests().antMatchers("/swagger-ui/**").permitAll() //Allows Swagger documentation access
+                .and().authorizeRequests().antMatchers("/api/Test/**").permitAll() //Allows Swagger documentation access
                 .anyRequest().authenticated() //Every other API endpoint is authenticated
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); //Use custom filter
