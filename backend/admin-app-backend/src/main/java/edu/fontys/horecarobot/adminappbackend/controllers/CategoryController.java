@@ -57,7 +57,7 @@ public class CategoryController {
         try
         {
             categoryService.addCategory(categoryModel);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e)
         {
@@ -79,7 +79,7 @@ public class CategoryController {
         try
         {
             categoryService.updateCategory(categoryModel, id);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e)
         {

@@ -22,7 +22,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    private Category fillCategory(CategoryModel categoryModel){
+    private Category convertFromCategoryModel(CategoryModel categoryModel){
         Category c = new Category();
         c.setParentCategory(categoryModel.getParentCategory());
         c.setName(categoryModel.getName());
@@ -42,13 +42,13 @@ public class CategoryService {
 
     public void addCategory(CategoryModel categoryModel)
     {
-        categoryRepository.saveAndFlush(fillCategory(categoryModel));
+        categoryRepository.saveAndFlush(convertFromCategoryModel(categoryModel));
     }
 
     public Category updateCategory(CategoryModel categoryModel, UUID id) {
         Category c = new Category();
         c.setId(id);
-        fillCategory(categoryModel);
+        convertFromCategoryModel(categoryModel);
         categoryRepository.saveAndFlush(c);
 
         return c;
