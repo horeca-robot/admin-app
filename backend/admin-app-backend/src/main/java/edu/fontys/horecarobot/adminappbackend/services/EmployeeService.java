@@ -36,6 +36,7 @@ public class EmployeeService {
 
     private EmployeeUser convertFromEmployeeModel(EmployeeModel employeeModel) {
         var employee = new EmployeeUser();
+        employee.setId(employeeModel.getId());
         employee.setUsername(employeeModel.getUsername());
         employee.setPincode(employeeModel.getPin());
         return employee;
