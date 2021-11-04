@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,6 +17,5 @@ public class CategoryModel
     @NonNull
     private String name;
     private String image;
-    @NonNull
-    private List<Category> parentCategory;
+    private List<Category> parentCategory = new ArrayList<>();
 }

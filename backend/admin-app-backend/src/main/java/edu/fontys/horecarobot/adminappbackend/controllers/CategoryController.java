@@ -15,7 +15,6 @@ import java.util.UUID;
 @RequestMapping(path = "api/Category")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4000")
-
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -34,10 +33,24 @@ public class CategoryController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id)
+    {
+        try
+        {
+            var category = categoryService.getById(id);
+            return new ResponseEntity<>(ApiResponse.ok().addData("category", category), HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryModel categoryModel)
     {
-        if(categoryModel.getParentCategory().isEmpty() || categoryModel.getName().isBlank())
+        if(categoryModel.getName().isBlank())
         {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
         }
@@ -54,12 +67,12 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel){
-        if(!categoryService.getAllCategories().isEmpty())
+        if(!categoryService.doesCategoryExist(id))
         {
             return new ResponseEntity<>(ApiResponse.error("Can't locate category in database."), HttpStatus.NOT_FOUND);
         }
 
-        if(categoryModel.getParentCategory().isEmpty() || categoryModel.getName().isBlank())
+        if(categoryModel.getName().isBlank())
         {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
         }

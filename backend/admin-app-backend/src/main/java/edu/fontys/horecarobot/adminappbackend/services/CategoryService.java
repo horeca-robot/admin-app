@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,16 @@ public class CategoryService {
         return c;
     }
 
+    public boolean doesCategoryExist(UUID id)
+    {
+        return categoryRepository.findById(id).isPresent();
+    }
+
+    public Optional<Category> getById(UUID id)
+    {
+        return categoryRepository.findById(id);
+    }
+
     public void addCategory(CategoryModel categoryModel)
     {
         categoryRepository.saveAndFlush(fillCategory(categoryModel));
@@ -37,9 +48,7 @@ public class CategoryService {
     public Category updateCategory(CategoryModel categoryModel, UUID id) {
         Category c = new Category();
         c.setId(id);
-        c.setName(categoryModel.getName());
-        c.setImage(categoryModel.getImage());
-        c.setParentCategory(categoryModel.getParentCategory());
+        fillCategory(categoryModel);
         categoryRepository.saveAndFlush(c);
 
         return c;
