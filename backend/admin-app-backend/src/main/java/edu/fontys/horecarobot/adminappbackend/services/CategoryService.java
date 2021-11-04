@@ -4,12 +4,10 @@ import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
 import edu.fontys.horecarobot.databaselibrary.models.Category;
 import edu.fontys.horecarobot.databaselibrary.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,31 +19,29 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public void saveCategory(CategoryModel categoryModel) {
-        var category = createCategory(categoryModel);
-        categoryRepository.save(category);
-    }
-
-    private Category createCategory(CategoryModel categoryModel) {
+    public Category createCategory(CategoryModel categoryModel) {
         Category c = new Category();
         c.setParentCategory(categoryModel.getParentCategory());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
 
         categoryRepository.save(c);
+        return c;
     }
 
-    private Category updateCategory(CategoryModel categoryModel) {
+    public Category updateCategory(CategoryModel categoryModel, UUID id) {
         Category c = new Category();
+        c.setId(id);
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
         c.setParentCategory(categoryModel.getParentCategory());
         categoryRepository.save(c);
+
+        return c;
     }
 
-    private void deleteCategory(CategoryModel categoryModel)
+    public void deleteCategory(UUID id)
     {
-        Category c = new Category();
-        categoryRepository.deleteById(c.getId());
+        categoryRepository.deleteById(id);
     }
 }
