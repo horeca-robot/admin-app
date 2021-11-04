@@ -1,33 +1,81 @@
 <template>
-
-    <form @submit="onSubmit">
-        <h1>Menu </h1>
-        <div>
-        <label> Product name</label>
-        <input placeholder="Product Name" v-model="name" name="name"/>   <br>
-        </div>
-        <div>
-        <label> Image</label>
-        <input type="file" id="img" name="img" accept="image/*" @change="FileSelected"/>  <br>
-        </div>
-        <div>
-        <label> Price</label>
-        <input type="number" placeholder="Price" name="price" v-model="price" step="any"/>   <br>
-        </div>
-        <div>
-        <label> Discount price</label>
-        <input type="number" placeholder="Discount price" name="discountPrice" v-model="discountPrice" step="any"/> <br>  
-        </div>
-        <div>
-        <label> Description</label>
-        <input type="text" placeholder="Description" name="description" v-model="description"/>   <br>
-        </div>
-        <div>
-        <label> Alcohol</label>
-        <input type="checkbox" name="alcohol" v-model="alcohol"/>   <br>
-        </div>
-        <div>
-        <input type="submit" value="Save Product"/>
+    <form class="backpanel" @submit="onSubmit">
+        <div class="container">
+            <div class="leftBlock">
+                <div class="blocks">
+                    <label class="text"> *Title:</label>
+                    <input class="inputs" placeholder="Product Name" v-model="name" name="name"/>
+                </div>
+                <div class="blocks">
+                <label class="text"> Description:</label>
+                <textarea class="textareas"/>
+                </div>
+                <div class="blocks">
+                    <label class="text"> *Price:</label>
+                    <input class="inputs" type="number" placeholder="Price" name="price" v-model="price" step="any"/>
+                </div>
+                <div class="blocks">
+                    <label class="text"> Discount price:</label>
+                    <input class="inputs" type="number" placeholder="Discount price" name="discountPrice" v-model="discountPrice" step="any"/>
+                </div>
+                <div class="blocks-row">
+                    <label class="text"> Contains Alcohol:</label>
+                    <input class="checkbox" type="checkbox" name="alcohol" v-model="alcohol"/>
+                </div>
+                <div class="blocks imageComponent">
+                    <!-- TODO Place image component here -->
+                    <label class="text"> Image:</label>
+                    <div class="imageCom">
+                        <input type="file" id="img" name="img" accept="image/*" @change="FileSelected"/>
+                    </div>
+                </div>
+            </div>
+            <div class="rightBlock"> 
+                <div class="blocks">
+                    <label class="text"> Ingredients:</label>
+                    <label class="extraLabel"/>
+                </div>
+                <div class="blocks-row">
+                    <input class="inputs inputsExtra" type="text" name="ingredients" />
+                    <button class="button">Add</button>
+                </div>
+                <div class="blocks">
+                    <label class="text"> Tags:</label>
+                    <label class="extraLabel"/>
+                </div>
+                <div class="blocks-row">
+                    <input class="inputs inputsExtra" type="text" name="tags" />
+                    <button class="button">Add</button>
+                </div>
+                <div class="blocks">
+                    <label class="text"> Select Categories:</label>
+                    <div class="categorieHolder"> 
+                        <!-- TODO Load all made categories -->
+                        <div  class="categories" > 
+                            <input class="checkboxes" type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="blocks-row-buttons">
+                    <input class="button formbuttonSave" type="submit" value="Save"/>
+                    <input class="button formbuttonDelete" type="submit" value="Delete"/>
+                </div>
+            </div>
         </div>
     </form>
 </template>
@@ -76,3 +124,157 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .backpanel{
+        background-color: var(--secondary-color);
+        border-color: var(--primary-color);
+        border-width: 30px;
+        width: 35vw;
+        height: fit-content;
+        border-radius: 10px;
+        padding-bottom: 40px;
+        padding-left: 30px;
+    }
+    .container{
+        display: inline-block;
+        width: 100%;
+    }
+
+    .leftBlock{
+        float:left;
+        background-color: var(--secondary-color);
+        width: 45%;
+        min-height: 10px;
+    }
+
+    .text{
+        font-size: 1.5rem;
+        margin-bottom: 2px;
+    }
+
+    .rightBlock{
+        float:right;
+        background-color: var(--secondary-color);
+        width: 45%;
+        min-height: 10px;
+    }
+
+    .blocks{
+        margin-top:20px;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    .blocks-row{
+        margin-top:20px;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .blocks-row-buttons{
+        margin-top:20px;
+        margin-left: -5%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .button{
+        width: 50px;
+        background-color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        border-radius: 5px;
+        color: white;
+        margin-left: 1%;
+        font-family: inherit;
+        transition: 0.2s ease transform;
+    }
+
+    .formbuttonSave{
+        margin-left: 10%;
+        height: 3vh;
+        width: 5vw;
+        font-size: 1rem;
+    }
+
+    .button:hover{
+        transform: rotate(360deg);
+    }
+
+    input[type=checkbox] {
+        transform: scale(1.3);
+    }
+
+    .formbuttonDelete{
+        margin-left: 10%;
+        height: 3vh;
+        width: 5vw;
+        background-color: white;
+        color: var(--primary-color);
+        font-size: 1rem;
+    }
+
+    .categorieHolder{
+        padding: 10px;
+        height: 150px;
+        width: 200px;
+        overflow: auto;
+        border: 2px solid var(--primary-color);
+        border-radius: 5px;
+    }
+
+    .categories{
+        float: left;
+        height: auto;
+        width: 100%;
+    }
+
+    .textareas{
+        resize: none;
+        border-radius: 5px;
+        border: 2px solid var(--primary-color);
+        width: 220px;
+    }
+
+    .extraLabel{
+        width: 220px;
+        display: block;
+        min-height: 80px;
+        border: 2px solid var(--primary-color);
+        border-radius: 5px;
+    }
+
+    .textareas:focus{
+        outline:none;
+    }
+
+    .checkboxes{
+        background-color: blue;
+    }
+
+    .inputs{
+        border: 2px solid var(--primary-color);
+        border-radius: 5px;
+        width: 220px;
+        height: 30px;
+    }
+
+    .imageComponent{
+        height: 300px;
+    }
+
+    .imageCom{
+        border: 2px solid var(--primary-color);
+        height: 300px;
+    }
+
+    .inputsExtra{
+        width:160px;
+    }
+
+    .inputs:focus{
+        outline: none;
+    } 
+    
+</style>

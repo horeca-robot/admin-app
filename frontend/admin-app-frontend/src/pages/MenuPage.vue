@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <AddProduct @add-product="addProduct" class="panel"/>
+    <div class="page">
+        <div class="panel">
+            <div class="categoriesSideMenu">
+                
+            </div>
+            <AddProduct @add-product="addProduct" />
+        </div>
         <button @click="getProducts">Get</button>
     </div>
 </template>
@@ -34,7 +39,22 @@ export default {
 </script>
 
 <style scoped>
+    .page{
+        top:0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: fit-content;
+        width: fit-content;
+    }
+
     .panel{
-        background-color: pink;
+        min-width: 500px;
+        width: 60vw;
+        height: 60vh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 </style>
