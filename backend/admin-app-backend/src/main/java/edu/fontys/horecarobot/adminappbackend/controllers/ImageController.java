@@ -15,7 +15,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping(path = "/{name}")
-    public @ResponseBody  String getImageByName(@PathVariable String name){
+    public String getImageByName(@PathVariable String name){
 
         String imageBytes = imageService.getBase64FromDisk(name);
 

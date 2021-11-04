@@ -30,13 +30,13 @@ export default {
 
     let websiteSettings  = response.data.data.info;
     
-    if(websiteSettings.primaryColor != null)
+    if(websiteSettings.primaryColor)
       this.primaryColor = websiteSettings.primaryColor;
 
     if(websiteSettings.secondaryColor)
       this.secondaryColor = websiteSettings.secondaryColor;
     
-    if(websiteSettings.backgroundImage != null)
+    if(websiteSettings.backgroundImage)
     {
       let base64 = await api.getBase64Image(websiteSettings.backgroundImage)
 
@@ -57,13 +57,9 @@ export default {
         secondaryColor: this.secondaryColor,
         backgroundImage: `${this.$refs.backgroundPreview.base64}`,
       };
-      await api.saveWebsiteSettings(payload);
+      await api.putWebsiteSettings(payload);
       await this.$root.updateBackground()
       await this.$root.updateCss()
-    },
-
-    async loadInfo() {
-
     }
   },
   components: {

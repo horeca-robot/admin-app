@@ -21,7 +21,7 @@ export default {
 
         return response;
     },
-    async saveRestaurantSettings(model) {
+    async putRestaurantSettings(model) {
         var response;
 
         try {
@@ -43,7 +43,7 @@ export default {
 
         return response;
     },
-    async saveWebsiteSettings(model) {
+    async putWebsiteSettings(model) {
         var response;
 
         try {

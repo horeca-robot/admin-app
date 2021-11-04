@@ -96,9 +96,8 @@ public class RestaurantService {
 
             if(restaurantInfo.isEmpty())
             {
-                // Create
                 var model = new RestaurantInfo();
-                model.setName(" ");
+                model.setName("");
 
                 restaurantInfoRepository.saveAndFlush(model);
                 return getRestaurantInfo();

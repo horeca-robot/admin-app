@@ -6,9 +6,12 @@ export default {
         //Get rgb values from secondary variable
         var rgb = secondary.match(/\d+/g);
 
-        console.log(rgb[0]);
+        if(!rgb)
+            return
+            
 
         let textColor;
+
         //https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
         if ((rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114) > 186) {
             textColor = 'rgba(0, 0, 0, 1)';

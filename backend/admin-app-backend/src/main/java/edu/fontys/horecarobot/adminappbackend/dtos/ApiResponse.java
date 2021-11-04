@@ -11,6 +11,8 @@ public class ApiResponse {
     public static final String REQUIRED_FIELDS_ERROR = "Not all required fields are filled in.";
     public static final String DATABASE_CONNECTION_ERROR = "Something went wrong, try again later.";
     public static final String ID_ALIGN_ERROR = "Id does not align with given object";
+    public static final String SUCCESS_MESSAGE = "Successfully saved info";
+    public static final String FAILED_MESSAGE = "Failed to save info";
 
     private final boolean success;
     @Nullable

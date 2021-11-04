@@ -28,15 +28,16 @@ export default {
 
         let websiteSettings = response.data.data.info
 
-        if (websiteSettings.primaryColor != null) {
+        if (websiteSettings.primaryColor) {
             document.documentElement.style.setProperty('--primary-color', websiteSettings.primaryColor)
         }
 
-        if (websiteSettings.secondaryColor != null) {
+        if (websiteSettings.secondaryColor) {
             document.documentElement.style.setProperty('--secondary-color', websiteSettings.secondaryColor)
         }
 
-        ColorUtil.getTextColor()
+        if(websiteSettings.secondaryColor && websiteSettings.primaryColor)
+            ColorUtil.getTextColor()
     }
   },
   computed: {
