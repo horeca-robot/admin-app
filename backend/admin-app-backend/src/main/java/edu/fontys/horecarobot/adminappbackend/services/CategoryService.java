@@ -22,14 +22,6 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category convertFromCategoryModel(CategoryModel categoryModel){
-        Category c = new Category();
-        c.setParentCategory(categoryModel.getParentCategory());
-        c.setName(categoryModel.getName());
-        c.setImage(categoryModel.getImage());
-        return c;
-    }
-
     public boolean doesCategoryExist(UUID id)
     {
         return categoryRepository.findById(id).isPresent();
@@ -55,5 +47,13 @@ public class CategoryService {
     public void deleteCategory(UUID id)
     {
         categoryRepository.deleteById(id);
+    }
+
+    private Category convertFromCategoryModel(CategoryModel categoryModel){
+        Category c = new Category();
+        c.setParentCategory(categoryModel.getParentCategory());
+        c.setName(categoryModel.getName());
+        c.setImage(categoryModel.getImage());
+        return c;
     }
 }
