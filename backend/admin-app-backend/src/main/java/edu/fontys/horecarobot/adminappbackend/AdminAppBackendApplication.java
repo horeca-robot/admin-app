@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("edu.fontys.horecarobot.databaselibrary")
 @EnableJpaRepositories("edu.fontys.horecarobot.databaselibrary")
 public class AdminAppBackendApplication {
+
 	public static void main(String[] args) {
 		try {
 			SpringApplication.run(AdminAppBackendApplication.class, args);
@@ -16,4 +17,5 @@ public class AdminAppBackendApplication {
 			ex.printStackTrace();
 		}
 	}
+
 }

@@ -2,7 +2,6 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.EmployeeModel;
-import edu.fontys.horecarobot.adminappbackend.dtos.RobotModel;
 import edu.fontys.horecarobot.adminappbackend.services.EmployeeService;
 import edu.fontys.horecarobot.databaselibrary.models.EmployeeUser;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/Employees")
-@CrossOrigin(origins = "http://localhost:4000/employees")
+@CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class EmployeeController {
 
@@ -36,6 +35,9 @@ public class EmployeeController {
         if(employeeModel.getUsername().isBlank())
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
+        if(employeeModel.getPin() < 1111 || employeeModel.getPin() > 9999)
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+
         try {
             employeeService.addEmployeeUser(employeeModel);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -53,12 +55,12 @@ public class EmployeeController {
         if(employeeModel.getUsername().isBlank())
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
-        /*if(id.equals(employeeModel.getId()))
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.ID_ALIGN_ERROR), HttpStatus.BAD_REQUEST);*/
+        if(employeeModel.getPin() < 1111 || employeeModel.getPin() > 9999)
+            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         try {
             employeeService.updateEmployeeUser(employeeModel);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e){
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,9 +69,6 @@ public class EmployeeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteEmployeeUser(@PathVariable UUID id) {
-        /*if(id.isBlank())
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);*/
-
         if(!employeeService.doesEmployeeExist(id))
             return new ResponseEntity<>(ApiResponse.error("Can't locate employee in database."), HttpStatus.NOT_FOUND);
 
