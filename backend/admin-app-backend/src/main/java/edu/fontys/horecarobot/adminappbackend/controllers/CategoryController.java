@@ -4,11 +4,13 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
 import edu.fontys.horecarobot.adminappbackend.services.CategoryService;
+import edu.fontys.horecarobot.databaselibrary.models.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -36,14 +38,20 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id)
     {
+        Optional<Category> category;
         try
         {
-            var category = categoryService.getById(id);
-            return new ResponseEntity<>(ApiResponse.ok().addData("category", category), HttpStatus.OK);
+            category = categoryService.getById(id);
         }
         catch (Exception e)
         {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+        if (category.isPresent()) {
+            return new ResponseEntity<>(ApiResponse.ok().addData("category", category.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(ApiResponse.error("Category not found"), HttpStatus.NOT_FOUND);
         }
     }
 
