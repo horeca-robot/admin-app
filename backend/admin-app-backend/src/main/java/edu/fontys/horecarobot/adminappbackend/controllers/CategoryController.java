@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "api/Category")
 @RequiredArgsConstructor
-/* @CrossOrigin(origins = "http://localhost:4000") */
+@CrossOrigin(origins = "http://localhost:4000")
 
 public class CategoryController {
 
@@ -35,15 +35,15 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createCategory(@RequestBody CategoryModel categoryModel)
+    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryModel categoryModel)
     {
-        if(categoryModel.getParentCategory().isEmpty() || categoryModel.getName().isBlank() || categoryModel.getImage().isBlank())
+        if(categoryModel.getParentCategory().isEmpty() || categoryModel.getName().isBlank())
         {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
         }
         try
         {
-            categoryService.createCategory(categoryModel);
+            categoryService.addCategory(categoryModel);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e)
@@ -53,13 +53,13 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updateCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel){
+    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel){
         if(!categoryService.getAllCategories().isEmpty())
         {
             return new ResponseEntity<>(ApiResponse.error("Can't locate category in database."), HttpStatus.NOT_FOUND);
         }
 
-        if(categoryModel.getParentCategory().isEmpty() || categoryModel.getName().isBlank() || categoryModel.getImage().isBlank())
+        if(categoryModel.getParentCategory().isEmpty() || categoryModel.getName().isBlank())
         {
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
         }
@@ -76,12 +76,6 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable UUID id){
-
-        if(categoryService.getAllCategories().isEmpty())
-        {
-            return new ResponseEntity<>(ApiResponse.error("Can't locate categories in database."), HttpStatus.NOT_FOUND);
-        }
-
         try
         {
             categoryService.deleteCategory(id);

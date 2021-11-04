@@ -1,7 +1,9 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.ProductModel;
 import edu.fontys.horecarobot.databaselibrary.models.Category;
+import edu.fontys.horecarobot.databaselibrary.models.Product;
 import edu.fontys.horecarobot.databaselibrary.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,14 +21,17 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category createCategory(CategoryModel categoryModel) {
+    private Category fillCategory(CategoryModel categoryModel){
         Category c = new Category();
         c.setParentCategory(categoryModel.getParentCategory());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
-
-        categoryRepository.save(c);
         return c;
+    }
+
+    public void addCategory(CategoryModel categoryModel)
+    {
+        categoryRepository.saveAndFlush(fillCategory(categoryModel));
     }
 
     public Category updateCategory(CategoryModel categoryModel, UUID id) {
@@ -35,7 +40,7 @@ public class CategoryService {
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
         c.setParentCategory(categoryModel.getParentCategory());
-        categoryRepository.save(c);
+        categoryRepository.saveAndFlush(c);
 
         return c;
     }

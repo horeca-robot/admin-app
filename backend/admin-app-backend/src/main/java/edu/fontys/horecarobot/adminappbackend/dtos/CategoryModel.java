@@ -1,23 +1,21 @@
 package edu.fontys.horecarobot.adminappbackend.dtos;
 
 import edu.fontys.horecarobot.databaselibrary.models.Category;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.List;
 
 @Data
-public class CategoryModel {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoryModel
+{
+    @NonNull
     private String name;
     private String image;
+    @NonNull
     private List<Category> parentCategory;
-
-    public CategoryModel() {
-
-    }
-
-    public CategoryModel(String name, String image, List<Category> parentCategory) {
-        this.name = name;
-        this.image = image;
-        this.parentCategory = parentCategory;
-    }
 }
