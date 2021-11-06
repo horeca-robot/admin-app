@@ -51,6 +51,9 @@ export default {
             }
         },
         async addEmployees(payload) {
+            //geeft een lege id mee!
+            console.log(payload);
+
             if(this.doesEmployeesListContainUsername(payload.username)) {
                 alert('Already exists a employees with this username')
             }
