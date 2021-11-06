@@ -53,6 +53,11 @@ export default {
                 pincode: this.pincode
             }
             if(this.isNew) {
+                //Het type UUID kan niet worden meegestuurd vanuit de backend
+                console.log('add_employee_id: '+ employee.id);
+                console.log('add_employee_name: '+ employee.username);
+                console.log('add_employee_pin: '+ employee.pincode);
+
                 this.$emit('addEmployees', employee)
             }
             else {
@@ -62,6 +67,11 @@ export default {
             this.isEditing = false
         },
         deleteEmployees() {
+            //Postman maakt van het id (UUID) een string en dan werkt het
+            console.log('delete_employee_id: '+ this.id);
+            console.log('delete_employee_name: '+ this.username);
+            console.log('delete_employee_pin: '+ this.pincode);
+
             if(this.isNew) {
                 this.$emit('getEmployees')
             }
