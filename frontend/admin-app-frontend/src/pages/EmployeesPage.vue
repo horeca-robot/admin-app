@@ -1,71 +1,147 @@
 <template>
-    <div id="employees">
-        <h1>Employees</h1>
-        <form>
-            <input type="text" placeholder="add username here" v-model="employeeUsername" autofocus required minlength="4">
-            <input type="text" pattern="[0-9]" placeholder="add pincode here" v-model="employeePincode" required minlength="4"> 
-            <button v-on:click="addEmployee($event)">Add</button>      
-        </form>
-        <ul v-for="employee of employees" :key="employee.id">
-            <li>         
-                {{employee.username}} , {{employee.pincode}}
-                <button v-on:click="removeEmployee(employee.id)">Remove</button>
-            </li>  
-        </ul>  
+    <div class="page">
+        <div class="panel">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Pin</th>
+                        <th style="text-align: right;">Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="employee in employees" :key="employee.id">
+                        <Employees :currentUsername="employee.username" :currentPincode="employee.pincode" @getEmployees="getEmployees"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+import EmployeeWrapper from '../wrappers/EmployeeWrapper'
+import Employees from '../components/employee_components/Employees.vue'
+
 export default {
-  name: "employees",
-  data() {
-      return {
-          employees: [],
-          employeeUsername: '',
-          employeePincode: ''
-      };
-  },
-  async created() {
-      try {
-          const res = await axios.get("http://localhost:3000/employees");
+    data() {
+        return {
+            id: '',
+            username: '',
+            pincode: '',
+            employees: []
+        }
+    },
+    created() {
+        this.getEmployees()      
+    },
+    components: {
+        Employees
+    },
+    methods: {
+        async getEmployees() {
+            const response = await EmployeeWrapper.getEmployees()
+ 
+            if(response.success) {
+                this.employees = response.employees
+            }
+            else {
+                alert(response.message)
+            }
 
-          this.employees = res.data;
-      } catch (e) {
-          console.error(e);
-      }
-  },
-  methods: {
-      async addEmployee() {      
-        if (this.employeePincode.length >= 4 && this.employeeUsername.length >= 4 && isNaN(parseInt(this.employeePincode)) == false) {
-            const res = await axios.post("http://localhost:3000/employees", { username: this.employeeUsername, pincode: this.employeePincode});
-
-            this.employees = [...this.employees, res.data];
-
-            this.employeeUsername = '';
-            this.employeePincode = '';
-        }      
-      },
-      async removeEmployee(employee_id) {
-        if(typeof employee_id !== 'undefined' && employee_id !== null) {
-            axios.delete(`http://localhost:3000/employees/${employee_id}`);
-
-            const res = await axios.get('http://localhost:3000/employees');
-            this.employees = res.data;
-        }  
-      } 
-  }
+            //testing if the employees are retrieved properly
+            let text = "";
+            this.employees.forEach(showEmployees);
+            function showEmployees(item, index) {
+                text += index + 1 + ": " + item.username + ', ' + item.pincode  + ', ' + item.id + "\r\n"; 
+            }
+            alert(text);
+        }
+    }
 }
 </script>
 
 <style scoped>
-#employees input:first-of-type  {
-    margin-right: 10px;
-}
-#employees button {
-    margin-left: 8px;
-}
-#employees button:hover {
-    cursor: pointer;
-}
+    .page {
+        top:0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: fit-content;
+        width: fit-content;
+        text-align: right;
+    }
+    .panel {
+        min-width: 500px;
+        width: 40vw;
+        min-height: fit-content;
+        max-height: 60vh;
+        padding: 20px;
+        background-color: var(--secondary-color);
+        box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+        overflow-y: overlay;
+    }
+    .panel::-webkit-scrollbar {
+        width: 5px;
+    }
+    .panel::-webkit-scrollbar-track {
+        margin: 20px;
+    }
+    .panel::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background: var(--primary-color);
+        background-clip: padding-box;
+    }
+    .panel::-webkit-scrollbar-thumb:hover {
+        opacity: 0.9;
+    }
+    table {
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+    }
+    thead {
+        color: var(--secondary-color);
+        background-color: var(--primary-color);
+        border-radius: 5px;
+        box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
+    }
+    thead tr {
+        text-align: left;
+    }
+    tbody tr {
+        text-align: left;
+        border-bottom: 1px solid var(--text-color);
+    }
+    th {
+        padding: 10px;
+        font-size: 1.25rem;
+        font-weight: normal;
+    }
+    table th:first-child {
+        border-radius:5px 0 0 5px;
+    }
+    table th:last-child {
+        border-radius:0 5px 5px 0;
+    }
+    button {
+        padding: 15px 20px 15px 20px;
+        color: var(--text-color);
+        background-color: var(--secondary-color);
+        box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        font-size: 1.5rem;
+        font-family: inherit;
+        margin-top: 15px;
+        outline: none;
+        border: none;
+    }
+    button:hover {
+        cursor: pointer;
+    }
 </style>
