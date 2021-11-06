@@ -1,9 +1,5 @@
 <template>
     <template>
-        <td><input v-model="username"/></td>
-        <td><input v-model="pincode"/></td>
-        <td>{{ currentUsername }}</td>
-        <td>{{ currentPincode }}</td>
     </template>
 </template>
 
@@ -21,12 +17,12 @@ export default {
     props: {
         currentId: String,
         currentUsername: String,
-        currentPincode: String
+        currentPincode: Number
     },
     created() {
         this.id = this.currentId
         this.username = this.currentUsername
-        this.pincode = this.currentPincode      
+        this.pincode = this.currentPincode   
     }
 }
 </script>

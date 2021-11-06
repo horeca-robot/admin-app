@@ -11,7 +11,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="employee in employees" :key="employee.id">
-                        <Employees :currentUsername="employee.username" :currentPincode="employee.pincode" @getEmployees="getEmployees"/>
+                        <Employees :currentUsername="employee.username" :currentPincode="employee.pincode" @getEmployees="getEmployees"/>             
                     </tr>
                 </tbody>
             </table>
@@ -50,12 +50,12 @@ export default {
             }
 
             //testing if the employees are retrieved properly
-            let text = "";
+            let employees_output = "";
             this.employees.forEach(showEmployees);
             function showEmployees(item, index) {
-                text += index + 1 + ": " + item.username + ', ' + item.pincode  + ', ' + item.id + "\r\n"; 
+                employees_output += index + 1 + ": " + item.username + ', ' + item.pincode  + ', ' + item.id + "\r\n"; 
             }
-            alert(text);
+            alert(employees_output);   
         }
     }
 }
