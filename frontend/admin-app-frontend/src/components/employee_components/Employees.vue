@@ -1,12 +1,31 @@
 <template>
-    <template>
+    <template v-if="isEditing && isNew">
+        <td><input v-model="username"/></td>
+        <td><input v-model="pincode"/></td>
+        <td style="text-align: right;">
+            <i class="icon fas fa-check" @click="handleSubmit"/>
+            <i class="icon fas fa-times" @click="deleteRobot"/>
+        </td>
+    </template>
+    <template v-else-if="isEditing && !isNew">
+        <td><input v-model="username"/></td>
+        <td>{{ currentPincode }}</td>
+        <td style="text-align: right;">
+            <i class="icon fas fa-check" @click="handleSubmit"/>
+            <i class="icon fas fa-times" @click="deleteRobot"/>
+        </td>
+    </template>
+    <template v-else>
+        <td>{{ currentUsername }}</td>
+        <td>{{ currentPincode }}</td>
+        <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit" /></td>
     </template>
 </template>
 
 <script>
 export default {
     name: 'Employees',
-    emits: ['getEmployees'],
+    emits: ['getEmployees', 'deleteEmployees', 'addEmployees', 'updateEmployees'],
     data() {
         return {
             id: '',
@@ -23,6 +42,42 @@ export default {
         this.id = this.currentId
         this.username = this.currentUsername
         this.pincode = this.currentPincode   
+    },
+    methods: {
+        changeToEdit() {
+            this.isEditing = true
+        },
+        handleSubmit() {
+            if(!this.id.trim() || !this.username.trim() || !this.pincode.trim()) {
+                alert('All fields need to be filled in.')
+                return
+            }
+            const employee = { 
+                id: this.id, 
+                username: this.username, 
+                pincode: this.pincode
+            }
+            if(this.isNew) {
+                this.$emit('addEmployees', employee)
+            }
+            else {
+                this.$emit('updateEmployees', employee)
+            }
+
+            this.isEditing = false
+        },
+        deleteEmployees() {
+            if(this.isNew) {
+                this.$emit('getEmployees')
+            }
+            else {
+                if(!confirm('Are you sure you want to delete Employees: ' + this.username + ' #' + this.id + '?')) {
+                    return;
+                }
+                this.isEditing = false;
+                this.$emit('deleteEmployees', this.id)
+            }
+        }
     }
 }
 </script>

@@ -48,14 +48,6 @@ export default {
             else {
                 alert(response.message)
             }
-
-            //testing if the employees are retrieved properly
-            let employees_output = "";
-            this.employees.forEach(showEmployees);
-            function showEmployees(item, index) {
-                employees_output += index + 1 + ": " + item.username + ', ' + item.pincode  + ', ' + item.id + "\r\n"; 
-            }
-            alert(employees_output);   
         }
     }
 }
