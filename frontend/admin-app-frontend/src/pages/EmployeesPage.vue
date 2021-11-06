@@ -11,11 +11,12 @@
                 </thead>
                 <tbody>
                     <tr v-for="employee in employees" :key="employee.id">
-                        <Employees :currentUsername="employee.username" :currentPincode="employee.pincode" @getEmployees="getEmployees"/>             
+                        <Employees :currentId="employee.id" :currentUsername="employee.username" :currentPincode="employee.pincode" :isNew="employee.isNew" @getEmployees="getEmployees" @addEmployees="addEmployees" @updateEmployees="updateEmployees" @deleteEmployees="deleteEmployees"/>            
                     </tr>
                 </tbody>
             </table>
         </div>
+        <button @click="addRow">Add Employee</button>
     </div>
 </template>
 
@@ -48,6 +49,66 @@ export default {
             else {
                 alert(response.message)
             }
+        },
+        async addEmployees(payload) {
+            if(this.doesEmployeesListContainUsername(payload.username)) {
+                alert('Already exists a employees with this username')
+            }
+            else if(this.doesEmployeesListContainPincode(payload.pincode)) {
+                alert('Already exists a employees with this pincode')
+            }
+            else {
+                const response = await EmployeeWrapper.postEmployees(payload)
+
+                if(response.success) {
+                    alert('Succesfully added employees #' + payload.id)
+                }
+                else {
+                    alert(response.message)
+                }
+            }
+
+            this.getEmployees()
+        },
+        async updateEmployees(payload) {
+            if(this.doesEmployeesListContainUsername(payload.username)) {
+                alert('Already exists a employees with this username')
+            }
+            else {
+                const response = await EmployeeWrapper.putRobot(payload)
+
+                if(response.success) { 
+                    alert('Succesfully updated employees #' + payload.id)
+                }
+                else {
+                    alert(response.message)
+                }
+            }
+
+            this.getEmployees()
+        },
+        async deleteEmployees(id) {
+            const response = await EmployeeWrapper.deleteEmployees(id)
+
+            if(response.success) {
+                await this.getEmployees()
+                alert('Succesfully deleted employees #' + id)
+            }
+            else {
+                alert(response.message)
+            }
+        },
+        addRow() {
+            if(!this.isCreating) {
+                this.employees.push({ id: '', username: '', pincode: '', isNew: true })
+                this.isCreating = true
+            }
+        },
+        doesEmployeesListContainUsername(username) {
+            return this.employees.some(r => r.username === username)
+        },
+        doesEmployeesListContainPincode(pincode) {
+            return this.employees.some(r => r.pincode === pincode)
         }
     }
 }

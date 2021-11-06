@@ -4,51 +4,46 @@
         <td><input v-model="pincode"/></td>
         <td style="text-align: right;">
             <i class="icon fas fa-check" @click="handleSubmit"/>
-            <i class="icon fas fa-times" @click="deleteRobot"/>
-        </td>
-    </template>
-    <template v-else-if="isEditing && !isNew">
-        <td><input v-model="username"/></td>
-        <td>{{ currentPincode }}</td>
-        <td style="text-align: right;">
-            <i class="icon fas fa-check" @click="handleSubmit"/>
-            <i class="icon fas fa-times" @click="deleteRobot"/>
+            <i class="icon fas fa-times" @click="deleteEmployees"/>
         </td>
     </template>
     <template v-else>
         <td>{{ currentUsername }}</td>
         <td>{{ currentPincode }}</td>
-        <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit" /></td>
+        <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit"/></td>
     </template>
 </template>
 
 <script>
 export default {
     name: 'Employees',
-    emits: ['getEmployees', 'deleteEmployees', 'addEmployees', 'updateEmployees'],
+    emits: ['addEmployees', 'updateEmployees', 'getEmployees', 'deleteEmployees'],
     data() {
         return {
             id: '',
             username: '',
-            pincode: ''
+            pincode: '',
+            isEditing: false
         }
     },
     props: {
         currentId: String,
         currentUsername: String,
-        currentPincode: Number
+        currentPincode: Number,
+        isNew: Boolean
     },
     created() {
         this.id = this.currentId
         this.username = this.currentUsername
-        this.pincode = this.currentPincode   
+        this.pincode = this.currentPincode  
+        this.isEditing = this.isNew 
     },
     methods: {
         changeToEdit() {
             this.isEditing = true
         },
         handleSubmit() {
-            if(!this.id.trim() || !this.username.trim() || !this.pincode.trim()) {
+            if(!this.username.trim() || !this.pincode.trim()) {
                 alert('All fields need to be filled in.')
                 return
             }
