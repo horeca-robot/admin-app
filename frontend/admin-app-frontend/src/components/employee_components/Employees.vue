@@ -1,16 +1,16 @@
 <template>
-    <template v-if="isEditing && isNew">
+    <template v-if="isEditing">
         <td><input v-model="username"/></td>
         <td><input v-model="pincode"/></td>
         <td style="text-align: right;">
-            <i class="icon fas fa-check" @click="handleSubmit"/>
-            <i class="icon fas fa-times" @click="deleteEmployees"/>
+            <i class="icon fas fa-check" @click="handleSubmit"></i>
+            <i class="icon fas fa-times" @click="deleteEmployees"></i>
         </td>
     </template>
     <template v-else>
         <td>{{ currentUsername }}</td>
         <td>{{ currentPincode }}</td>
-        <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit"/></td>
+        <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit"></i></td>
     </template>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     created() {
         this.id = this.currentId
         this.username = this.currentUsername
-        this.pincode = this.currentPincode  
+        this.pincode = this.currentPincode 
         this.isEditing = this.isNew 
     },
     methods: {
@@ -70,7 +70,7 @@ export default {
                     return;
                 }
                 this.isEditing = false;
-                this.$emit('deleteEmployees', this.id)
+                this.$emit('deleteEmployees', this.id);
             }
         }
     }

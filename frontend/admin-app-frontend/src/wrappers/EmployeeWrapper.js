@@ -8,7 +8,6 @@ var apiConfig = {
         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
     }
 }
-
 export default {
     async getEmployees() {
         var response;
@@ -29,7 +28,7 @@ export default {
     async postEmployees(data) {
         var response;
 
-        try{
+        try {
             response =  await axios.post(`${baseUrl}/api/Employees`, data, apiConfig)
             console.log(response)
 
@@ -37,7 +36,7 @@ export default {
                 success: response.status === 201
             }
         }
-        catch(error){
+        catch(error ){
             response = error.response
 
             return {
@@ -47,17 +46,16 @@ export default {
         }
     },
     async putEmployees(data) {
-
         var response;
 
-        try{
+        try {
             response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, data, apiConfig)
 
             return {
                 success: response.status === 201
             }
         }
-        catch(error){
+        catch(error) {
             response = error.response
 
             return {
@@ -67,17 +65,18 @@ export default {
         }
     },
     async deleteEmployees(id) {
-
         var response;
 
-        try{
+        try {
             response =  await axios.delete(`${baseUrl}/api/Employees/${id}`, apiConfig)
+
+            console.log(response);
 
             return {
                 success: response.status === 201
             }
         }
-        catch(error){
+        catch(error) {
             response = error.response
 
             return {
