@@ -69,10 +69,9 @@ export default {
         try {
             response =  await axios.delete(`${baseUrl}/api/Employees/${id}`, apiConfig)
 
-            console.log(response);
-
             return {
-                success: response.status === 201
+                //Status: 201 > 204. Moet ook aangepast worden in de RobotWrapper. 
+                success: response.status === 204
             }
         }
         catch(error) {

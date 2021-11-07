@@ -75,7 +75,7 @@ export default {
                 alert('Already exists a employees with this username')
             }
             else {
-                const response = await EmployeeWrapper.putRobot(payload)
+                const response = await EmployeeWrapper.putEmployees(payload)
 
                 if(response.success) { 
                     alert('Succesfully updated employees #' + payload.id)
