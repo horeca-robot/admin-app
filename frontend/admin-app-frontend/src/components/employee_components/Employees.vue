@@ -43,7 +43,7 @@ export default {
             this.isEditing = true
         },
         handleSubmit() {
-            if(!this.username.trim() || !this.pincode.trim()) {
+            if(!this.username.trim()) {
                 alert('All fields need to be filled in.')
                 return
             }

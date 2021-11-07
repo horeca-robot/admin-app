@@ -48,7 +48,9 @@ export default {
         var response;
 
         try {
-            response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, data, apiConfig)
+            response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, apiConfig)
+
+            console.log(response.status);
 
             return {
                 success: response.status === 201
