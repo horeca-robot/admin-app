@@ -14,8 +14,8 @@ public class EmployeeResponseModel {
         pin = employeeUser.getPincode();
     }
 
-    private UUID id;
-    private String username;
-    private short pin;
+    private final UUID id;
+    private final String username;
+    private final short pin;
 
 }

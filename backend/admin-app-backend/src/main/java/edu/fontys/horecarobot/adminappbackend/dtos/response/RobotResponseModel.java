@@ -11,7 +11,7 @@ public class RobotResponseModel {
         name = robot.getName();
     }
 
-    private String id;
-    private String name;
+    private final String id;
+    private final String name;
 
 }
