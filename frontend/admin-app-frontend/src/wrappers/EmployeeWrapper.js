@@ -12,7 +12,7 @@ export default {
     async getEmployees() {
         var response;
 
-        try{
+        try {
             response =  await axios.get(`${baseUrl}/api/Employees`, apiConfig)
         }
         catch(error) {
@@ -27,8 +27,6 @@ export default {
     },
     async postEmployees(data) {
         var response;
-
-        
 
         try {
             response =  await axios.post(`${baseUrl}/api/Employees`, data, apiConfig)
