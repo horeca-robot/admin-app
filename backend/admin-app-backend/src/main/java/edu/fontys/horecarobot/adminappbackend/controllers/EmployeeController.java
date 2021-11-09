@@ -23,7 +23,7 @@ public class EmployeeController {
     public ResponseEntity<ApiResponse> getEmployeeUsers() {
         try {
             List<EmployeeUser> employees = employeeService.getAllEmployeeUsers();
-            return new ResponseEntity<>(ApiResponse.ok().addData("employees", employees), HttpStatus.OK);
+            return ResponseEntity.ok(ApiResponse.ok().addData("employees", employees));
         }
         catch (Exception e) {
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
@@ -40,6 +40,7 @@ public class EmployeeController {
 
         try {
             employeeService.addEmployeeUser(employeeModel);
+            // TODO: Change response entity to contain uri
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception e) {
@@ -50,7 +51,8 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> putEmployeeUser(@PathVariable UUID id, @RequestBody EmployeeModel employeeModel) {
         if(!employeeService.doesEmployeeExist(id))
-            return new ResponseEntity<>(ApiResponse.error("Can't locate employee in database."), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Can't locate employee in database."));
 
         if(employeeModel.getUsername().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
@@ -60,7 +62,7 @@ public class EmployeeController {
 
         try {
             employeeService.updateEmployeeUser(employeeModel);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         }
         catch(Exception e){
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
@@ -70,11 +72,12 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteEmployeeUser(@PathVariable UUID id) {
         if(!employeeService.doesEmployeeExist(id))
-            return new ResponseEntity<>(ApiResponse.error("Can't locate employee in database."), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Can't locate employee in database."));
 
         try {
             employeeService.deleteEmployeeUser(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         }
 
         catch (Exception e) {

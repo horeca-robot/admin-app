@@ -36,10 +36,10 @@ public class SignInController {
 
             final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
             final String jwt = signInService.generateJWT(userDetails);
-            return new ResponseEntity<>(ApiResponse.ok().addData("jwt", jwt), HttpStatus.OK);
+            return ResponseEntity.ok(ApiResponse.ok().addData("jwt", jwt));
         }
         catch(BadCredentialsException e) {
-            return new ResponseEntity<>(ApiResponse.error("Incorrect email or password."), HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error("Incorrect email or password."));
         }
 
     }

@@ -21,7 +21,7 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> getProducts(){
         var products = productService.getAllProducts();
-        return new ResponseEntity<>(ApiResponse.ok().addData("list", products), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.ok().addData("list", products));
     }
 
     @PostMapping
@@ -29,14 +29,15 @@ public class ProductController {
         if(product.getName().isBlank() || product.getPrice() <= 0)
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        productService.addProduct((product));
+        productService.addProduct(product);
+        // TODO: Change response entity to contain uri
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable UUID id){
         productService.deleteProduct(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 }

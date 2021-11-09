@@ -20,7 +20,7 @@ public class RobotController {
     public ResponseEntity<ApiResponse> getRobots(){
         try{
             var robots = robotService.getRobots();
-            return new ResponseEntity<>(ApiResponse.ok().addData("robots", robots), HttpStatus.OK);
+            return ResponseEntity.ok(ApiResponse.ok().addData("robots", robots));
         }
         catch(Exception e){
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
@@ -33,10 +33,11 @@ public class RobotController {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(!robotService.doesUserHaveAccessToRobot(robotModel.getId()))
-            return new ResponseEntity<>(ApiResponse.error("You were unable to confirm your ownership."), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.error("You were unable to confirm your ownership."));
 
         try{
             robotService.addRobot(robotModel);
+            // TODO: Change response entity to contain uri
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -47,7 +48,8 @@ public class RobotController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> putRobot(@PathVariable String id, @RequestBody RobotModel robotModel){
         if(!robotService.doesRobotExist(id))
-            return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Can't locate robot in database."));
 
         if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
@@ -57,6 +59,7 @@ public class RobotController {
 
         try{
             robotService.updateRobot(robotModel);
+            // TODO: Change response entity to contain uri
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
@@ -70,11 +73,12 @@ public class RobotController {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(!robotService.doesRobotExist(id))
-            return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Can't locate robot in database."));
 
         try{
             robotService.deleteRobot(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         }
         catch(Exception e){
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);

@@ -26,7 +26,7 @@ public class CategoryController {
         try
         {
             var categories = categoryService.getAllCategories();
-            return new ResponseEntity<>(ApiResponse.ok().addData("categories", categories), HttpStatus.OK);
+            return ResponseEntity.ok(ApiResponse.ok().addData("categories", categories));
         }
         catch (Exception e)
         {
@@ -48,9 +48,9 @@ public class CategoryController {
         }
 
         if (category.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.ok().addData("category", category.get()), HttpStatus.OK);
+            return ResponseEntity.ok(ApiResponse.ok().addData("category", category.get()));
         } else {
-            return new ResponseEntity<>(ApiResponse.error("Category not found"), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Category not found"));
         }
     }
 
@@ -64,6 +64,7 @@ public class CategoryController {
         try
         {
             categoryService.addCategory(categoryModel);
+            // TODO: Change response entity to contain uri
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e)
@@ -76,7 +77,7 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel){
         if(!categoryService.doesCategoryExist(id))
         {
-            return new ResponseEntity<>(ApiResponse.error("Can't locate category in database."), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Can't locate category in database."));
         }
 
         if(categoryModel.getName().isBlank())
@@ -86,7 +87,7 @@ public class CategoryController {
         try
         {
             categoryService.updateCategory(categoryModel, id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         }
         catch(Exception e)
         {
@@ -99,7 +100,7 @@ public class CategoryController {
         try
         {
             categoryService.deleteCategory(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         }
         catch(Exception e)
         {
