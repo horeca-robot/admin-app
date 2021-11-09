@@ -3,7 +3,6 @@ package edu.fontys.horecarobot.adminappbackend.security;
 import edu.fontys.horecarobot.adminappbackend.filters.JwtRequestFilter;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
