@@ -71,11 +71,11 @@ export default {
                 this.$emit('getEmployees')
             }
             else {
-                if(!confirm('Are you sure you want to delete Employees: ' + this.username + ' #' + this.id + '?')) {
+                if(!confirm('Are you sure you want to delete employee#' + this.username + '?')) {
                     return;
                 }
                 this.isEditing = false;           
-                this.$emit('deleteEmployees', this.id);
+                this.$emit('deleteEmployees', this.username, this.id);
             }
         }
     }

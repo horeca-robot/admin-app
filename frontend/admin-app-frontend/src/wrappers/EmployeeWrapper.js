@@ -28,10 +28,12 @@ export default {
     async postEmployees(data) {
         var response;
 
+        
+
         try {
             response =  await axios.post(`${baseUrl}/api/Employees`, data, apiConfig)
 
-            console.log(response.status)
+            console.log(response);
 
             return {
                 success: response.status === 201
@@ -72,7 +74,6 @@ export default {
             response =  await axios.delete(`${baseUrl}/api/Employees/${id}`, apiConfig)
 
             return {
-                //Status: 201 > 204. Moet ook aangepast worden in de RobotWrapper. 
                 success: response.status === 204
             }
         }

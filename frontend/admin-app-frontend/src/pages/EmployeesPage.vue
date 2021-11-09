@@ -75,7 +75,7 @@ export default {
                 const response = await EmployeeWrapper.putEmployees(payload)
 
                 if(response.success) { 
-                    alert('Succesfully updated employee #' + payload.id)
+                    alert('Succesfully updated employee #' + payload.username)
                 }
                 else {
                     alert(response.message)
@@ -84,12 +84,12 @@ export default {
 
             this.getEmployees()
         },
-        async deleteEmployees(id) {
+        async deleteEmployees(username, id) {
             const response = await EmployeeWrapper.deleteEmployees(id)
 
             if(response.success) {
                 await this.getEmployees()
-                alert('Succesfully deleted employees #' + id)
+                alert('Succesfully deleted employee #' + username)
             }
             else {
                 alert(response.message)
