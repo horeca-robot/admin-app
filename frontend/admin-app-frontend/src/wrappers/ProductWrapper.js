@@ -10,22 +10,7 @@ var apiConfig = {
 }
 
 export default {
-
-    async postProduct(data) {
-        var response;
-
-        try{
-            response =  await axios.post(`${baseUrl}/api/Product`, data, apiConfig)
-        }
-        catch(error){
-            response = error.response
-        }
-
-        return{
-            success: response.status === 201
-        }
-    },
-
+    
     async getProducts(){
 
         var response;
@@ -41,7 +26,22 @@ export default {
             success: response.data["data"]
         }
     },
+    
+    async postProduct(data) {
+        var response;
 
+        try{
+            response =  await axios.post(`${baseUrl}/api/Product`, data, apiConfig)
+        }
+        catch(error){
+            response = error.response
+        }
+
+        return{
+            success: response.status === 201
+        }
+    },
+    
     async deleteProduct(id){
         var response;
 
