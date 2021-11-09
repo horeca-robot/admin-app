@@ -32,7 +32,7 @@ export default {
             response =  await axios.post(`${baseUrl}/api/Employees`, data, apiConfig)
 
             return {
-                success: response.status === 201
+                success: response.status === 204
             }
         }
         catch(error) {
