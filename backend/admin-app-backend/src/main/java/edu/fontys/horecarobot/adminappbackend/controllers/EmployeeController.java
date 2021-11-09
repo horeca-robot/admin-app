@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/employees")
+@RequestMapping(path = "api/employee")
 @CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class EmployeeController {
