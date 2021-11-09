@@ -27,8 +27,6 @@ import Robot from '../components/robot_components/Robot.vue'
 export default {
     data() {
         return {
-            id: '',
-            name: '',
             robots: [],
             isCreating: false
         }
@@ -94,7 +92,6 @@ export default {
 
             if(response.success){
                 await this.getRobots()
-                alert('Succesfully deleted robot #' + id)
             }
             else{
                 alert(response.message)
@@ -212,6 +209,7 @@ export default {
     }
 
         button:hover{
+            color: var(--primary-color);
             cursor: pointer;
         }
 </style>
