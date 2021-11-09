@@ -26,7 +26,7 @@ public class EmployeeController {
             return new ResponseEntity<>(ApiResponse.ok().addData("employees", employees), HttpStatus.OK);
         }
         catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -43,7 +43,7 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -63,7 +63,7 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e){
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -78,7 +78,7 @@ public class EmployeeController {
         }
 
         catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 }

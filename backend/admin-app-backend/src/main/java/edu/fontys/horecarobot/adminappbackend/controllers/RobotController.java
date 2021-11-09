@@ -23,7 +23,7 @@ public class RobotController {
             return new ResponseEntity<>(ApiResponse.ok().addData("robots", robots), HttpStatus.OK);
         }
         catch(Exception e){
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -40,7 +40,7 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -60,7 +60,7 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -77,7 +77,7 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e){
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 }

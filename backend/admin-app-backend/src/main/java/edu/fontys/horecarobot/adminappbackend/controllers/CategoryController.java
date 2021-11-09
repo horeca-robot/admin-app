@@ -31,7 +31,7 @@ public class CategoryController {
         }
         catch (Exception e)
         {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -45,7 +45,7 @@ public class CategoryController {
         }
         catch (Exception e)
         {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
         if (category.isPresent()) {
@@ -69,7 +69,7 @@ public class CategoryController {
         }
         catch(Exception e)
         {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -91,7 +91,7 @@ public class CategoryController {
         }
         catch(Exception e)
         {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 
@@ -104,7 +104,7 @@ public class CategoryController {
         }
         catch(Exception e)
         {
-            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
     }
 }

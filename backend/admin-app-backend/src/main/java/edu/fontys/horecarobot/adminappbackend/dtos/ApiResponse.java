@@ -9,7 +9,7 @@ import java.util.*;
 public class ApiResponse {
 
     public static final ApiResponse REQUIRED_FIELDS_ERROR = ApiResponse.error("Not all required fields are filled in.");
-    public static final ApiResponse DATABASE_CONNECTION_ERROR = ApiResponse.error("Something went wrong, try again later.");
+    public static final ApiResponse GENERAL_EXCEPTION_ERROR = ApiResponse.error("Something went wrong, try again later.");
     public static final ApiResponse ID_ALIGN_ERROR = ApiResponse.error("Id does not align with given object");
 
     private final boolean success;
