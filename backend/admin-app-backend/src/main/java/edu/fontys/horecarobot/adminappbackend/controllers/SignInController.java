@@ -22,9 +22,11 @@ public class SignInController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel){
+    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel) {
         if(loginModel.getEmail().isBlank() || loginModel.getPassword().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
+
+        String jwt;
 
         try {
             authenticationManager.authenticate(
@@ -35,13 +37,13 @@ public class SignInController {
             );
 
             final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
-            final String jwt = signInService.generateJWT(userDetails);
-            return ResponseEntity.ok(ApiResponse.ok().addData("jwt", jwt));
+            jwt = signInService.generateJWT(userDetails);
         }
         catch(BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error("Incorrect email or password."));
         }
 
+        return ResponseEntity.ok(ApiResponse.ok().addData("jwt", jwt));
     }
 
 }

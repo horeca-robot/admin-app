@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,90 +22,86 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getCategories()
-    {
-        try
-        {
-            var categories = categoryService.getAllCategories();
-            return ResponseEntity.ok(ApiResponse.ok().addData("categories", categories));
+    public ResponseEntity<ApiResponse> getCategories() {
+        List<Category> categories;
+        try {
+            categories = categoryService.getAllCategories();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.ok(ApiResponse.ok().addData("categories", categories));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id)
-    {
+    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id) {
         Optional<Category> category;
-        try
-        {
+        try {
             category = categoryService.getById(id);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
-        if (category.isPresent()) {
-            return ResponseEntity.ok(ApiResponse.ok().addData("category", category.get()));
-        } else {
+        if (category.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Category not found"));
         }
+
+        return ResponseEntity.ok(ApiResponse.ok().addData("category", category.get()));
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryModel categoryModel)
-    {
-        if(categoryModel.getName().isBlank())
-        {
+    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryModel categoryModel) {
+        if(categoryModel.getName().isBlank()) {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
-        try
-        {
+
+        try {
             categoryService.addCategory(categoryModel);
-            // TODO: Change response entity to contain uri
-            return new ResponseEntity<>(HttpStatus.CREATED);
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        // TODO: Change response entity to contain uri
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel){
-        if(!categoryService.doesCategoryExist(id))
-        {
+    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel) {
+        if(!categoryService.doesCategoryExist(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Can't locate category in database."));
         }
 
-        if(categoryModel.getName().isBlank())
-        {
+        if(categoryModel.getName().isBlank()) {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
-        try
-        {
+        try {
             categoryService.updateCategory(categoryModel, id);
-            return ResponseEntity.noContent().build();
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable UUID id){
-        try
-        {
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable UUID id) {
+        try {
             categoryService.deleteCategory(id);
-            return ResponseEntity.noContent().build();
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.noContent().build();
     }
+
 }

@@ -21,13 +21,16 @@ public class EmployeeController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getEmployeeUsers() {
+        List<EmployeeUser> employees;
         try {
-            List<EmployeeUser> employees = employeeService.getAllEmployeeUsers();
-            return ResponseEntity.ok(ApiResponse.ok().addData("employees", employees));
+            employees = employeeService.getAllEmployeeUsers();
         }
         catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.ok(ApiResponse.ok().addData("employees", employees));
     }
 
     @PostMapping
@@ -40,12 +43,14 @@ public class EmployeeController {
 
         try {
             employeeService.addEmployeeUser(employeeModel);
-            // TODO: Change response entity to contain uri
-            return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        // TODO: Change response entity to contain uri
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -62,11 +67,13 @@ public class EmployeeController {
 
         try {
             employeeService.updateEmployeeUser(employeeModel);
-            return ResponseEntity.noContent().build();
         }
-        catch(Exception e){
+        catch(Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
@@ -77,11 +84,12 @@ public class EmployeeController {
 
         try {
             employeeService.deleteEmployeeUser(id);
-            return ResponseEntity.noContent().build();
         }
-
         catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.noContent().build();
     }
 }
