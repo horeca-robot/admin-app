@@ -12,7 +12,6 @@ var apiConfig = {
 export default {
 
     async postProduct(data) {
-
         var response;
 
         try{

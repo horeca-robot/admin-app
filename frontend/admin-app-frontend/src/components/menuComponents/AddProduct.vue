@@ -8,7 +8,7 @@
                 </div>
                 <div class="blocks">
                 <label class="text"> Description:</label>
-                <textarea class="textareas"/>
+                <textarea class="textareas" v-model="description"/>
                 </div>
                 <div class="blocks">
                     <label class="text"> *Price:</label>
@@ -69,12 +69,28 @@
                         <div  class="categories" > 
                             <input type="checkbox"> <label> Category</label>
                         </div>
+                                               <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
+                        <div  class="categories" > 
+                            <input type="checkbox"> <label> Category</label>
+                        </div>
                     </div>
                 </div>
                 <div class="blocks-row-buttons">
                     <input class="button formbuttonSave" type="submit" value="Save"/>
                     <input class="button formbuttonDelete" type="submit" value="Delete"/>
                 </div>
+                
             </div>
         </div>
     </form>
@@ -91,7 +107,7 @@ export default {
             price: 0,
             discountPrice: 0, 
             description: '', 
-            alcohol: false,
+            alcohol: true,
         }
     },
     methods:{
@@ -108,8 +124,8 @@ export default {
                 price: this.price,
                 discountPrice: this.discountPrice,
                 description: this.description,
-                alcohol: this.alcohol,
-                img : this.img
+                containsAlcohol: this.alcohol,
+                image : this.img
             }
 
             this.$emit('add-product', newProduct)
@@ -143,7 +159,12 @@ export default {
 
     .leftBlock{
         float:left;
-        background-color: var(--secondary-color);
+        width: 45%;
+        min-height: 10px;
+    }
+
+    .rightBlock{
+        float:right;
         width: 45%;
         min-height: 10px;
     }
@@ -153,12 +174,6 @@ export default {
         margin-bottom: 2px;
     }
 
-    .rightBlock{
-        float:right;
-        background-color: var(--secondary-color);
-        width: 45%;
-        min-height: 10px;
-    }
 
     .blocks{
         margin-top:20px;
@@ -187,8 +202,9 @@ export default {
         border-radius: 5px;
         color: white;
         margin-left: 1%;
+        font-size: 1em;
         font-family: inherit;
-        transition: 0.2s ease transform;
+        transition: 1s ease transform;
     }
 
     .formbuttonSave{
@@ -199,7 +215,8 @@ export default {
     }
 
     .button:hover{
-        transform: rotate(360deg);
+        /* transform: rotate(720deg); */
+        cursor: pointer;
     }
 
     input[type=checkbox] {
@@ -235,6 +252,7 @@ export default {
         border-radius: 5px;
         border: 2px solid var(--primary-color);
         width: 220px;
+        height: 80px;
     }
 
     .extraLabel{
@@ -266,6 +284,7 @@ export default {
 
     .imageCom{
         border: 2px solid var(--primary-color);
+        border-radius: 5px;
         height: 300px;
     }
 

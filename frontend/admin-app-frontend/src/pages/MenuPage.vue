@@ -1,12 +1,6 @@
 <template>
     <div class="page">
-        <div class="panel">
-            <div class="categoriesSideMenu">
-                
-            </div>
             <AddProduct @add-product="addProduct" />
-        </div>
-        <button @click="getProducts">Get</button>
     </div>
 </template>
 
