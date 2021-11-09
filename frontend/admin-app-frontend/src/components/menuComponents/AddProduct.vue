@@ -98,13 +98,17 @@ export default {
 
             this.$emit('add-product', newProduct)
 
-            this.name = ''
+            this.resetValues()
+
+        },
+
+        resetValues(){
+             this.name = ''
             this.price = 0
             this.discountPrice = 0
             this.description = ''
             this.alcohol = false
-
-        },
+        }
     }
 }
 </script>
@@ -172,19 +176,17 @@ export default {
         margin-left: 1%;
         font-size: 1em;
         font-family: inherit;
-        transition: 1s ease transform;
     }
+
+        .button:hover{
+            cursor: pointer;
+        }
 
     .formbuttonSave{
         margin-left: 10%;
         height: 3vh;
         width: 5vw;
         font-size: 1rem;
-    }
-
-    .button:hover{
-        /* transform: rotate(720deg); */
-        cursor: pointer;
     }
 
     input[type=checkbox] {
