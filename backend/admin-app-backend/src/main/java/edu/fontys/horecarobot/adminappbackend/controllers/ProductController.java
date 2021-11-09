@@ -1,14 +1,15 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.ProductModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.ProductRequestModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ProductResponseModel;
 import edu.fontys.horecarobot.adminappbackend.services.ProductService;
-import edu.fontys.horecarobot.databaselibrary.models.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<?> getProducts() {
-        List<Product> products;
+        List<ProductResponseModel> products;
 
         try {
             products = productService.getAllProducts();
@@ -36,20 +37,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postProduct(@RequestBody ProductModel product) {
+    public ResponseEntity<?> postProduct(@RequestBody ProductRequestModel product) {
         if(product.getName().isBlank() || product.getPrice() <= 0)
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
+        ProductResponseModel productResponseModel;
         try {
-            productService.addProduct(product);
+            productResponseModel = productService.addProduct(product);
         }
         catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
-        // TODO: Change response entity to contain uri
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        var uri = URI.create("api/product/" + productResponseModel.getId());
+        return ResponseEntity.created(uri).build();
     }
 
     @DeleteMapping("/{id}")

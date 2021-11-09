@@ -1,7 +1,7 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.LoginModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class SignInController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel) {
+    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginRequestModel loginModel) {
         if(loginModel.getEmail().isBlank() || loginModel.getPassword().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 

@@ -1,4 +1,4 @@
-package edu.fontys.horecarobot.adminappbackend.dtos;
+package edu.fontys.horecarobot.adminappbackend.dtos.response;
 
 import lombok.Data;
 import org.springframework.lang.Nullable;

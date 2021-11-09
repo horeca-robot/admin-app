@@ -1,4 +1,4 @@
-package edu.fontys.horecarobot.adminappbackend.dtos;
+package edu.fontys.horecarobot.adminappbackend.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class EmployeeModel {
-    private UUID id;
+public class EmployeeRequestModel {
     @NonNull
     private String username;
     @NonNull

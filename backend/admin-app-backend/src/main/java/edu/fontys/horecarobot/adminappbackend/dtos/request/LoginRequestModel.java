@@ -1,10 +1,10 @@
-package edu.fontys.horecarobot.adminappbackend.dtos;
+package edu.fontys.horecarobot.adminappbackend.dtos.request;
 
 import lombok.Data;
 import org.springframework.lang.NonNull;
 
 @Data
-public class LoginModel {
+public class LoginRequestModel {
     @NonNull
     private String email;
     @NonNull

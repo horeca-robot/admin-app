@@ -1,14 +1,15 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.CategoryRequestModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.CategoryResponseModel;
 import edu.fontys.horecarobot.adminappbackend.services.CategoryService;
-import edu.fontys.horecarobot.databaselibrary.models.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getCategories() {
-        List<Category> categories;
+        List<CategoryResponseModel> categories;
         try {
             categories = categoryService.getAllCategories();
         }
@@ -37,7 +38,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id) {
-        Optional<Category> category;
+        Optional<CategoryResponseModel> category;
         try {
             category = categoryService.getById(id);
         }
@@ -54,34 +55,35 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryModel categoryModel) {
-        if(categoryModel.getName().isBlank()) {
+    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryRequestModel categoryRequestModel) {
+        if(categoryRequestModel.getName().isBlank()) {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
 
+        CategoryResponseModel categoryResponseModel;
         try {
-            categoryService.addCategory(categoryModel);
+            categoryResponseModel = categoryService.addCategory(categoryRequestModel);
         }
         catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
-        // TODO: Change response entity to contain uri
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        var uri = URI.create("api/category/" + categoryResponseModel.getId());
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel) {
+    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryRequestModel categoryRequestModel) {
         if(!categoryService.doesCategoryExist(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Can't locate category in database."));
         }
 
-        if(categoryModel.getName().isBlank()) {
+        if(categoryRequestModel.getName().isBlank()) {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
         try {
-            categoryService.updateCategory(categoryModel, id);
+            categoryService.updateCategory(categoryRequestModel, id);
         }
         catch(Exception e) {
             e.printStackTrace();

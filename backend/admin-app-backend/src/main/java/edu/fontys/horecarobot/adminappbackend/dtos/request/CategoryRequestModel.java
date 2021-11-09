@@ -1,4 +1,4 @@
-package edu.fontys.horecarobot.adminappbackend.dtos;
+package edu.fontys.horecarobot.adminappbackend.dtos.request;
 
 import edu.fontys.horecarobot.databaselibrary.models.Category;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryModel
+public class CategoryRequestModel
 {
     @NonNull
     private String name;

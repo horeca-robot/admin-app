@@ -1,4 +1,4 @@
-package edu.fontys.horecarobot.adminappbackend.dtos;
+package edu.fontys.horecarobot.adminappbackend.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 
 @Data
 @AllArgsConstructor
-public class RobotModel {
+public class RobotRequestModel {
     @NonNull
     private String id;
     @NonNull

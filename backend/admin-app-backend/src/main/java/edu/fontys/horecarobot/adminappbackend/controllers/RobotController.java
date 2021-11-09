@@ -1,14 +1,15 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.RobotModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.RobotRequestModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.RobotResponseModel;
 import edu.fontys.horecarobot.adminappbackend.services.RobotService;
-import edu.fontys.horecarobot.databaselibrary.models.Robot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class RobotController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getRobots() {
-        List<Robot> robots;
+        List<RobotResponseModel> robots;
         try {
             robots = robotService.getRobots();
         }
@@ -34,46 +35,46 @@ public class RobotController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> postRobot(@RequestBody RobotModel robotModel) {
-        if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
+    public ResponseEntity<ApiResponse> postRobot(@RequestBody RobotRequestModel robotRequestModel) {
+        if(robotRequestModel.getId().isBlank() || robotRequestModel.getName().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if(!robotService.doesUserHaveAccessToRobot(robotModel.getId()))
+        if(!robotService.doesUserHaveAccessToRobot(robotRequestModel.getId()))
             return ResponseEntity.badRequest().body(ApiResponse.error("You were unable to confirm your ownership."));
 
+        RobotResponseModel robotResponseModel;
         try {
-            robotService.addRobot(robotModel);
+            robotResponseModel = robotService.addRobot(robotRequestModel);
         } catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
-        // TODO: Change response entity to contain uri
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        var uri = URI.create("api/robot/" + robotResponseModel.getId());
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> putRobot(@PathVariable String id, @RequestBody RobotModel robotModel) {
+    public ResponseEntity<ApiResponse> putRobot(@PathVariable String id, @RequestBody RobotRequestModel robotRequestModel) {
         if(!robotService.doesRobotExist(id))
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(ApiResponse.error("Can't locate robot in database."));
 
-        if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
+        if(robotRequestModel.getId().isBlank() || robotRequestModel.getName().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if(id.equals(robotModel.getId()))
+        if(id.equals(robotRequestModel.getId()))
             return ResponseEntity.badRequest().body(ApiResponse.ID_ALIGN_ERROR);
 
         try {
-            robotService.updateRobot(robotModel);
+            robotService.updateRobot(robotRequestModel);
         }
         catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
-        // TODO: Change response entity to contain uri
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
