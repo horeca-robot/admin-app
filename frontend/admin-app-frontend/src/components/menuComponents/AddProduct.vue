@@ -51,39 +51,7 @@
                     <label class="text"> Select Categories:</label>
                     <div class="categorieHolder"> 
                         <!-- TODO Load all made categories -->
-                        <div  class="categories" > 
-                            <input class="checkboxes" type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                                               <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
-                        <div  class="categories" > 
-                            <input type="checkbox"> <label> Category</label>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="blocks-row-buttons">

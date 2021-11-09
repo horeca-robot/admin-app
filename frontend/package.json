@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "json-server": "^0.17.0",
     "vue": "^2.6.14",
     "vue-router": "^4.0.11"
   }
