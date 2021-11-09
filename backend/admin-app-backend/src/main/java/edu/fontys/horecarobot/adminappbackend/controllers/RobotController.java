@@ -23,14 +23,14 @@ public class RobotController {
             return new ResponseEntity<>(ApiResponse.ok().addData("robots", robots), HttpStatus.OK);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse> postRobot(@RequestBody RobotModel robotModel){
         if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(!robotService.doesUserHaveAccessToRobot(robotModel.getId()))
             return new ResponseEntity<>(ApiResponse.error("You were unable to confirm your ownership."), HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
@@ -50,24 +50,24 @@ public class RobotController {
             return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.NOT_FOUND);
 
         if(robotModel.getId().isBlank() || robotModel.getName().isBlank())
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(id.equals(robotModel.getId()))
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.ID_ALIGN_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.ID_ALIGN_ERROR);
 
         try{
             robotService.updateRobot(robotModel);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteRobot(@PathVariable String id){
         if(id.isBlank())
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(!robotService.doesRobotExist(id))
             return new ResponseEntity<>(ApiResponse.error("Can't locate robot in database."), HttpStatus.NOT_FOUND);
@@ -77,7 +77,7 @@ public class RobotController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 }

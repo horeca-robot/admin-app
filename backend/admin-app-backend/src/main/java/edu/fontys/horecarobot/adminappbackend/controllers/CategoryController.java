@@ -31,7 +31,7 @@ public class CategoryController {
         }
         catch (Exception e)
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
@@ -45,7 +45,7 @@ public class CategoryController {
         }
         catch (Exception e)
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
 
         if (category.isPresent()) {
@@ -60,7 +60,7 @@ public class CategoryController {
     {
         if(categoryModel.getName().isBlank())
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
         try
         {
@@ -69,7 +69,7 @@ public class CategoryController {
         }
         catch(Exception e)
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
@@ -82,7 +82,7 @@ public class CategoryController {
 
         if(categoryModel.getName().isBlank())
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
         try
         {
@@ -91,7 +91,7 @@ public class CategoryController {
         }
         catch(Exception e)
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
@@ -104,7 +104,7 @@ public class CategoryController {
         }
         catch(Exception e)
         {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 }

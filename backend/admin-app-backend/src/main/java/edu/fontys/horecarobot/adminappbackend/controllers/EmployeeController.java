@@ -26,24 +26,24 @@ public class EmployeeController {
             return new ResponseEntity<>(ApiResponse.ok().addData("employees", employees), HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse> postEmployeeUser(@RequestBody EmployeeModel employeeModel) {
         if(employeeModel.getUsername().isBlank())
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(employeeModel.getPin() < 1111 || employeeModel.getPin() > 9999)
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         try {
             employeeService.addEmployeeUser(employeeModel);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
@@ -53,17 +53,17 @@ public class EmployeeController {
             return new ResponseEntity<>(ApiResponse.error("Can't locate employee in database."), HttpStatus.NOT_FOUND);
 
         if(employeeModel.getUsername().isBlank())
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         if(employeeModel.getPin() < 1111 || employeeModel.getPin() > 9999)
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         try {
             employeeService.updateEmployeeUser(employeeModel);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch(Exception e){
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 
@@ -78,7 +78,7 @@ public class EmployeeController {
         }
 
         catch (Exception e) {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.internalServerError().body(ApiResponse.DATABASE_CONNECTION_ERROR);
         }
     }
 }

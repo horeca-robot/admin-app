@@ -27,7 +27,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<?> postProduct(@RequestBody ProductModel product){
         if(product.getName().isBlank() || product.getPrice() <= 0)
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         productService.addProduct((product));
         return new ResponseEntity<>(HttpStatus.CREATED);
