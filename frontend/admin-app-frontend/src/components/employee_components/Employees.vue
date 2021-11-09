@@ -22,7 +22,7 @@ export default {
         return {
             id: '',
             username: '',
-            pincode: '',
+            pincode: 0,
             isEditing: false
         }
     },
@@ -43,20 +43,24 @@ export default {
             this.isEditing = true
         },
         handleSubmit() {
-            if(!this.username.trim()) {
+            if(!this.username.trim() || !this.pincode) {
                 alert('All fields need to be filled in.')
                 return
             }
-            const employee = { 
-                id: this.id, 
-                username: this.username, 
-                pincode: this.pincode
-            }
             if(this.isNew) {
-                //Het type UUID kan niet worden meegestuurd vanuit de backend.
+                const employee = { 
+                    username: this.username, 
+                    pincode: parseInt(this.pincode)
+                }
+
                 this.$emit('addEmployees', employee)
             }
             else {
+                const employee = { 
+                    id: this.id,
+                    username: this.username, 
+                    pincode: parseInt(this.pincode)
+                }
                 this.$emit('updateEmployees', employee)
             }
 
@@ -71,7 +75,6 @@ export default {
                     return;
                 }
                 this.isEditing = false;           
-                //Postman maakt van het id (UUID) een string en dan werkt het wel.
                 this.$emit('deleteEmployees', this.id);
             }
         }

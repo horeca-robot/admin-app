@@ -27,9 +27,6 @@ import Employees from '../components/employee_components/Employees.vue'
 export default {
     data() {
         return {
-            id: '',
-            username: '',
-            pincode: '',
             employees: []
         }
     },
@@ -52,16 +49,16 @@ export default {
         },
         async addEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username)) {
-                alert('Already exists a employees with this username')
+                alert('Already exists an employee with this username')
             }
             else if(this.doesEmployeesListContainPincode(payload.pincode)) {
-                alert('Already exists a employees with this pincode')
+                alert('Already exists an employee with this pincode')
             }
             else {
                 const response = await EmployeeWrapper.postEmployees(payload)
 
                 if(response.success) {
-                    alert('Succesfully added employees #' + payload.id)
+                    alert('Succesfully added employee #' + payload.username)
                 }
                 else {
                     alert(response.message)
@@ -72,13 +69,13 @@ export default {
         },
         async updateEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username)) {
-                alert('Already exists a employees with this username')
+                alert('Already exists an employee with this username')
             }
             else {
                 const response = await EmployeeWrapper.putEmployees(payload)
 
                 if(response.success) { 
-                    alert('Succesfully updated employees #' + payload.id)
+                    alert('Succesfully updated employee #' + payload.id)
                 }
                 else {
                     alert(response.message)

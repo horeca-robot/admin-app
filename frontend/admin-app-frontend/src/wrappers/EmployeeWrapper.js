@@ -47,11 +47,9 @@ export default {
     async putEmployees(data) {
         var response;
 
-        try {
-            response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, apiConfig)
-
-            console.log(response.status);
-
+        try {           
+            response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, data, apiConfig)
+            
             return {
                 success: response.status === 201
             }
