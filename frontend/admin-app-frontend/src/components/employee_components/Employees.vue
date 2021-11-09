@@ -74,6 +74,7 @@ export default {
                 if(!confirm('Are you sure you want to delete employee#' + this.username + '?')) {
                     return;
                 }
+                
                 this.isEditing = false;           
                 this.$emit('deleteEmployees', this.username, this.id);
             }

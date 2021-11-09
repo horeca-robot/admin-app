@@ -31,8 +31,6 @@ export default {
         try {
             response =  await axios.post(`${baseUrl}/api/Employees`, data, apiConfig)
 
-            console.log(response);
-
             return {
                 success: response.status === 201
             }

@@ -96,10 +96,7 @@ export default {
             }
         },
         addRow() {
-            if(!this.isCreating) {
-                this.employees.push({ id: '', username: '', pincode: '', isNew: true })
-                this.isCreating = true
-            }
+            this.employees.push({ id: '', username: '', pincode: '', isNew: true })
         },
         doesEmployeesListContainUsername(username) {
             return this.employees.some(r => r.username === username)
