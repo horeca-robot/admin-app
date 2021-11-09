@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base url can be found in the .env file in the root folder
-const baseUrl = `${process.env.VUE_APP_API_BASE_URL}/api/Robot`;
+const baseUrl = `${process.env.VUE_APP_API_BASE_URL}/api/robot`;
 
 var apiConfig = {
     headers: {

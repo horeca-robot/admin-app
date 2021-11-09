@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/SignIn")
+@RequestMapping(path = "api/sign-in")
 @CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class SignInController {
@@ -21,7 +21,7 @@ public class SignInController {
     private final SignInService signInService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/authenticate")
+    @PostMapping
     public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel){
         if(loginModel.getEmail().isBlank() || loginModel.getPassword().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);

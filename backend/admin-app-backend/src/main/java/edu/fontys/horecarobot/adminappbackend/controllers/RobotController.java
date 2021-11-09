@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/Robot")
+@RequestMapping(path = "api/robot")
 @CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class RobotController {

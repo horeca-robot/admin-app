@@ -1,6 +1,5 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-
 import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
 import edu.fontys.horecarobot.adminappbackend.services.CategoryService;
@@ -14,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/Category")
+@RequestMapping(path = "api/category")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4000")
 public class CategoryController {

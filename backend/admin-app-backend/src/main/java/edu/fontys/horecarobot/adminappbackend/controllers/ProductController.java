@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/Product")
+@RequestMapping(path = "api/product")
 @CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class ProductController {
