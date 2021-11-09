@@ -18,7 +18,7 @@
                     <label class="text"> Discount price:</label>
                     <input class="inputs" type="number" placeholder="Discount price" name="discountPrice" v-model="discountPrice" step="any"/>
                 </div>
-                <div class="blocks-row">
+                <div class="block-contains-alcohol">
                     <label class="text"> Contains Alcohol:</label>
                     <input class="checkbox" type="checkbox" name="alcohol" v-model="alcohol"/>
                 </div>
@@ -153,11 +153,20 @@ export default {
         display: flex;
         flex-direction: column;
     }
+
     .blocks-row{
         margin-top:20px;
         margin-left: 15px;
         display: flex;
         flex-direction: row;
+    }
+
+    .block-contains-alcohol{
+        margin-top:20px;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 
     .blocks-row-buttons{
@@ -218,6 +227,7 @@ export default {
     }
 
     .textareas{
+        font-family: inherit;
         resize: none;
         border-radius: 5px;
         border: 2px solid var(--primary-color);
@@ -242,6 +252,7 @@ export default {
     }
 
     .inputs{
+        font-family: inherit;
         border: 2px solid var(--primary-color);
         border-radius: 5px;
         width: 220px;
