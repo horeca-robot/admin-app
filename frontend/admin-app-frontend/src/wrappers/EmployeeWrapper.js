@@ -55,7 +55,7 @@ export default {
             response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, data, apiConfig)
             
             return {
-                success: response.status === 201
+                success: response.status === 204
             }
         }
         catch(error) {
