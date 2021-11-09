@@ -21,7 +21,7 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> getProducts(){
         var products = productService.getAllProducts();
-        return ResponseEntity.ok(ApiResponse.ok().addData("list", products));
+        return ResponseEntity.ok(ApiResponse.ok().addData("products", products));
     }
 
     @PostMapping
