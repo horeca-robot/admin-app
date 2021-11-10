@@ -24,7 +24,7 @@ export default {
 
             let websiteSettings  = response.data.data.info
                 
-            let base64 = await api.getBase64Image(websiteSettings.backgroundImage)
+            let base64 = websiteSettings.backgroundImage
 
             if(base64 != '')
                 this.image = base64

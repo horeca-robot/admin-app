@@ -38,9 +38,7 @@ export default {
     
     if(websiteSettings.backgroundImage != null)
     {
-      let base64 = await api.getBase64Image(websiteSettings.backgroundImage)
-
-      this.$refs.backgroundPreview.setBase64(base64)
+      this.$refs.backgroundPreview.setBase64(websiteSettings.backgroundImage)
     }
   },
   data() {

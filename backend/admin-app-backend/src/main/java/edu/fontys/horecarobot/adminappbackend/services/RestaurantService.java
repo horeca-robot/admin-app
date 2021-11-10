@@ -13,26 +13,15 @@ import org.springframework.stereotype.Service;
 public class RestaurantService {
 
     private final RestaurantInfoRepository restaurantInfoRepository;
-    private final ImageService imageService;
 
     public boolean updateWebsiteInfo(WebsiteModel model)
     {
         var restaurantInfo = getRestaurantInfo();
 
         try {
-
             restaurantInfo.setPrimaryColor(model.getPrimaryColor());
             restaurantInfo.setSecondaryColor(model.getSecondaryColor());
-
-            if(model.getBackgroundImage() != null)
-            {
-                if(restaurantInfo.getBackgroundImage() != null)
-                    imageService.deleteFromDisk(restaurantInfo.getBackgroundImage());
-
-                String imageName = imageService.saveBase64ToDisk(model.getBackgroundImage());
-                restaurantInfo.setBackgroundImage(imageName);
-            }
-
+            restaurantInfo.setBackgroundImage(model.getBackgroundImage());
             restaurantInfoRepository.saveAndFlush(restaurantInfo);
 
             return  true;
@@ -50,19 +39,7 @@ public class RestaurantService {
 
         try {
             restaurantInfo.setName(model.getName());
-
-            if(!restaurantInfo.getRestaurantLogo().isEmpty())
-                imageService.deleteFromDisk(restaurantInfo.getRestaurantLogo());
-
-            if(model.getRestaurantLogo() != null)
-            {
-                if(restaurantInfo.getRestaurantLogo() != null)
-                    imageService.deleteFromDisk(restaurantInfo.getRestaurantLogo());
-
-                String imageName = imageService.saveBase64ToDisk(model.getRestaurantLogo());
-                restaurantInfo.setRestaurantLogo(imageName);
-            }
-
+            restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
             restaurantInfo.setOpeningTime(model.getOpeningTime());
             restaurantInfo.setClosingTime(model.getClosingTime());
             restaurantInfo.setContactPersonName(model.getContactPersonName());
