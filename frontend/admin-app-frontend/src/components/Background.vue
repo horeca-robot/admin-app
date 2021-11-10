@@ -26,7 +26,7 @@ export default {
                 
             let base64 = websiteSettings.backgroundImage
 
-            if(base64 != '')
+            if(base64)
                 this.image = base64
         }
     }
