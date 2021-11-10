@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div>
     <input
       @input="previewImage"
       ref="fileInput"
@@ -70,7 +70,12 @@ export default {
 
 <style scoped>
 #preview {
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
+}
+
+div {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>
