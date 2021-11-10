@@ -81,7 +81,7 @@ export default{
 
 #base {
   min-width: 65vw;
-  min-height: 550px;
+  min-height: 250px;
 }
 
 #base-nav {
@@ -123,8 +123,7 @@ export default{
 /* Tab content section */
 #base-content .tab{
     display:none;
-    width:96%;
-    min-height: 400px;
+    width:95%;
     height:auto;
     border-radius:3px;
     padding:20px 15px;
