@@ -36,8 +36,7 @@ export default {
     if(websiteSettings.secondaryColor)
       this.secondaryColor = websiteSettings.secondaryColor;
     
-    if(websiteSettings.backgroundImage != null)
-    {
+    if(websiteSettings.backgroundImage != null) {
       this.$refs.backgroundPreview.setBase64(websiteSettings.backgroundImage)
     }
   },
@@ -58,10 +57,6 @@ export default {
       await api.saveWebsiteSettings(payload);
       await this.$root.updateBackground()
       await this.$root.updateCss()
-    },
-
-    async loadInfo() {
-
     }
   },
   components: {
@@ -97,7 +92,7 @@ export default {
 
 button {
   margin-top: 50px;
-  min-width: 100%;
+  min-width: 75%;
   height: 35px;
   background-color: #0157e4;
   border: none !important;
