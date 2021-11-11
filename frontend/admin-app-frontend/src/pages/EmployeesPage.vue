@@ -65,16 +65,7 @@ export default {
             this.getEmployees()
         },
         async updateEmployees(payload) {
-            var checkemployees = this.employees;       
-            
-            for(var i = 0; i < checkemployees.length; i++) {
-                if(checkemployees[i].id == payload.id) {
-                    checkemployees.splice(i, 1);
-                    break;
-                }
-            }
-
-            if(this.doesEmployeesListContainUsername(payload.username, checkemployees)) {
+            if(this.doesEmployeesListContainUsername(payload.username, payload.id)) {
                 alert('Already exists an employee with this username')
             }
             else {
@@ -104,7 +95,16 @@ export default {
         addRow() {
             this.employees.push({ id: '', username: '', pincode: '', isNew: true })
         },
-        doesEmployeesListContainUsername(username, checkemployees) {
+        doesEmployeesListContainUsername(username, currentid) {
+            var checkemployees = this.employees;       
+            
+            for(var i = 0; i < checkemployees.length; i++) {
+                if(checkemployees[i].id == currentid) {
+                    checkemployees.splice(i, 1);
+                    break;
+                }
+            }
+
             return checkemployees.some(r => r.username === username)
         },
         doesEmployeesListContainPincode(pincode) {
