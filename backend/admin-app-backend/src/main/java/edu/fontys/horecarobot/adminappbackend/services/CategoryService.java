@@ -77,13 +77,9 @@ public class CategoryService {
     }
 
     private List<Category> getCategories(List<UUID> categories){
-        var list = new ArrayList<Category>();
-
-        for (var id:categories) {
-            var category = getById(id);
-            category.ifPresent(list::add);
-        }
-
-        return list;
+        return categories.stream().map(this::getById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 }
