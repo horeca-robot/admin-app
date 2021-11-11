@@ -31,7 +31,7 @@ export default {
     },
     watch: {
         otherIsSelected() {
-            if(this.otherIsSelected === true){
+            if(this.otherIsSelected){
                 this.isSelected = false;
                 this.deselectAllChildCategories()
             }

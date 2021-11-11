@@ -61,9 +61,9 @@ export default {
             const response = await CategoryWrapper.getCategories()
 
             if(response.success){
-                this.categories = response.categories.filter(i => i.parentCategories.length === 0)
-                this.categories.forEach(function (category) {
-                    category.childCategories.forEach(function (child) {
+                this.categories = response.categories.filter(i => !i.parentCategories.length)
+                this.categories.forEach(category => {
+                    category.childCategories.forEach(child => {
                         child.selected = false;
                     });
                 });

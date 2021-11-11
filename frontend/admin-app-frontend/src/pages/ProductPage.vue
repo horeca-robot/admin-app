@@ -89,7 +89,7 @@ export default {
 
         this.id = this.$route.query.id
 
-        if(this.id !== undefined){
+        if(this.id){
             this.isEditing = true
             this.getProductInfo()
         }
