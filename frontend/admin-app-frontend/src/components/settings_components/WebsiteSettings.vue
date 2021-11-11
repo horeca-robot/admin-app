@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import ImagePreview from "./ImagePreview.vue";
-import api from "../wrappers/InfoWrapper.js";
+import ImagePreview from "../ImagePreview.vue";
+import api from "../../wrappers/InfoWrapper.js";
 
 export default {
   async mounted() {
@@ -54,7 +54,7 @@ export default {
         secondaryColor: this.secondaryColor,
         backgroundImage: `${this.$refs.backgroundPreview.base64}`,
       };
-      await api.saveWebsiteSettings(payload);
+      await api.putWebsiteSettings(payload);
       await this.$root.updateBackground()
       await this.$root.updateCss()
     }
@@ -70,6 +70,10 @@ export default {
   min-width: 100%;
   display: inline-block;
   text-align: center;
+}
+
+label {
+  color: var(--text-color)
 }
 
 #container div {
@@ -94,10 +98,10 @@ button {
   margin-top: 50px;
   min-width: 75%;
   height: 35px;
-  background-color: #0157e4;
+  background-color: var(--primary-color);
   border: none !important;
   border-radius: 5px !important;
-  color: white !important;
+  color: var(--secondary-color) !important;
   font-family: Strait;
   font-weight: normal;
   font-size: 18px;
@@ -106,6 +110,7 @@ button {
 
 button:hover {
   background-color: green;
+  cursor: pointer;
 }
 
 button:active {

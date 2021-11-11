@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import ImagePreview from "./ImagePreview.vue";
-import api from "../wrappers/InfoWrapper.js";
+import ImagePreview from "../ImagePreview.vue";
+import api from "../../wrappers/InfoWrapper.js";
 
 export default {
   async mounted(){
@@ -85,7 +85,7 @@ export default {
               contactPersonPhone : this.contactPhone
           }
 
-          await api.saveRestaurantSettings(payload)
+          await api.putRestaurantSettings(payload)
       }
   },
   components: {
@@ -125,16 +125,17 @@ label {
 label {
   margin-bottom: 5px;
   margin-top: 10px;
+  color: var(--text-color)
 }
 
 button {
   margin-top: 50px;
   min-width: 50%;
   height: 35px;
-  background-color: #0157e4;
+  background-color: var(--primary-color);
   border: none !important;
   border-radius: 5px !important;
-  color: white !important;
+  color: var(--secondary-color) !important;
   font-family: Strait;
   font-weight: normal;
   font-size: 18px;
@@ -143,6 +144,7 @@ button {
 
 button:hover {
   background-color: green;
+  cursor: pointer;
 }
 
 button:active {

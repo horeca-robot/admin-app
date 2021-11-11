@@ -21,7 +21,7 @@ export default {
 
         return response;
     },
-    async saveRestaurantSettings(model) {
+    async putRestaurantSettings(model) {
         var response;
 
         try {
@@ -43,7 +43,7 @@ export default {
 
         return response;
     },
-    async saveWebsiteSettings(model) {
+    async putWebsiteSettings(model) {
         var response;
 
         try {
@@ -53,13 +53,5 @@ export default {
         }
 
         return response;
-    },
-    async getBase64Image(name) {
-        let response = ''
-        await axios.get(`${baseUrl}/api/image/${name}`)
-            .then(function(rsp) {
-                response = rsp.data
-            })
-        return response
     }
 }

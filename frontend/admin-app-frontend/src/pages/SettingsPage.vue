@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import WebsiteSettings from "../components/WebsiteSettings.vue"
-import RestaurantSettings from "../components/RestaurantSettings.vue"
+import WebsiteSettings from "../components/settings_components/WebsiteSettings.vue"
+import RestaurantSettings from "../components/settings_components/RestaurantSettings.vue"
 
 
 export default{
@@ -86,7 +86,7 @@ export default{
 
 #base-nav {
   width: 100%;
-  background-color: #3272DC;
+  background-color: var(--primary-color);
   display: inline-block !important;
 }
 
@@ -116,7 +116,8 @@ export default{
 }
 .tabs .tabs-list li a {
   text-decoration: none;
-  color: white;
+  color: var(--secondary-color);
+  font-size: 1.2rem;
 }
 
 
@@ -145,11 +146,11 @@ export default{
     display:block !important;
 }
 .tabs .tabs-list li.active{
-    background-color: #0157E4 !important;
-    color:white !important;
+    background-color: rgba(88, 88, 88, 0.39) !important;
+    color:var(--secondary-color) !important;
 }
 .active a{
-    color:white !important;
+    color:var(--secondary-color) !important;
 }
 
 /* media query */

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4000")
@@ -17,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class InfoController {
 
     private final RestaurantService restaurantService;
-    private final String SUCCESS_MESSAGE = "Successfully saved info";
-    private final String FAILED_MESSAGE = "Failed to save info";
 
     @GetMapping(path = "/website")
     public ResponseEntity<ApiResponse> getWebsiteInfo()
@@ -37,24 +34,24 @@ public class InfoController {
     }
 
     @PutMapping(path = "/website")
-    public ResponseEntity<ApiResponse> saveWebsiteSettings(@RequestBody WebsiteModel model)
+    public ResponseEntity<ApiResponse> putWebsiteSettings(@RequestBody WebsiteModel model)
     {
         if(!restaurantService.updateWebsiteInfo(model))
         {
-            return new ResponseEntity<>(ApiResponse.error(FAILED_MESSAGE), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ApiResponse.error(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(ApiResponse.ok(SUCCESS_MESSAGE), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ok(), HttpStatus.OK);
     }
 
     @PutMapping(path = "/restaurant")
-    public ResponseEntity<ApiResponse> saveRestaurantSettings(@RequestBody RestaurantModel model)
+    public ResponseEntity<ApiResponse> putRestaurantSettings(@RequestBody RestaurantModel model)
     {
         if(!restaurantService.updateRestaurantInfo(model))
         {
-            return new ResponseEntity<>(ApiResponse.error(FAILED_MESSAGE), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ApiResponse.error(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(ApiResponse.ok(SUCCESS_MESSAGE), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ok(), HttpStatus.OK);
     }
 }

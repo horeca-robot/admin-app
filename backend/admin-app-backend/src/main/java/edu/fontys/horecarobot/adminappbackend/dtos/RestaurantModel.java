@@ -9,17 +9,11 @@ import java.time.LocalTime;
 public class RestaurantModel {
 
     private String name;
-
     private String restaurantLogo;
-
     private LocalTime openingTime;
-
     private LocalTime closingTime;
-
     private String contactPersonName;
-
     private String contactPersonEmail;
-
     private String contactPersonPhone;
 
     public static RestaurantModel from(RestaurantInfo model)
