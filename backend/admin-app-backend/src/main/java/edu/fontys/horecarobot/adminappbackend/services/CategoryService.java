@@ -2,13 +2,11 @@ package edu.fontys.horecarobot.adminappbackend.services;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.request.CategoryRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.response.CategoryResponseModel;
-import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
 import edu.fontys.horecarobot.databaselibrary.models.Category;
 import edu.fontys.horecarobot.databaselibrary.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +18,10 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    public boolean doesCategoryExist(UUID id) {
+        return categoryRepository.findById(id).isPresent();
+    }
+
     public List<CategoryResponseModel> getAllCategories() {
         return categoryRepository.findAll()
                 .stream()
@@ -27,28 +29,8 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public boolean doesCategoryExist(UUID id) {
-    public boolean doesCategoryExist(UUID id)
-    {
-        return categoryRepository.findById(id).isPresent();
-    }
-
     public Optional<CategoryResponseModel> getById(UUID id) {
-        return categoryRepository.findById(id).map(CategoryResponseModel::new);
-    public List<CategoryModel> getAllCategories() {
-        var list = new ArrayList<CategoryModel>();
-        var categories = categoryRepository.findAll();
-
-        for(var category:categories){
-            list.add(convertToCategoryModel(category));
-        }
-
-        return list;
-    }
-
-    public Optional<Category> getById(UUID id)
-    {
-        return categoryRepository.findById(id);
+            return categoryRepository.findById(id).map(CategoryResponseModel::new);
     }
 
     public CategoryResponseModel addCategory(CategoryRequestModel categoryRequestModel) {
@@ -66,15 +48,19 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    private Category convertFromCategoryModel(CategoryRequestModel categoryRequestModel){
+    private Category convertFromCategoryModel(CategoryRequestModel categoryModel) {
         Category c = new Category();
-        c.setParentCategories(categoryRequestModel.getParentCategory());
-        c.setName(categoryRequestModel.getName());
-        c.setImage(categoryRequestModel.getImage());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
-        c.setParentCategories(getCategories(categoryModel.getParentCategories()));
+        c.setParentCategories(getCategoriesByIds(categoryModel.getParentCategories()));
         return c;
+    }
+
+    private List<Category> getCategoriesByIds(List<UUID> categories) {
+        return categories.stream().map(categoryRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
 }

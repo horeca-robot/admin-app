@@ -17,35 +17,36 @@ public class RobotService {
     private final RobotRepository robotRepository;
 
     //TODO: Add check to confirm the users ownership on robot with timer of one minute
-    public boolean doesUserHaveAccessToRobot(String id){
+    public boolean doesUserHaveAccessToRobot(String id) {
         return true;
     }
 
-    public boolean doesRobotExist(String id){
+    public boolean doesRobotExist(String id) {
         return robotRepository.findById(id).isPresent();
     }
 
-    public List<RobotResponseModel> getRobots(){
+    public List<RobotResponseModel> getRobots() {
         return robotRepository.findAll()
                 .stream()
                 .map(RobotResponseModel::new)
                 .collect(Collectors.toList());
     }
 
-    public RobotResponseModel addRobot(RobotRequestModel robotRequestModel){
+    public RobotResponseModel addRobot(RobotRequestModel robotRequestModel) {
         var r = robotRepository.saveAndFlush(convertFromRobotModel(robotRequestModel));
         return new RobotResponseModel(r);
     }
 
-    public void updateRobot(RobotRequestModel robotRequestModel){
+    public void updateRobot(RobotRequestModel robotRequestModel) {
         robotRepository.saveAndFlush(convertFromRobotModel(robotRequestModel));
     }
 
-    public void deleteRobot(String id){
+    public void deleteRobot(String id) {
         robotRepository.deleteById(id);
     }
 
-    private Robot convertFromRobotModel(RobotRequestModel robotRequestModel){
+    private Robot convertFromRobotModel(RobotRequestModel robotRequestModel) {
         return new Robot(robotRequestModel.getId(), robotRequestModel.getName());
     }
+
 }
