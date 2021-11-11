@@ -5,7 +5,7 @@ export const baseUrl = process.env.VUE_APP_API_BASE_URL;
 
 var apiConfig = {
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
     }
 }
 
@@ -23,7 +23,27 @@ export default {
         }
         
         return{
-            success: response.data["data"]
+            success: response.data["success"],
+            message: response.data["message"],
+            products: response.data["data"]["products"]
+        }
+    },
+
+    async getProductById(id){
+
+        var response;
+
+        try{
+            response = await axios.get(`${baseUrl}/api/Product/${id}`, apiConfig)
+        }
+        catch(error){
+            response = error.response
+        }
+        
+        return{
+            success: response.data["success"],
+            message: response.data["message"],
+            product: response.data["data"]["product"]
         }
     },
     
@@ -41,6 +61,23 @@ export default {
             success: response.status === 201
         }
     },
+
+    async putProduct(data) {
+        console.log(data)
+
+        var response;
+
+        try{
+            response =  await axios.put(`${baseUrl}/api/Product/${data.id}`, data, apiConfig)
+        }
+        catch(error){
+            response = error.response
+        }
+
+        return{
+            success: response.status === 204
+        }
+    },
     
     async deleteProduct(id){
         var response;
@@ -53,7 +90,7 @@ export default {
         }
         
         return{
-            success: response.success === 200
+            success: response.success === 204
         }
     }
 } 
