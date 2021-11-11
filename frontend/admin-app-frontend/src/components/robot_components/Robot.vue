@@ -62,7 +62,7 @@ export default {
                 this.$emit('addRobot', robot)
             }
             else if(this.name !== this.currentName){
-                    this.$emit('updateRobot', robot)
+                this.$emit('updateRobot', robot)
             }
 
             this.isEditing = false
