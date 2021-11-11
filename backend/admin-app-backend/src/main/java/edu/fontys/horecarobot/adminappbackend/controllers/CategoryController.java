@@ -49,7 +49,7 @@ public class CategoryController {
         }
 
         if (category.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.ok().addData("category", category.get()), HttpStatus.OK);
+            return new ResponseEntity<>(ApiResponse.ok().addData("category", categoryService.convertToCategoryModel(category.get())), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(ApiResponse.error("Category not found"), HttpStatus.NOT_FOUND);
         }

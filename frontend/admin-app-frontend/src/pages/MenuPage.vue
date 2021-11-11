@@ -1,34 +1,118 @@
 <template>
     <div class="page">
-            <AddProduct @add-product="addProduct" />
+        <div class="panel">
+            <div class="categories-box">
+                <h1 class="box-title">Categories</h1>
+                <div class="categories" v-if="categories.length !== 0">
+                    <Category v-for="category in categories" :key="category.id" 
+                    :id="category.id" 
+                    :name="category.name" 
+                    :childCategories="category.childCategories" 
+                    :otherIsSelected="isOtherCategorySelected(category.id)" 
+                    @selectCategory="selectCategory"/>
+                </div>
+                <h1 class="box-message" v-else>No existing categories.</h1>
+            </div>
+            <div class="products-box">
+                <h1 class="box-title">Products</h1>
+                <div class="products" v-if="selectedProducts.length !== 0">
+                    <Product v-for="product in selectedProducts" :key="product.id" 
+                    :id="product.id" 
+                    :name="product.name" 
+                    :description="product.description" 
+                    :image="product.image"/>
+                </div>
+                <h1 class="box-message" v-else-if="!selectedCategory">Select a category.</h1>
+                <h1 class="box-message" v-else>Currently selected category doesn't contain any products.</h1>
+            </div>
+        </div>
+        <div class="buttons-box">
+            <button class="add-button" @click="redirectToCategory">Add Category</button>
+            <button class="add-button" @click="redirectToProduct">Add Product</button>
+        </div>
     </div>
 </template>
 
 <script>
-import AddProduct from '../components/menuComponents/AddProduct.vue'
-import ProductWrapper from '../wrappers/ProductWrapper.js'
+import Category from '../components/menu_components/Category.vue'
+import Product from '../components/menu_components/Product.vue'
+import CategoryWrapper from '../wrappers/CategoryWrapper'
+import ProductWrapper from '../wrappers/ProductWrapper'
 
 export default {
-    name: 'MenuPage',
-    components: {
-        AddProduct,
-    },
     data() {
-        return{
+        return {
+            categories: [],
             products: [],
+            selectedCategory: '',
+            selectedProducts: []
         }
+    },
+    components: {
+        Category,
+        Product
+    },
+    created(){
+        this.getCategories()
+        this.getProducts()
     },
     methods: {
-        async addProduct(product){
-            const response = await ProductWrapper.postProduct(product)
-            console.log(response)
-        },
+        async getCategories(){
+            const response = await CategoryWrapper.getCategories()
 
+            if(response.success){
+                this.categories = response.categories.filter(i => !i.parentCategories.length)
+                this.categories.forEach(category => {
+                    category.childCategories.forEach(child => {
+                        child.selected = false;
+                    });
+                });
+            }
+            else{
+                alert(response.message)
+            }
+        },
         async getProducts(){
             const response = await ProductWrapper.getProducts()
-            console.log(response)
+
+            if(response.success){
+                this.products = response.products
+            }
+            else{
+                alert(response.message)
+            }
+        },
+        selectCategory(id){
+            this.selectedCategory = id
+            this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
+        },
+        isOtherCategorySelected(categoryId){
+            const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
+
+            if(!this.selectedCategory){
+                return false
+            }
+            else if(this.selectedCategory === categoryId){
+                return false
+            }
+            else if(childCategories.length !== 0 && childCategories.some(i => i.id === this.selectedCategory)){
+                return false
+            }
+
+            return true
+        },
+        redirectToCategory(){
+            this.$router.push('category')
+        },
+        redirectToProduct(){
+            if(!this.categories.length){
+                alert("You'll need to add a category first.")
+                return
+            }
+
+            this.$router.push('product')
         }
-    },
+    }
 }
 </script>
 
@@ -40,15 +124,98 @@ export default {
         margin: auto;
         height: fit-content;
         width: fit-content;
+        text-align: right;
     }
 
     .panel{
         min-width: 500px;
-        width: 60vw;
-        height: 60vh;
-        padding: 20px;
+        width: 70vw;
+        min-height: fit-content;
+        height: 70vh;
+        background-color: var(--secondary-color);
+        box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        display: flex;
+    }
+
+    .categories-box{
+        width: 20%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        box-shadow: 1px 0px 5px 2px rgb(0 0 0 / 50%);
+        text-align: center;
+    }
+
+    .products-box{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box-title{
+        margin: 0;
+        font-weight: 500;
+        padding: 20px;
+    }
+
+    .box-message{
+        margin: 0;
+        font-weight: 500;
+        padding: 20px;
+        color: var(--primary-color);
+    }
+
+    .categories{
+        width: 100%;
+    }
+
+    .products{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        align-items: center;
+        overflow-x: hidden;
+        overflow-y: overlay;
+    }
+    
+        .products::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        .products::-webkit-scrollbar-thumb {
+            border: 5px solid var(--secondary-color);
+            border-radius: 50px;
+            background-color: var(--primary-color);
+            background-clip: padding-box;
+            cursor: pointer;
+        }
+
+    .buttons-box{
+        width: 100%;
+        margin-top: 2.5vh;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .add-button{
+        padding: 15px 20px 15px 20px;
+        color: var(--text-color);
+        background-color: var(--secondary-color);
+        box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        font-size: 1.5rem;
+        font-family: inherit;
+        outline: none;
+        border: none;
+    }
+
+    .add-button:hover{
+        color: var(--primary-color);
+            cursor: pointer;
     }
 </style>
