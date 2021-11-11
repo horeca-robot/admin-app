@@ -63,7 +63,7 @@ public class RobotController {
         if(robotRequestModel.getId().isBlank() || robotRequestModel.getName().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if(id.equals(robotRequestModel.getId()))
+        if(!id.equals(robotRequestModel.getId()))
             return ResponseEntity.badRequest().body(ApiResponse.ID_ALIGN_ERROR);
 
         try {
