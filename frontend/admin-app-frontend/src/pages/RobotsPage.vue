@@ -10,7 +10,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="robot in robots" :key="robot.id">
+                    <tr v-for="robot in robots" :key="robot.rerender">
                         <Robot :currentId="robot.id" :currentName="robot.name" :isNew="robot.isNew" @getRobots="getRobots" @addRobot="addRobot" @updateRobot="updateRobot" @deleteRobot="deleteRobot"/>
                     </tr>
                 </tbody>
@@ -27,8 +27,6 @@ import Robot from '../components/robot_components/Robot.vue'
 export default {
     data() {
         return {
-            id: '',
-            name: '',
             robots: [],
             isCreating: false
         }
@@ -45,6 +43,9 @@ export default {
 
             if(response.success){
                 this.robots = response.robots
+                this.robots.forEach(function (robot) {
+                    robot.rerender = false
+                });
             }
             else{
                 alert(response.message)
@@ -70,7 +71,7 @@ export default {
                 }
             }
 
-            this.getRobots()
+            await this.getRobots()
         },
         async updateRobot(payload){
             if(this.doesRobotListContainName(payload.name)){
@@ -87,14 +88,16 @@ export default {
                 }
             }
 
-            this.getRobots()
+            await this.getRobots()
+
+            var robot = this.robots.find(i => i.id === payload.id)
+            robot.rerender = !robot.rerender
         },
         async deleteRobot(id){
             const response = await RobotWrapper.deleteRobot(id)
 
             if(response.success){
                 await this.getRobots()
-                alert('Succesfully deleted robot #' + id)
             }
             else{
                 alert(response.message)
@@ -212,6 +215,7 @@ export default {
     }
 
         button:hover{
+            color: var(--primary-color);
             cursor: pointer;
         }
 </style>
