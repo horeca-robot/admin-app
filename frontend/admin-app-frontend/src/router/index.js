@@ -4,6 +4,8 @@ import { createRouter, createWebHistory } from "vue-router"
 import LoginPage from '../pages/LoginPage'
 import EmployeesPage from '../pages/EmployeesPage'
 import MenuPage from '../pages/MenuPage'
+import ProductPage from '../pages/ProductPage'
+import CategoryPage from '../pages/CategoryPage'
 import RobotsPage from '../pages/RobotsPage'
 import MapPage from '../pages/MapPage'
 import SettingsPage from '../pages/SettingsPage'
@@ -29,6 +31,22 @@ const routes = [{
         path: '/menu',
         name: 'menu',
         component: MenuPage,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/product',
+        name: 'product',
+        component: ProductPage,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/category',
+        name: 'category',
+        component: CategoryPage,
         meta: {
             requiresAuth: true
         }

@@ -26,7 +26,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
 	implementation 'commons-io:commons-io:2.6'
 
-    // Database
+	// OpenAPI
+	implementation 'org.springdoc:springdoc-openapi-ui:1.5.11'
+
+	// Database
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'com.h2database:h2'
 	implementation name: 'database-library'
