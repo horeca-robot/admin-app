@@ -51,6 +51,9 @@ export default {
             if(this.doesEmployeesListContainUsername(payload.username)) {
                 alert('Already exists an employee with this username')
             }
+            else if(payload.pincode < 1111 || payload.pincode > 9999) {
+                alert("Pin should be a four digit number")
+            }
             else {
                 const response = await EmployeeWrapper.postEmployees(payload)
 
@@ -67,6 +70,9 @@ export default {
         async updateEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username, payload.id)) {
                 alert('Already exists an employee with this username')
+            }
+            else if(payload.pincode < 1111 || payload.pincode > 9999) {
+                alert("Pin should be a four digit number")
             }
             else {
                 const response = await EmployeeWrapper.putEmployees(payload)
@@ -104,9 +110,6 @@ export default {
             }
 
             return this.employees.some(r => r.username === username)
-        },
-        doesEmployeesListContainPincode(pincode) {
-            return this.employees.some(r => r.pincode === pincode)
         }
     }
 }

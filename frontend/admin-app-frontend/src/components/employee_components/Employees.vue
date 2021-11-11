@@ -20,7 +20,6 @@ export default {
     emits: ['addEmployees', 'updateEmployees', 'getEmployees', 'deleteEmployees'],
     data() {
         return {
-            id: '',
             username: '',
             pincode: 0,
             isEditing: false
@@ -33,7 +32,6 @@ export default {
         isNew: Boolean
     },
     created() {
-        this.id = this.currentId
         this.username = this.currentUsername
         this.pincode = this.currentPincode 
         this.isEditing = this.isNew 
@@ -57,10 +55,11 @@ export default {
             }
             else {
                 const employee = { 
-                    id: this.id,
+                    id: this.currentId,
                     username: this.username, 
                     pincode: parseInt(this.pincode)
                 }
+                
                 this.$emit('updateEmployees', employee)
             }
 
@@ -76,7 +75,7 @@ export default {
                 }
                 
                 this.isEditing = false;           
-                this.$emit('deleteEmployees', this.username, this.id);
+                this.$emit('deleteEmployees', this.username, this.currentId);
             }
         }
     }
