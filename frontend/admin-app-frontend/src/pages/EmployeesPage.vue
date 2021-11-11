@@ -96,16 +96,14 @@ export default {
             this.employees.push({ id: '', username: '', pincode: '', isNew: true })
         },
         doesEmployeesListContainUsername(username, currentid) {
-            var checkemployees = this.employees;       
-            
-            for(var i = 0; i < checkemployees.length; i++) {
-                if(checkemployees[i].id == currentid) {
-                    checkemployees.splice(i, 1);
+            for(var i = 0; i < this.employees.length; i++) {
+                if(this.employees[i].id == currentid) {
+                    this.employees.splice(i, 1);
                     break;
                 }
             }
 
-            return checkemployees.some(r => r.username === username)
+            return this.employees.some(r => r.username === username)
         },
         doesEmployeesListContainPincode(pincode) {
             return this.employees.some(r => r.pincode === pincode)
