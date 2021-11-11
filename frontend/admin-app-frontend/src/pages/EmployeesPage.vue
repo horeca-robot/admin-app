@@ -51,9 +51,6 @@ export default {
             if(this.doesEmployeesListContainUsername(payload.username)) {
                 alert('Already exists an employee with this username')
             }
-            else if(this.doesEmployeesListContainPincode(payload.pincode)) {
-                alert('Already exists an employee with this pincode')
-            }
             else {
                 const response = await EmployeeWrapper.postEmployees(payload)
 
