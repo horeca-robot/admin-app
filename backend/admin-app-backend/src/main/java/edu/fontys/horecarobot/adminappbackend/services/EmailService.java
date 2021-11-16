@@ -17,9 +17,9 @@ public class EmailService {
     public void sendEmail(String userEmail, String link){
         SimpleMailMessage mail = new SimpleMailMessage();
 
-        mail.setTo("ruben.otter@student.fontys.nl");
+        mail.setTo(userEmail);
         mail.setSubject("Forgot password again?");
-        mail.setText("Here change it" + link);
+        mail.setText("Here change it " + link);
         // add link to webpage to change password
 
         javaMailSender.send(mail);

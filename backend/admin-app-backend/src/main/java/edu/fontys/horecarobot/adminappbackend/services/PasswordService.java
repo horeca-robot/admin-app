@@ -25,6 +25,7 @@ public class PasswordService {
     private final AdminUserRepository adminUserRepository;
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
+    private final long expirationTime = (60 * 60) * 30;
 
     public boolean generateResetLink(String email){
 
@@ -32,15 +33,30 @@ public class PasswordService {
             createUser(email);
 
             final UserDetails userDetails = getAdminUser(email);
-            final String jwt = jwtUtil.generateToken(userDetails);
+            final String jwt = jwtUtil.generateToken(userDetails, expirationTime);
 
-            String resetLink = "http://localhost:8080/reset-password" + jwt;
+            String resetLink = "http://localhost:8080/reset-password/token=" + jwt;
             emailService.sendEmail(email, resetLink);
             return true;
         }
         catch(BadCredentialsException e){
             return false;
         }
+    }
+
+    public boolean changePassword(String email, String password){
+        AdminUser exampleAdmin = new AdminUser();
+        exampleAdmin.setEmail(email);
+        Example<AdminUser> example = Example.of(exampleAdmin);
+        Optional<AdminUser> optionalAdmin = adminUserRepository.findOne(example);
+
+        if(optionalAdmin.isPresent()) {
+            var admin = optionalAdmin.get();
+            admin.setPassword(password);
+            adminUserRepository.saveAndFlush(admin);
+            return true;
+        }
+        return false;
     }
 
     private UserDetails getAdminUser(String email){
