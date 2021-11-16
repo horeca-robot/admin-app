@@ -34,7 +34,7 @@ export default {
         var response;
 
         try{
-            response = await axios.get(`${baseUrl}/api/Product/${id}`, apiConfig)
+            response = await axios.get(`${baseUrl}/${id}`, apiConfig)
         }
         catch(error){
             response = error.response
@@ -68,7 +68,7 @@ export default {
         var response;
 
         try{
-            response =  await axios.put(`${baseUrl}/api/Product/${data.id}`, data, apiConfig)
+            response =  await axios.put(`${baseUrl}/${data.id}`, data, apiConfig)
         }
         catch(error){
             response = error.response
