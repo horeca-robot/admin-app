@@ -14,8 +14,8 @@ public class EmailController {
     private final EmailService emailService;
 
     @GetMapping
-    public String sendEmail(){
-        emailService.sendEmail("ruben.otter@student.fontys.nl");
+    public String sendEmail(String email){
+        //emailService.sendEmail(email);
         return "email send ";
     }
 }

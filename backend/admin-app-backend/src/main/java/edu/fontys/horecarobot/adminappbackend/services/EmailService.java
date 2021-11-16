@@ -14,12 +14,13 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmail(String userEmail){
+    public void sendEmail(String userEmail, String link){
         SimpleMailMessage mail = new SimpleMailMessage();
 
-        mail.setTo(userEmail);
+        mail.setTo("ruben.otter@student.fontys.nl");
         mail.setSubject("Forgot password again?");
-        mail.setText("Here change it");
+        mail.setText("Here change it" + link);
+        // add link to webpage to change password
 
         javaMailSender.send(mail);
     }
