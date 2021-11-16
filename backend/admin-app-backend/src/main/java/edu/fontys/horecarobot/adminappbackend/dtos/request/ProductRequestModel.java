@@ -17,4 +17,5 @@ public class ProductRequestModel {
     private String description;
     private boolean containsAlcohol;
     private List<UUID> categories;
+    private List<UUID> tags;
 }
