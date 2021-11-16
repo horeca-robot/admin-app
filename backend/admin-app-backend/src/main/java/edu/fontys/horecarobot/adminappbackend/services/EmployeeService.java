@@ -38,7 +38,7 @@ public class EmployeeService {
         var employee = new EmployeeUser();
         employee.setId(employeeModel.getId());
         employee.setUsername(employeeModel.getUsername());
-        employee.setPincode(employeeModel.getPin());
+        employee.setPincode(employeeModel.getPincode());
         return employee;
     }
 }

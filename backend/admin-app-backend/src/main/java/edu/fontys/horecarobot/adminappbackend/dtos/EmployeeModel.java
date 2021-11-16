@@ -13,5 +13,5 @@ public class EmployeeModel {
     @NonNull
     private String username;
     @NonNull
-    private short pin;
+    private short pincode;
 }
