@@ -1,69 +1,80 @@
 <template>
     <div class="panel">
-        <div class="section">
-            <h1 class="title">HorecaRobot</h1>
-        </div>
-        <div class="section">
-            <div class="input">
-                <i class="icon fas fa-envelope"/>
-                <div class="line" />
-                <input v-model="email" class="input-field" placeholder="Email"/>
-            </div>
+        <div class="section" v-if="hasToken">
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
                 <input v-model="password" type="password" class="input-field" placeholder="Password"/>
             </div>
+            <div class="input">
+                <i class="icon fas fa-lock"/>
+                <div class="line" />
+                <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
+            </div>
+            <div class="section" >
+                <button class="btn" @click="changePassword">Change password</button>
+            </div>
         </div>
-        <div class="section" >
-            <p class="forgot-password" @click="forgotPassword">Forgot Password?</p>
-            <button class="btn" @click="handleLogIn">Log In</button>
+        <div v-else>
+            <div class="input">
+                <i class="icon fas fa-envelope"/>
+                <div class="line" />
+                <input v-model="email" type="text" class="input-field" placeholder="email"/>
+            </div>
+            <div class="section" >
+                <button class="btn" @click="sendResetMail">Send Resetlink</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import api from "../wrappers/AuthenticationWrapper.js"
+import api from '../wrappers/PasswordWrapper.js'
+import JwtUtil from '../utils/JwtUtil.js'
 
 export default {
-    data() {
-        return {
-            email: '',
-            password: ''
+    data(){
+        return{
+            token: '',
+            hasToken: false,
+            password: '',
+            confirmPassword: '',
+            email: ''
         }
     },
-    methods: {
-        async handleLogIn() {
-
-            if(!this.email.trim() || !this.password.trim()){
-                alert('All fields need to be filled in.')
+    async created(){
+        this.token = this.$route.query.token
+        console.log("Token = " + this.token);
+        if(this.token){
+            console.log("Should come here when i have token")
+            const isExpired = JwtUtil.checkExpiration(this.token)
+            console.log("is expired? " + isExpired)
+            if(isExpired){
+                alert("Token is not valid anymore")
+                this.$router.push("login")
+            }
+            this.hasToken = true
+            console.log(this.hasToken)
+        }
+        console.log("Has token = " + this.hasToken)
+    },
+    methods:{
+        sendResetMail(){
+            if(!this.email){
+                alert("Please fill in an email to receive a reset link")
                 return
             }
-
-            const payload = { 
-                email: this.email, 
-                password: this.password 
-            };
-
-            const response = await api.signIn(payload);
-
-            if(response.success){
-                localStorage.setItem('jwt', response.token)
-
-                if(this.$route.params.nextUrl != null) {
-                    this.$router.push(this.$route.params.nextUrl)
-                }
-                else {
-                    this.$router.push('employees')
-                }
-            }
-            else{
-                alert(response.message)
-            }
+            api.postForgetPasswordLink(this.email)
         },
-        forgotPassword(){
-            console.log("test")
-            this.$router.push("forgot-password")
+        changePassword(){
+            if(this.password === this.confirmPassword){
+                const payload = {
+                    email: JwtUtil.getEmail(this.token),
+                    password: this.password
+                }
+                console.log(payload)
+                api.resetpassword(payload)
+            }
         }
     }
 }
@@ -74,7 +85,7 @@ export default {
         min-width: 500px;
         width: 32.5vw;
         min-height: fit-content;
-        height: 50vh;
+        height: 15vh;
         top:0;
         bottom: 0;
         left: 0;
@@ -161,7 +172,7 @@ export default {
     }
 
     .btn{
-        width: 50%;
+        min-width: fit-content;
         height: 50px;
         font-family: Strait;
         padding: 20px;
@@ -184,3 +195,4 @@ export default {
         cursor: pointer;
     }
 </style>
+

@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     isNotLoginPage() {
-      if(this.$route.name !== 'login'){
+      if(this.$route.name !== 'login' || this.$route.name !== 'forgot-password'){
         return true;
       }
       return false;

@@ -9,6 +9,8 @@ import CategoryPage from '../pages/CategoryPage'
 import RobotsPage from '../pages/RobotsPage'
 import MapPage from '../pages/MapPage'
 import SettingsPage from '../pages/SettingsPage'
+import ForgotPasswordPage from '../pages/ForgotPasswordPage'
+import JwtUtil from "../utils/JwtUtil"
 
 //Define Routes
 const routes = [{
@@ -74,6 +76,14 @@ const routes = [{
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgotPassword',
+        component: ForgotPasswordPage,
+        meta: {
+            guest: true
+        }
     }
 ]
 
@@ -105,8 +115,8 @@ router.beforeEach((to, from, next) => {
                 params: { nextUrl: to.fullPath }
             })
         } else {
-            const claims = parseJwt(localStorage.getItem("jwt"))
-            const isExpired = checkExpiration(claims["exp"])
+            const claims = JwtUtil.parseJwt(localStorage.getItem("jwt"))
+            const isExpired = JwtUtil.checkExpiration(claims["exp"])
 
             if (isExpired) {
                 localStorage.removeItem("jwt")
@@ -129,24 +139,4 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
-
-//Get claims from JWT
-function parseJwt(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-}
-
-//Check expiration date of JWT
-function checkExpiration(exp) {
-    const expDate = new Date(exp * 1000)
-    const currentDate = new Date()
-
-    return expDate.getTime() <= currentDate.getTime();
-}
-
 export default router

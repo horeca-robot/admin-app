@@ -1,22 +1,17 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +20,7 @@ public class PasswordService {
     private final AdminUserRepository adminUserRepository;
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
-    private final long expirationTime = (60 * 60) * 30;
+    private final long expirationTime = 1000 * 60 * 30;
 
     public boolean generateResetLink(String email){
 
@@ -35,7 +30,7 @@ public class PasswordService {
             final UserDetails userDetails = getAdminUser(email);
             final String jwt = jwtUtil.generateToken(userDetails, expirationTime);
 
-            String resetLink = "http://localhost:8080/reset-password/token=" + jwt;
+            String resetLink = "http://localhost:4000/forgot-password?token=" + jwt;
             emailService.sendEmail(email, resetLink);
             return true;
         }
