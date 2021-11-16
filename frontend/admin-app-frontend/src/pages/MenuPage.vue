@@ -143,7 +143,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        box-shadow: 1px 0px 5px 2px rgb(0 0 0 / 50%);
+        border-right: 1px solid var(--text-color);
         text-align: center;
     }
 
@@ -158,6 +158,7 @@ export default {
         margin: 0;
         font-weight: 500;
         padding: 20px;
+        color: var(--text-color);
     }
 
     .box-message{
