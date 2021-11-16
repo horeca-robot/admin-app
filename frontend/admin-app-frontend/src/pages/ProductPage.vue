@@ -24,12 +24,8 @@
                         <input class="checkbox" type="checkbox" name="alcohol" v-model="alcohol"/>
                     </div>
                     <div class="blocks imageComponent">
-                        <!-- TODO Place image component here -->
                         <label class="text"> Image:</label>
                         <ImagePreview ref="image"/>
-                        <!-- <div class="imageCom">
-                            <input type="file" id="img" name="img" accept="image/*" @change="FileSelected"/>
-                        </div> -->
                     </div>
                 </div>
                 <div class="rightBlock"> 
