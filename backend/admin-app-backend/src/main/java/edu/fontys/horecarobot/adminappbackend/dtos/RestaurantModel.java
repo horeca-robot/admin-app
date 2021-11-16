@@ -16,18 +16,14 @@ public class RestaurantModel {
     private String contactPersonEmail;
     private String contactPersonPhone;
 
-    public static RestaurantModel from(RestaurantInfo model)
-    {
-        var restaurantModel = new RestaurantModel();
-
-        restaurantModel.setName(model.getName());
-        restaurantModel.setRestaurantLogo(model.getRestaurantLogo());
-        restaurantModel.setOpeningTime(model.getOpeningTime());
-        restaurantModel.setClosingTime(model.getClosingTime());
-        restaurantModel.setContactPersonName(model.getContactPersonName());
-        restaurantModel.setContactPersonEmail(model.getContactPersonEmail());
-        restaurantModel.setContactPersonPhone(model.getContactPersonPhone());
-
-        return  restaurantModel;
+    public RestaurantModel(RestaurantInfo model) {
+        name = model.getName();
+        restaurantLogo = model.getRestaurantLogo();
+        openingTime = model.getOpeningTime();
+        closingTime = model.getClosingTime();
+        contactPersonName = model.getContactPersonName();
+        contactPersonEmail = model.getContactPersonEmail();
+        contactPersonPhone = model.getContactPersonPhone();
     }
+
 }
