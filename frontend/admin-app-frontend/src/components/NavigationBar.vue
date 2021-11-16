@@ -2,7 +2,7 @@
     <div class="navigation-bar">
         <div class="top-part">
             <div class="section">
-                <h1 v-if="this.restaurantName !== null && this.restaurantName.length" class="restaurant-name">Welcome,<br/>{{ this.restaurantName }}</h1>
+                <h1 v-if="this.restaurantName !== undefined && this.restaurantName.length" class="restaurant-name">Welcome,<br/>{{ this.restaurantName }}</h1>
                 <h1 v-else class="restaurant-name">Welcome,<br/>Administrator</h1>
             </div>
             <div class="section">

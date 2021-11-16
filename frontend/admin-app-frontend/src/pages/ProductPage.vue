@@ -5,11 +5,11 @@
                 <div class="leftBlock">
                     <div class="blocks">
                         <label class="text"> *Title:</label>
-                        <input class="inputs" placeholder="Product Name" v-model="name" name="name"/>
+                        <input class="inputs" placeholder="Product Name..." v-model="name" name="name"/>
                     </div>
                     <div class="blocks">
                     <label class="text"> Description:</label>
-                    <textarea class="textareas" v-model="description"/>
+                    <textarea class="textareas" placeholder="Product Description..." v-model="description"/>
                     </div>
                     <div class="blocks">
                         <label class="text"> *Price:</label>
@@ -34,7 +34,7 @@
                         <label class="extraLabel"/>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="ingredients" />
+                        <input class="inputs inputsExtra" type="text" name="ingredients" placeholder="Ingredient..."/>
                         <button class="button">Add</button>
                     </div>
                     <div class="blocks">
@@ -42,7 +42,7 @@
                         <label class="extraLabel"/>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="tags" />
+                        <input class="inputs inputsExtra" type="text" name="tags" placeholder="Tag..."/>
                         <button class="button">Add</button>
                     </div>
                     <div class="blocks">
@@ -263,6 +263,7 @@ export default {
     .text{
         font-size: 1.5rem;
         margin-bottom: 2px;
+        color: var(--text-color);
     }
 
 
@@ -300,7 +301,7 @@ export default {
         background-color: var(--primary-color);
         border: 2px solid var(--primary-color);
         border-radius: 5px;
-        color: white;
+        color: var(--secondary-color);
         margin-left: 1%;
         font-size: 1em;
         font-family: inherit;
@@ -325,7 +326,7 @@ export default {
         margin-left: 10%;
         height: 3vh;
         width: 5vw;
-        background-color: white;
+        background-color: transparent;
         color: var(--primary-color);
         font-size: 1rem;
     }
@@ -343,6 +344,7 @@ export default {
         float: left;
         height: auto;
         width: 100%;
+        color: var(--text-color);
     }
 
     .textareas{

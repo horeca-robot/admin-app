@@ -3,7 +3,6 @@ package edu.fontys.horecarobot.adminappbackend.security;
 import edu.fontys.horecarobot.adminappbackend.filters.JwtRequestFilter;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,9 +30,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/api/SignIn/authenticate").permitAll() //API endpoint with /api/SignIn/authenticate permits all users
-                .and().authorizeRequests().antMatchers("/api/password").permitAll() //API endpoint with /api/password permits all users
+                .authorizeRequests().antMatchers("/api/sign-in").permitAll() //API endpoint with /api/sign-in permits all users
                 .and().authorizeRequests().antMatchers("/v3/api-docs/**").permitAll() //Allows OpenAPI documentation access
+                .and().authorizeRequests().antMatchers("/api/password").permitAll() //API endpoint with /api/password permits all users
                 .and().authorizeRequests().antMatchers("/swagger-ui/**").permitAll() //Allows Swagger documentation access
                 .anyRequest().authenticated() //Every other API endpoint is authenticated
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
