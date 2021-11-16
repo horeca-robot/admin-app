@@ -7,85 +7,53 @@ import edu.fontys.horecarobot.databaselibrary.repositories.RestaurantInfoReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
 
     private final RestaurantInfoRepository restaurantInfoRepository;
 
-    public boolean updateWebsiteInfo(WebsiteModel model)
-    {
+    public void updateWebsiteInfo(WebsiteModel model) {
         var restaurantInfo = getRestaurantInfo();
-
-        try {
-            restaurantInfo.setPrimaryColor(model.getPrimaryColor());
-            restaurantInfo.setSecondaryColor(model.getSecondaryColor());
-            restaurantInfo.setBackgroundImage(model.getBackgroundImage());
-            restaurantInfoRepository.saveAndFlush(restaurantInfo);
-
-            return  true;
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            return false;
-        }
+        restaurantInfo.setPrimaryColor(model.getPrimaryColor());
+        restaurantInfo.setSecondaryColor(model.getSecondaryColor());
+        restaurantInfo.setBackgroundImage(model.getBackgroundImage());
+        restaurantInfoRepository.saveAndFlush(restaurantInfo);
     }
 
-    public boolean updateRestaurantInfo(RestaurantModel model)
-    {
+    public void updateRestaurantInfo(RestaurantModel model) {
         var restaurantInfo = getRestaurantInfo();
-
-        try {
-            restaurantInfo.setName(model.getName());
-            restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
-            restaurantInfo.setOpeningTime(model.getOpeningTime());
-            restaurantInfo.setClosingTime(model.getClosingTime());
-            restaurantInfo.setContactPersonName(model.getContactPersonName());
-            restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
-            restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
-
-            restaurantInfoRepository.saveAndFlush(restaurantInfo);
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            return  false;
-        }
+        restaurantInfo.setName(model.getName());
+        restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
+        restaurantInfo.setOpeningTime(model.getOpeningTime());
+        restaurantInfo.setClosingTime(model.getClosingTime());
+        restaurantInfo.setContactPersonName(model.getContactPersonName());
+        restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
+        restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
+        restaurantInfoRepository.saveAndFlush(restaurantInfo);
     }
 
-    public RestaurantModel getRestaurantModel()
-    {
-        return RestaurantModel.from(getRestaurantInfo());
+    public RestaurantModel getRestaurantModel() {
+        return new RestaurantModel(getRestaurantInfo());
     }
 
-    public WebsiteModel getWebsiteModel()
-    {
-        return WebsiteModel.from(getRestaurantInfo());
+    public WebsiteModel getWebsiteModel() {
+        return new WebsiteModel(getRestaurantInfo());
     }
 
     private RestaurantInfo getRestaurantInfo() {
-        try {
-            var restaurantInfo = restaurantInfoRepository.getInfo();
+        var restaurantInfo = restaurantInfoRepository.getInfo();
 
-            if(restaurantInfo.isEmpty())
-            {
-                var model = new RestaurantInfo();
-                model.setName("");
-
-                restaurantInfoRepository.saveAndFlush(model);
-                return getRestaurantInfo();
-            }
-
-            return restaurantInfo.get();
-        }
-        catch (Exception e)
+        if(restaurantInfo.isEmpty())
         {
-            System.out.println(e.getMessage());
-            return new RestaurantInfo();
+            var model = new RestaurantInfo();
+            model.setName("");
+
+            restaurantInfoRepository.saveAndFlush(model);
+            return getRestaurantInfo();
         }
+
+        return restaurantInfo.get();
     }
+
 }

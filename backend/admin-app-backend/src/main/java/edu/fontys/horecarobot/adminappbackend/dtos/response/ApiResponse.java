@@ -1,4 +1,4 @@
-package edu.fontys.horecarobot.adminappbackend.dtos;
+package edu.fontys.horecarobot.adminappbackend.dtos.response;
 
 import lombok.Data;
 import org.springframework.lang.Nullable;
@@ -8,9 +8,9 @@ import java.util.*;
 @Data
 public class ApiResponse {
 
-    public static final String REQUIRED_FIELDS_ERROR = "Not all required fields are filled in.";
-    public static final String DATABASE_CONNECTION_ERROR = "Something went wrong, try again later.";
-    public static final String ID_ALIGN_ERROR = "Id does not align with given object";
+    public static final ApiResponse REQUIRED_FIELDS_ERROR = ApiResponse.error("Not all required fields are filled in.");
+    public static final ApiResponse GENERAL_EXCEPTION_ERROR = ApiResponse.error("Something went wrong, try again later.");
+    public static final ApiResponse ID_ALIGN_ERROR = ApiResponse.error("Id does not align with given object");
 
     private final boolean success;
     @Nullable

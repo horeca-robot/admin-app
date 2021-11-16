@@ -1,20 +1,21 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.CategoryModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.CategoryRequestModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.CategoryResponseModel;
 import edu.fontys.horecarobot.adminappbackend.services.CategoryService;
-import edu.fontys.horecarobot.databaselibrary.models.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "api/Category")
+@RequestMapping(path = "api/category")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4000")
 public class CategoryController {
@@ -22,89 +23,87 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getCategories()
-    {
-        try
-        {
-            var categories = categoryService.getAllCategories();
-            return new ResponseEntity<>(ApiResponse.ok().addData("categories", categories), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> getCategories() {
+        List<CategoryResponseModel> categories;
+        try {
+            categories = categoryService.getAllCategories();
         }
-        catch (Exception e)
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.ok(ApiResponse.ok().addData("categories", categories));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id)
-    {
-        Optional<Category> category;
-        try
-        {
+    public ResponseEntity<ApiResponse> getCategoryById(@PathVariable UUID id) {
+        Optional<CategoryResponseModel> category;
+        try {
             category = categoryService.getById(id);
         }
-        catch (Exception e)
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
-        if (category.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.ok().addData("category", categoryService.convertToCategoryModel(category.get())), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(ApiResponse.error("Category not found"), HttpStatus.NOT_FOUND);
+        if (category.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Category not found"));
         }
+
+        return ResponseEntity.ok(ApiResponse.ok().addData("category", category.get()));
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryModel categoryModel)
-    {
-        if(categoryModel.getName().isBlank())
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> postCategory(@RequestBody CategoryRequestModel categoryRequestModel) {
+        if(categoryRequestModel.getName().isBlank()) {
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
-        try
-        {
-            categoryService.addCategory(categoryModel);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+
+        CategoryResponseModel categoryResponseModel;
+        try {
+            categoryResponseModel = categoryService.addCategory(categoryRequestModel);
         }
-        catch(Exception e)
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        var uri = URI.create("api/category/" + categoryResponseModel.getId());
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryModel categoryModel){
-        if(!categoryService.doesCategoryExist(id))
-        {
-            return new ResponseEntity<>(ApiResponse.error("Can't locate category in database."), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiResponse> putCategory(@PathVariable UUID id, @RequestBody CategoryRequestModel categoryRequestModel) {
+        if(!categoryService.doesCategoryExist(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Can't locate category in database."));
         }
 
-        if(categoryModel.getName().isBlank())
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
+        if(categoryRequestModel.getName().isBlank()) {
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
         }
-        try
-        {
-            categoryService.updateCategory(categoryModel, id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            categoryService.updateCategory(categoryRequestModel, id);
         }
-        catch(Exception e)
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable UUID id){
-        try
-        {
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable UUID id) {
+        try {
             categoryService.deleteCategory(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        catch(Exception e)
-        {
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.DATABASE_CONNECTION_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
+
+        return ResponseEntity.noContent().build();
     }
+
 }
