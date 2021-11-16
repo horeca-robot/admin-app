@@ -76,7 +76,7 @@ export default{
   height: fit-content;
   width: fit-content;
   text-align: left;
-  background-color: white;
+  background-color: var(--secondary-color);
 }
 
 #base {

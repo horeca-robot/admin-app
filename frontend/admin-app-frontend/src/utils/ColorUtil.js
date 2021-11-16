@@ -3,10 +3,13 @@ export default {
         const style = getComputedStyle(document.body);
         const secondary = style.getPropertyValue('--secondary-color');
 
-        //Get rgb values from secondary variable
-        var rgb = secondary.match(/\d+/g);
-
-        console.log(rgb[0]);
+        let rgb;
+        if(secondary.startsWith('#')){
+            rgb = this.hexToRgb(secondary)
+        }
+        else{
+            rgb = secondary.match(/\d+/g);
+        }
 
         let textColor;
         //https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
@@ -17,5 +20,15 @@ export default {
         }
 
         document.documentElement.style.setProperty('--text-color', textColor);
-    }
+    },
+
+    //https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [
+          parseInt(result[1], 16),
+          parseInt(result[2], 16),
+          parseInt(result[3], 16)
+         ] : null;
+      }
 }

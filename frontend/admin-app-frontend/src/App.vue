@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name"/>
+    <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name" :restaurantName="this.restaurantSettings.name"/>
     <router-view :class="{'other-page': isNotLoginPage,  'login-page': !isNotLoginPage}"/>
     <Background ref="background" />
   </div>
@@ -15,9 +15,14 @@ import api from './wrappers/InfoWrapper.js'
 export default {
   name: 'App',
   components: { Background, NavigationBar},
+  data() {
+    return {
+      restaurantSettings: {}
+    }
+  },
   async created(){
-    ColorUtil.getTextColor()
     await this.updateCss()
+    await this.getRestaurantSettings()
   },
   methods: {
     async updateBackground(){
@@ -37,6 +42,15 @@ export default {
         }
 
         ColorUtil.getTextColor()
+    },
+    async getRestaurantSettings(){
+      const response = await api.getRestaurantSettings()
+      if(response.data["success"]){
+        this.restaurantSettings = response.data["data"]["info"]
+      }
+      else{
+        alert('Something went wrong, try again later.')
+      }
     }
   },
   computed: {
