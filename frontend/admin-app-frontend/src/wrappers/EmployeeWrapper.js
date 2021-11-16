@@ -1,47 +1,43 @@
 import axios from "axios";
 
 // Base url can be found in the .env file in the root folder
-const baseUrl = `${process.env.VUE_APP_API_BASE_URL}/api/robot`;
+export const baseUrl = process.env.VUE_APP_API_BASE_URL;
 
 export default {
-
-    getHeaders(){
+    getHeaders() {
         return {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             }
         }
     },
-
-    async getRobots(){
+    async getEmployees() {
         var response;
 
-        try{
-            response =  await axios.get(baseUrl, this.getHeaders())
+        try {
+            response =  await axios.get(`${baseUrl}/api/Employees`, this.getHeaders())
         }
-        catch(error){
+        catch(error) {
             response = error.response
         }
 
         return {
             success: response.data["success"],
             message: response.data["message"],
-            robots: response.data["data"]["robots"]
+            employees: response.data["data"]["employees"]
         }
     },
-
-    async postRobot(data) {
-
+    async postEmployees(data) {
         var response;
 
-        try{
-            response =  await axios.post(baseUrl, data, this.getHeaders())
+        try {
+            response =  await axios.post(`${baseUrl}/api/Employees`, data, this.getHeaders())
 
             return {
                 success: response.status === 201
             }
         }
-        catch(error){
+        catch(error) {
             response = error.response
 
             return {
@@ -50,19 +46,17 @@ export default {
             }
         }
     },
-
-    async putRobot(data) {
-
+    async putEmployees(data) {
         var response;
 
-        try{
-            response =  await axios.put(`${baseUrl}/${data.id}`, data, this.getHeaders())
-
+        try {           
+            response =  await axios.put(`${baseUrl}/api/Employees/${data.id}`, data, this.getHeaders())
+            
             return {
-                success: response.status === 201
+                success: response.status === 204
             }
         }
-        catch(error){
+        catch(error) {
             response = error.response
 
             return {
@@ -71,19 +65,17 @@ export default {
             }
         }
     },
-
-    async deleteRobot(id) {
-
+    async deleteEmployees(id) {
         var response;
 
-        try{
-            response =  await axios.delete(`${baseUrl}/${id}`, this.getHeaders())
+        try {
+            response =  await axios.delete(`${baseUrl}/api/Employees/${id}`, this.getHeaders())
 
             return {
                 success: response.status === 204
             }
         }
-        catch(error){
+        catch(error) {
             response = error.response
 
             return {
