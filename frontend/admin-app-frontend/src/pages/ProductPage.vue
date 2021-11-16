@@ -26,9 +26,10 @@
                     <div class="blocks imageComponent">
                         <!-- TODO Place image component here -->
                         <label class="text"> Image:</label>
-                        <div class="imageCom">
+                        <ImagePreview ref="image"/>
+                        <!-- <div class="imageCom">
                             <input type="file" id="img" name="img" accept="image/*" @change="FileSelected"/>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="rightBlock"> 
@@ -69,6 +70,7 @@
 <script>
 import ProductWrapper from '../wrappers/ProductWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
+import ImagePreview from "../components/ImagePreview.vue";
 
 export default {
     data(){
@@ -80,9 +82,11 @@ export default {
             price: 0,
             discountPrice: 0, 
             alcohol: false,
-            img: '',
             categories: []
         }
+    },
+    components: {
+        ImagePreview
     },
     async created(){
         await this.getCategories()
@@ -115,9 +119,6 @@ export default {
             this.price = product.price
             this.discountPrice = product.discountPrice
             this.alcohol = product.containsAlcohol
-            this.img = product.image
-
-            console.log(this.categories)
 
             this.categories.forEach(function (category) {
                 console.log(category.id)
@@ -125,6 +126,10 @@ export default {
                     category.selected = true
                 }
             })
+
+            if(product.image){
+                this.$refs.image.setBase64(product.image)
+            }
         },
 
         onSubmit(e){
@@ -154,7 +159,7 @@ export default {
                 discountPrice: this.discountPrice,
                 description: this.description,
                 containsAlcohol: this.alcohol,
-                image : this.img,
+                image : this.$refs.image.base64,
                 categories: this.categories.filter(i => i.selected).map(i => i.id)
             }
             
@@ -176,7 +181,7 @@ export default {
                 price: this.price,
                 discountPrice: this.discountPrice,
                 containsAlcohol: this.alcohol,
-                image: this.img,
+                image: this.$refs.image.base64,
                 categories: this.categories.filter(i => i.selected).map(i => i.id)
             }
             
@@ -214,7 +219,6 @@ export default {
             this.price = 0
             this.discountPrice = 0
             this.alcohol = false
-            this.img = ''
             this.categories.forEach(function (category) {
                 category.selected = false
             })

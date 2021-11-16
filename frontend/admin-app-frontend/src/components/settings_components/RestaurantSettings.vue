@@ -35,10 +35,10 @@
         <button @click="handleSave">Save Settings</button>
       </div>
     </div>
-      <div id="img-preview" class="container-element">
+    <div id="img-preview" class="container-element">
       <label for="logo">Restaurant Logo</label>
       <ImagePreview ref="logo"/>
-      </div>
+    </div>
   </div>
 </template>
 
