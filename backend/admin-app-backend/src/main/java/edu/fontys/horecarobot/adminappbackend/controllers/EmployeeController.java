@@ -70,7 +70,7 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         try {
-            employeeService.updateEmployee(employeeRequestModel);
+            employeeService.updateEmployee(employeeRequestModel, id);
         }
         catch(Exception e) {
             e.printStackTrace();

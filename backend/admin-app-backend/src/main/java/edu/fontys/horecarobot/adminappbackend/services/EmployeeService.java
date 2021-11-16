@@ -32,8 +32,10 @@ public class EmployeeService {
         return new EmployeeResponseModel(e);
     }
 
-    public void updateEmployee(EmployeeRequestModel employeeRequestModel) {
-        employeeUserRepository.saveAndFlush(convertFromEmployeeModel(employeeRequestModel));
+    public void updateEmployee(EmployeeRequestModel employeeRequestModel, UUID id) {
+        var employee = convertFromEmployeeModel(employeeRequestModel);
+        employee.setId(id);
+        employeeUserRepository.saveAndFlush(employee);
     }
 
     public void deleteEmployee(UUID id) {
