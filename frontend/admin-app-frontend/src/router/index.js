@@ -11,8 +11,7 @@ import MapPage from '../pages/MapPage'
 import SettingsPage from '../pages/SettingsPage'
 
 //Define Routes
-const routes = [
-    {
+const routes = [{
         path: '/login',
         name: 'login',
         component: LoginPage,
@@ -80,80 +79,74 @@ const routes = [
 
 //Create Router
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL), 
+    history: createWebHistory(process.env.BASE_URL),
     routes
 })
 
 //Check before entering page
 router.beforeEach((to, from, next) => {
     //Redirect when trying to access home page
-    if(to.path === '/'){
-      if (localStorage.getItem('jwt') == null) {
-        next({
-          name: 'login',
-          params: { nextUrl: to.fullPath }
-        })
-      } 
-      else {
-        next({ name: 'employees' })
-      } 
-    }   
+    if (to.path === '/') {
+        if (localStorage.getItem('jwt') == null) {
+            next({
+                name: 'login',
+                params: { nextUrl: to.fullPath }
+            })
+        } else {
+            next({ name: 'employees' })
+        }
+    }
 
     //AuthenticationState
     if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (localStorage.getItem('jwt') == null) {
-        next({
-          name: 'login',
-          params: { nextUrl: to.fullPath }
-        })
-      } 
-      else {
-        const claims = parseJwt(localStorage.getItem("jwt"))
-        const isExpired = checkExpiration(claims["exp"])
+        if (localStorage.getItem('jwt') == null) {
+            next({
+                name: 'login',
+                params: { nextUrl: to.fullPath }
+            })
+        } else {
+            const claims = parseJwt(localStorage.getItem("jwt"))
+            const isExpired = checkExpiration(claims["exp"])
 
-        if(isExpired){
-          localStorage.removeItem("jwt")
+            if (isExpired) {
+                localStorage.removeItem("jwt")
 
-          next({
-            name: 'login',
-            params: { nextUrl: to.fullPath }
-          })
+                next({
+                    name: 'login',
+                    params: { nextUrl: to.fullPath }
+                })
+            } else {
+                next()
+            }
         }
-        else{
-          next()
+    } else if (to.matched.some(record => record.meta.guest)) {
+        if (localStorage.getItem('jwt') == null) {
+            next()
+        } else {
+            next({ name: 'employees' })
         }
-      }
-    } 
-    else if (to.matched.some(record => record.meta.guest)) {
-      if (localStorage.getItem('jwt') == null) {
+    } else {
         next()
-      } 
-      else {
-        next({ name: 'employees' })
-      }
-    } 
-    else {
-      next()
     }
 })
 
 //Get claims from JWT
-function parseJwt (token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-  return JSON.parse(jsonPayload);
+    return JSON.parse(jsonPayload);
 }
 
 //Check expiration date of JWT
-function checkExpiration (exp) {
-  const expDate = new Date(exp * 1000)
-  const currentDate = new Date()
+function checkExpiration(exp) {
+    const expDate = new Date(exp * 1000)
+    const currentDate = new Date()
 
-  return expDate.getTime() <= currentDate.getTime();
+    return expDate.getTime() <= currentDate.getTime();
 }
 
 export default router

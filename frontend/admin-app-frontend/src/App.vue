@@ -1,8 +1,8 @@
 <template>
   <div>
-    <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name"/>
+    <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name" :restaurantName="this.restaurantSettings.name"/>
     <router-view :class="{'other-page': isNotLoginPage,  'login-page': !isNotLoginPage}"/>
-    <Background />
+    <Background ref="background" />
   </div>
 </template>
 
@@ -10,12 +10,48 @@
 import Background from './components/Background.vue'
 import NavigationBar from './components/NavigationBar.vue'
 import ColorUtil from './utils/ColorUtil.js'
+import api from './wrappers/InfoWrapper.js'
 
 export default {
   name: 'App',
-  components: { Background, NavigationBar },
-  created(){
-    ColorUtil.getTextColor()
+  components: { Background, NavigationBar},
+  data() {
+    return {
+      restaurantSettings: {}
+    }
+  },
+  async created(){
+    await this.updateCss()
+    await this.getRestaurantSettings()
+  },
+  methods: {
+    async updateBackground(){
+      await this.$refs.background.update()
+    },
+    async updateCss(){
+      let response = await api.getWebsiteSettings()
+
+        let websiteSettings = response.data.data.info
+
+        if (websiteSettings.primaryColor != null) {
+            document.documentElement.style.setProperty('--primary-color', websiteSettings.primaryColor)
+        }
+
+        if (websiteSettings.secondaryColor != null) {
+            document.documentElement.style.setProperty('--secondary-color', websiteSettings.secondaryColor)
+        }
+
+        ColorUtil.getTextColor()
+    },
+    async getRestaurantSettings(){
+      const response = await api.getRestaurantSettings()
+      if(response.data["success"]){
+        this.restaurantSettings = response.data["data"]["info"]
+      }
+      else{
+        alert('Something went wrong, try again later.')
+      }
+    }
   },
   computed: {
     isNotLoginPage() {
