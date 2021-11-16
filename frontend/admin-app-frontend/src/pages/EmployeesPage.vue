@@ -68,7 +68,9 @@ export default {
             this.getEmployees()
         },
         async updateEmployees(payload) {
-            if(this.doesEmployeesListContainUsername(payload.username, payload.id)) {
+            this.removeSelectedEmployee(payload.id)
+
+            if(this.doesEmployeesListContainUsername(payload.username)) {
                 alert('Already exists an employee with this username')
             }
             else if(payload.pincode < 1111 || payload.pincode > 9999) {
@@ -78,6 +80,7 @@ export default {
                 const response = await EmployeeWrapper.putEmployees(payload)
 
                 if(response.success) { 
+                    
                     alert('Succesfully updated employee #' + payload.username)
                 }
                 else {
@@ -101,15 +104,16 @@ export default {
         addRow() {
             this.employees.push({ id: '', username: '', pincode: '', isNew: true })
         },
-        doesEmployeesListContainUsername(username, currentid) {
+        doesEmployeesListContainUsername(username) {
+            return this.employees.some(r => r.username === username)
+        },
+        removeSelectedEmployee(currentid) {
             for(var i = 0; i < this.employees.length; i++) {
                 if(this.employees[i].id == currentid) {
-                    this.employees.splice(i, 1);
-                    break;
+                    this.employees.splice(i, 1)
+                    break
                 }
             }
-
-            return this.employees.some(r => r.username === username)
         }
     }
 }
