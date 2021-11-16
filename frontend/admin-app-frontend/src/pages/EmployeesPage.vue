@@ -10,8 +10,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="employee in employees" :key="employee.id">
-                        <Employees :currentId="employee.id" :currentUsername="employee.username" :currentPincode="employee.pincode" :isNew="employee.isNew" @getEmployees="getEmployees" @addEmployees="addEmployees" @updateEmployees="updateEmployees" @deleteEmployees="deleteEmployees"/>            
+                    <tr v-for="employee in employees" :key="employee.rerender">
+                        <Employee :currentId="employee.id" :currentUsername="employee.username" :currentPincode="employee.pincode" :isNew="employee.isNew" @getEmployees="getEmployees" @addEmployees="addEmployees" @updateEmployees="updateEmployees" @deleteEmployees="deleteEmployees"/>            
                     </tr>
                 </tbody>
             </table>
@@ -22,19 +22,20 @@
 
 <script>
 import EmployeeWrapper from '../wrappers/EmployeeWrapper'
-import Employees from '../components/employee_components/Employees.vue'
+import Employee from '../components/employee_components/Employee.vue'
 
 export default {
     data() {
         return {
-            employees: []
+            employees: [],
+            isCreating: false
         }
     },
     created() {
         this.getEmployees()      
     },
     components: {
-        Employees
+        Employee
     },
     methods: {
         async getEmployees() {
@@ -42,10 +43,16 @@ export default {
  
             if(response.success) {
                 this.employees = response.employees
+
+                this.employees.forEach(function (employee) {
+                    employee.rerender = false
+                });
             }
             else {
                 alert(response.message)
             }
+
+            this.isCreating = false
         },
         async addEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username)) {
@@ -58,19 +65,17 @@ export default {
                 const response = await EmployeeWrapper.postEmployees(payload)
 
                 if(response.success) {
-                    alert('Succesfully added employee #' + payload.username)
+                    alert('Succesfully added employee ' + payload.username)
                 }
                 else {
                     alert(response.message)
                 }
             }
 
-            this.getEmployees()
+            await this.getEmployees()
         },
         async updateEmployees(payload) {
-            this.removeSelectedEmployee(payload.id)
-
-            if(this.doesEmployeesListContainUsername(payload.username)) {
+            if(this.doesEmployeesListContainUsername(payload.username, payload.id)) {
                 alert('Already exists an employee with this username')
             }
             else if(payload.pincode < 1111 || payload.pincode > 9999) {
@@ -79,41 +84,37 @@ export default {
             else {
                 const response = await EmployeeWrapper.putEmployees(payload)
 
-                if(response.success) { 
-                    
-                    alert('Succesfully updated employee #' + payload.username)
+                if(response.success) {                    
+                    alert('Succesfully updated employee ' + payload.username)
                 }
                 else {
                     alert(response.message)
                 }
             }
 
-            this.getEmployees()
+            await this.getEmployees()
+
+            var employee = this.employees.find(i => i.id === payload.id)
+            employee.rerender = !employee.rerender
         },
-        async deleteEmployees(username, id) {
+        async deleteEmployees(id) {
             const response = await EmployeeWrapper.deleteEmployees(id)
 
             if(response.success) {
                 await this.getEmployees()
-                alert('Succesfully deleted employee #' + username)
             }
             else {
                 alert(response.message)
             }
         },
-        addRow() {
-            this.employees.push({ id: '', username: '', pincode: '', isNew: true })
+        addRow() {            
+            if(!this.isCreating) {
+                this.employees.push({ id: '', username: '', pincode: '', isNew: true })
+                this.isCreating = true
+            } 
         },
-        doesEmployeesListContainUsername(username) {
-            return this.employees.some(r => r.username === username)
-        },
-        removeSelectedEmployee(currentid) {
-            for(var i = 0; i < this.employees.length; i++) {
-                if(this.employees[i].id == currentid) {
-                    this.employees.splice(i, 1)
-                    break
-                }
-            }
+        doesEmployeesListContainUsername(username, id) {
+            return this.employees.some(r => r.username === username && r.id !== id)
         }
     }
 }

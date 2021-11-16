@@ -36,7 +36,6 @@ export default {
 
         try{
             response =  await axios.post(`${baseUrl}/api/Robot`, data, this.getHeaders())
-            console.log(response)
 
             return {
                 success: response.status === 201

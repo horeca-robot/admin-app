@@ -8,15 +8,15 @@
         </td>
     </template>
     <template v-else>
-        <td>{{ currentUsername }}</td>
-        <td>{{ currentPincode }}</td>
+        <td>{{ this.username }}</td>
+        <td>{{ this.pincode }}</td>
         <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit"></i></td>
     </template>
 </template>
 
 <script>
 export default {
-    name: 'Employees',
+    name: 'Employee',
     emits: ['addEmployees', 'updateEmployees', 'getEmployees', 'deleteEmployees'],
     data() {
         return {
@@ -45,6 +45,7 @@ export default {
                 alert('All fields need to be filled in.')
                 return
             }
+
             if(this.isNew) {
                 const employee = { 
                     username: this.username, 
@@ -53,7 +54,7 @@ export default {
 
                 this.$emit('addEmployees', employee)
             }
-            else {
+            else if(this.username !== this.currentUsername || this.pincode !== this.currentPincode) {
                 const employee = { 
                     id: this.currentId,
                     username: this.username, 
@@ -70,12 +71,12 @@ export default {
                 this.$emit('getEmployees')
             }
             else {
-                if(!confirm('Are you sure you want to delete employee#' + this.username + '?')) {
+                if(!confirm('Are you sure you want to delete employee ' + this.username + '?')) {
                     return;
                 }
                 
                 this.isEditing = false;           
-                this.$emit('deleteEmployees', this.username, this.currentId);
+                this.$emit('deleteEmployees', this.currentId);
             }
         }
     }
