@@ -2,10 +2,12 @@ package edu.fontys.horecarobot.adminappbackend.dtos;
 
 import edu.fontys.horecarobot.databaselibrary.models.RestaurantInfo;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 
 @Data
+@NoArgsConstructor
 public class RestaurantModel {
 
     private String name;

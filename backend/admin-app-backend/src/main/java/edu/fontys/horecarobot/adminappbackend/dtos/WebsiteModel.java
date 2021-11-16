@@ -2,8 +2,10 @@ package edu.fontys.horecarobot.adminappbackend.dtos;
 
 import edu.fontys.horecarobot.databaselibrary.models.RestaurantInfo;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class WebsiteModel {
     private String primaryColor;
     private String secondaryColor;
