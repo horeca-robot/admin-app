@@ -35,7 +35,7 @@ public class EmployeeController {
         if(employeeModel.getUsername().isBlank())
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
-        if(employeeModel.getPin() < 1111 || employeeModel.getPin() > 9999)
+        if((int)employeeModel.getPincode() < 1111 || (int)employeeModel.getPincode() > 9999)
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         try {
@@ -55,7 +55,7 @@ public class EmployeeController {
         if(employeeModel.getUsername().isBlank())
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
-        if(employeeModel.getPin() < 1111 || employeeModel.getPin() > 9999)
+        if((int)employeeModel.getPincode() < 1111 || (int)employeeModel.getPincode() > 9999)
             return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
 
         try {
