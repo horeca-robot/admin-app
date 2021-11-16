@@ -40,9 +40,7 @@ public class EmployeeController {
         if(employeeRequestModel.getUsername().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if((int)employeeModel.getPincode() < 1111 || (int)employeeModel.getPincode() > 9999)
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
-        if(employeeRequestModel.getPin() < 1111 || employeeRequestModel.getPin() > 9999)
+        if(employeeRequestModel.getPincode() < 1111 || employeeRequestModel.getPincode() > 9999)
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         EmployeeResponseModel employeeResponseModel;
@@ -68,9 +66,7 @@ public class EmployeeController {
         if(employeeRequestModel.getUsername().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if((int)employeeModel.getPincode() < 1111 || (int)employeeModel.getPincode() > 9999)
-            return new ResponseEntity<>(ApiResponse.error(ApiResponse.REQUIRED_FIELDS_ERROR), HttpStatus.BAD_REQUEST);
-        if(employeeRequestModel.getPin() < 1111 || employeeRequestModel.getPin() > 9999)
+        if(employeeRequestModel.getPincode() < 1111 || employeeRequestModel.getPincode() > 9999)
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         try {
