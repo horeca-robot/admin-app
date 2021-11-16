@@ -30,7 +30,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/api/SignIn/authenticate").permitAll() //API endpoint with /api/SignIn/authenticate permits all users
+                .authorizeRequests().antMatchers("/api/sign-in").permitAll() //API endpoint with /api/sign-in permits all users
                 .and().authorizeRequests().antMatchers("/v3/api-docs/**").permitAll() //Allows OpenAPI documentation access
                 .and().authorizeRequests().antMatchers("/swagger-ui/**").permitAll() //Allows Swagger documentation access
                 .anyRequest().authenticated() //Every other API endpoint is authenticated
