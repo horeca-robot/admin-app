@@ -43,7 +43,7 @@ public class EmployeeService {
     private EmployeeUser convertFromEmployeeModel(EmployeeRequestModel employeeRequestModel) {
         var employee = new EmployeeUser();
         employee.setUsername(employeeRequestModel.getUsername());
-        employee.setPincode(employeeRequestModel.getPin());
+        employee.setPincode(employeeRequestModel.getPincode());
         return employee;
     }
 
