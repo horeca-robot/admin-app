@@ -39,11 +39,15 @@
                     </div>
                     <div class="blocks">
                         <label class="text"> Tags:</label>
-                        <label class="extraLabel"/>
+                        <div class="categorieHolder"> 
+                            <div class="categories" v-for="tag in tags" :key="tag.id"> 
+                                <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="tags" />
-                        <button class="button">Add</button>
+                        <input class="inputs inputsExtra" type="text" placeholder="New tag" name="tags" v-model="tag" />
+                        <button class="button" @click="createTag">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Select Categories:</label>
@@ -66,7 +70,8 @@
 <script>
 import ProductWrapper from '../wrappers/ProductWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
-import ImagePreview from "../components/ImagePreview.vue";
+import ImagePreview from '../components/ImagePreview.vue'
+import TagWrapper from '../wrappers/TagWrapper'
 
 export default {
     data(){
@@ -78,7 +83,10 @@ export default {
             price: 0,
             discountPrice: 0, 
             alcohol: false,
-            categories: []
+            img: '',
+            tag: '',
+            categories: [],
+            tags: []
         }
     },
     components: {
@@ -86,6 +94,7 @@ export default {
     },
     async created(){
         await this.getCategories()
+        await this.getTags();
 
         this.id = this.$route.query.id
 
@@ -103,6 +112,14 @@ export default {
             })
         },
 
+        async getTags(){
+            const response = await TagWrapper.getTags()
+            this.tags = response.tags
+            this.tags.forEach(function (tag) {
+                tag.selected = false
+            })
+        },
+
         async getProductInfo(){
             const response = await ProductWrapper.getProductById(this.id)
             this.setProductValues(response.product)
@@ -115,10 +132,19 @@ export default {
             this.price = product.price
             this.discountPrice = product.discountPrice
             this.alcohol = product.containsAlcohol
+            this.img = product.image
+
+            console.log(this.categories)
 
             this.categories.forEach(function (category) {
                 if(product.categories.some(i => i === category.id)){
                     category.selected = true
+                }
+            })
+
+            this.tags.forEach(function (tag) {
+                if(product.tags.some(i => i.id === tag.id)){
+                    tag.selected = true
                 }
             })
 
@@ -155,7 +181,8 @@ export default {
                 description: this.description,
                 containsAlcohol: this.alcohol,
                 image : this.$refs.image.base64,
-                categories: this.categories.filter(i => i.selected).map(i => i.id)
+                categories: this.categories.filter(i => i.selected).map(i => i.id),
+                tags: this.tags.filter(i => i.selected).map(i => i.id)
             }
             
             const response = await ProductWrapper.postProduct(payload)
@@ -177,7 +204,8 @@ export default {
                 discountPrice: this.discountPrice,
                 containsAlcohol: this.alcohol,
                 image: this.$refs.image.base64,
-                categories: this.categories.filter(i => i.selected).map(i => i.id)
+                categories: this.categories.filter(i => i.selected).map(i => i.id),
+                tags: this.tags.filter(i => i.selected).map(i => i.id)
             }
             
             const response = await ProductWrapper.putProduct(payload)
@@ -188,6 +216,21 @@ export default {
             else{
                 alert(response.message)
             }
+        },
+
+        async createTag(e){
+            e.preventDefault()
+
+            if(!this.isEditing){
+                this.$router.push('menu')
+                return
+            }
+
+            var result = await TagWrapper.postTag({
+                name: this.tag
+            });
+            
+            alert('Created?' + JSON.stringify(result));
         },
 
         async deleteProduct(e){
