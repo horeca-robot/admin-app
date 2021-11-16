@@ -89,6 +89,7 @@ export default {
         padding: 10px;
         font-size: 1.25rem;
         font-weight: normal;
+        color: var(--text-color);
     }
 
     input{
