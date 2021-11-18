@@ -38,12 +38,12 @@ import ImagePreview from '../components/ImagePreview.vue'
 export default {
     data()
     {
-        return{
-            id: '',
-            isEditing: false,
-            catName: '',
-            categories: [],
-        }
+      return{
+          id: '',
+          isEditing: false,
+          catName: '',
+          categories: [],
+      }
     },
     created(){
       this.id = this.$route.query.id
@@ -59,8 +59,7 @@ export default {
       ImagePreview
     },
     methods: {
-      async getAllCategories()
-      {
+      async getAllCategories(){
         const response = await CategoryWrapper.getCategories()
         this.categories = response.categories
         this.categories.forEach(function (category) {
@@ -68,8 +67,7 @@ export default {
             })
       },
 
-      async getCategoryInfo()
-      {
+      async getCategoryInfo(){
         const response = await CategoryWrapper.getCategoryById(this.id);
         this.setCategoryValues(response.category)
       },
@@ -87,12 +85,12 @@ export default {
 
         this.categories = this.categories.filter(function(value){ 
          return value.id !== category.id;
-    });
+         });
 
         if(category.image){
             this.$refs.image.setBase64(category.image)
         }
-      },
+        },
 
       onSubmit(e){
         e.preventDefault()
@@ -180,6 +178,7 @@ export default {
 </script>
 
 <style scoped>
+
 .page{
   top:0;
   bottom: 0;
@@ -198,7 +197,7 @@ export default {
         border-radius: 10px;
         display: flex;
         justify-content: space-between;
-    }
+}
 
 .panel-side{
 display: flex;
@@ -216,6 +215,7 @@ display: flex;
   box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.5);
   display: flex;
 }
+
 .container{
   display: inline-block;
   width: 100%;
@@ -231,7 +231,6 @@ display: flex;
   font-size: 1.5rem;
   margin-bottom: 2px;
 }
-
 
 .blocks{
   display: flex;
@@ -307,10 +306,10 @@ input[type=checkbox] {
         border-radius: 5px;
     }
 
-    .categories{
-        float: left;
-        height: auto;
-        width: 100%;
-        color: var(--text-color);
-    }
+.categories{
+    float: left;
+    height: auto;
+    width: 100%;
+    color: var(--text-color);
+}
 </style>
