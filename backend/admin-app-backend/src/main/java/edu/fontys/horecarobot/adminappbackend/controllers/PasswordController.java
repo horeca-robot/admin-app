@@ -1,6 +1,7 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.ResetPasswordRequestModel;
 import edu.fontys.horecarobot.adminappbackend.services.PasswordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ public class PasswordController {
     private final PasswordService passwordService;
 
     @PostMapping
-    public ResponseEntity<?> resetPasswordLink(@RequestBody LoginRequestModel model){
+    public ResponseEntity<?> resetPasswordLink(@RequestBody ResetPasswordRequestModel model){
         passwordService.generateResetLink(model.getEmail());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
