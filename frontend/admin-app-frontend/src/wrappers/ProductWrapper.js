@@ -63,7 +63,6 @@ export default {
     },
 
     async putProduct(data) {
-        console.log(data)
 
         var response;
 

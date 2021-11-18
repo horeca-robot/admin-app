@@ -22,7 +22,7 @@ public class PasswordService {
     private final JwtUtil jwtUtil;
     private final static long EXPIRATION_TIME = 1000 * 60 * 30;
 
-    public boolean generateResetLink(String email){
+    public boolean sendResetLink(String email){
 
         try{
 
