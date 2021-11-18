@@ -79,7 +79,7 @@ const routes = [{
     },
     {
         path: '/forgot-password',
-        name: 'forgotPassword',
+        name: 'forgot-password',
         component: ForgotPasswordPage,
         meta: {
             guest: true
