@@ -1,6 +1,6 @@
 <template>
-    <div class="panel">
-        <div class="section" v-if="hasToken">
+    <div class="panel" v-if="hasToken">
+        <div class="section" >
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
@@ -11,17 +11,19 @@
                 <div class="line" />
                 <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
             </div>
-            <div class="section" >
+            <div >
                 <button class="btn" @click="changePassword">Change password</button>
             </div>
         </div>
-        <div v-else>
+    </div>
+    <div class="panel" v-else>
+        <div class="section">
             <div class="input">
                 <i class="icon fas fa-envelope"/>
                 <div class="line" />
                 <input v-model="email" type="text" class="input-field" placeholder="email"/>
             </div>
-            <div class="section" >
+            <div>
                 <button class="btn" @click="sendResetMail">Send Resetlink</button>
             </div>
         </div>
@@ -47,10 +49,12 @@ export default {
         console.log("Token = " + this.token);
         if(this.token){
             console.log("Should come here when i have token")
-            const isExpired = JwtUtil.checkExpiration(this.token)
+            const claims = JwtUtil.parseJwt(this.token)
+            console.log("Claims = " + claims)
+            const isExpired = JwtUtil.checkExpiration(claims["exp"])
             console.log("is expired? " + isExpired)
             if(isExpired){
-                alert("Token is not valid anymore")
+                alert("Token has expired")
                 this.$router.push("login")
             }
             this.hasToken = true
@@ -85,7 +89,7 @@ export default {
         min-width: 500px;
         width: 32.5vw;
         min-height: fit-content;
-        height: 15vh;
+        height: 30vh;
         top:0;
         bottom: 0;
         left: 0;
@@ -97,6 +101,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
     }
 
     .section{
