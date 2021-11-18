@@ -20,15 +20,14 @@ public class PasswordService {
     private final AdminUserRepository adminUserRepository;
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
-    private final long expirationTime = 1000 * 60 * 30;
+    private final static long EXPIRATION_TIME = 1000 * 60 * 30;
 
     public boolean generateResetLink(String email){
 
         try{
-            createUser(email);
 
             final UserDetails userDetails = getAdminUser(email);
-            final String jwt = jwtUtil.generateToken(userDetails, expirationTime);
+            final String jwt = jwtUtil.generateToken(userDetails, EXPIRATION_TIME);
 
             String resetLink = "http://localhost:4000/forgot-password?token=" + jwt;
             emailService.sendEmail(email, resetLink);
@@ -67,22 +66,6 @@ public class PasswordService {
         }
         else{
             return null;
-            //throw new UsernameNotFoundException("User with username (email) not found!");
-        }
-    }
-
-    //DON'T PUSH TO DEVELOP:
-    private void createUser(String email){
-        AdminUser exampleAdmin = new AdminUser();
-        exampleAdmin.setEmail(email);
-        Example<AdminUser> example = Example.of(exampleAdmin);
-
-        Optional<AdminUser> optionalAdmin = adminUserRepository.findOne(example);
-        if(optionalAdmin.isEmpty()) {
-            var admin = new AdminUser();
-            admin.setEmail(email);
-            admin.setPassword("test");
-            adminUserRepository.saveAndFlush(admin);
         }
     }
 }

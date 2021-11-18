@@ -1,16 +1,14 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class EmailService {
-    private JavaMailSender javaMailSender;
-
-    public EmailService(JavaMailSender javaMailSender){
-        this.javaMailSender = javaMailSender;
-    }
+    private final JavaMailSender javaMailSender;
 
     public void sendEmail(String userEmail, String link){
         SimpleMailMessage mail = new SimpleMailMessage();
@@ -18,7 +16,6 @@ public class EmailService {
         mail.setTo(userEmail);
         mail.setSubject("Forgot password");
         mail.setText("Click this link to reset password " + link);
-        // add link to webpage to change password
 
         javaMailSender.send(mail);
     }
