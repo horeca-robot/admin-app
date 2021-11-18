@@ -9,7 +9,7 @@ export default {
         var response;
 
         try{
-            response = await axios.post(`${baseUrl}/api/password`, email)
+            response = await axios.post(`${baseUrl}/api/password`, {email : email})
         }
         catch(error){
             response = response.error
