@@ -3,7 +3,6 @@ package edu.fontys.horecarobot.adminappbackend.filters;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.signInService.loadUserByUsername(username);
             if(jwtUtil.validateToken(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));;
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }

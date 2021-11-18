@@ -16,8 +16,8 @@
         </td>
     </template>
     <template v-else>
-        <td>{{ currentName }}</td>
-        <td>{{ currentId }}</td>
+        <td>{{ this.name }}</td>
+        <td>{{ this.id }}</td>
         <td style="text-align: right;"><i class="icon fas fa-edit" @click="changeToEdit" /></td>
     </template>
 </template>
@@ -61,7 +61,7 @@ export default {
             if(this.isNew){
                 this.$emit('addRobot', robot)
             }
-            else{
+            else if(this.name !== this.currentName){
                 this.$emit('updateRobot', robot)
             }
 
@@ -89,6 +89,7 @@ export default {
         padding: 10px;
         font-size: 1.25rem;
         font-weight: normal;
+        color: var(--text-color);
     }
 
     input{
