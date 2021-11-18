@@ -1,9 +1,7 @@
 package edu.fontys.horecarobot.adminappbackend.services;
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +16,8 @@ public class EmailService {
         SimpleMailMessage mail = new SimpleMailMessage();
 
         mail.setTo(userEmail);
-        mail.setSubject("Forgot password again?");
-        mail.setText("Here change it " + link);
+        mail.setSubject("Forgot password");
+        mail.setText("Click this link to reset password " + link);
         // add link to webpage to change password
 
         javaMailSender.send(mail);
