@@ -46,13 +46,10 @@ export default {
     },
     async created(){
         this.token = this.$route.query.token
-        console.log("Token = " + this.token);
         if(this.token){
-            console.log("Should come here when i have token")
             const claims = JwtUtil.parseJwt(this.token)
-            console.log("Claims = " + claims)
             const isExpired = JwtUtil.checkExpiration(claims["exp"])
-            console.log("is expired? " + isExpired)
+            
             if(isExpired){
                 alert("Token has expired")
                 this.$router.push("login")
@@ -60,7 +57,6 @@ export default {
             this.hasToken = true
             console.log(this.hasToken)
         }
-        console.log("Has token = " + this.hasToken)
     },
     methods:{
         sendResetMail(){
@@ -69,6 +65,8 @@ export default {
                 return
             }
             api.postForgetPasswordLink(this.email)
+            alert("Mail has been sended")
+            this.$router.push("login");
         },
         changePassword(){
             if(this.password === this.confirmPassword){
@@ -78,6 +76,11 @@ export default {
                 }
                 console.log(payload)
                 api.resetpassword(payload)
+                alert("Password has been changed")
+                this.$router.push("login")
+            }
+            else{
+                alert("Filled in passwords do not match")
             }
         }
     }
