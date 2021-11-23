@@ -33,6 +33,7 @@
 <script>
 import api from '../wrappers/PasswordWrapper.js'
 import JwtUtil from '../utils/JwtUtil.js'
+import notification from '../utils/NotificationUtil'
 
 export default {
     data(){
@@ -51,7 +52,7 @@ export default {
             const isExpired = JwtUtil.checkExpiration(claims["exp"])
             
             if(isExpired){
-                alert("Token has expired")
+                notification.showErrorNotification("Token has expired.")
                 this.$router.push("login")
             }
             this.hasToken = true
@@ -60,16 +61,17 @@ export default {
     methods:{
         async sendResetMail(){
             if(!this.email){
-                alert("Please fill in an email to receive a reset link.")
+                notification.showErrorNotification("Please fill in an email to receive a reset link.")
                 return
             }
+
             const response = await api.postResetPasswordRequest(this.email)
             if(response.success){
-                alert("A mail to reset your password has been sent.")
+                notification.showInfoNotification("A mail to reset your password has been sent.")
                 this.$router.push("login");
             }
             else{
-                alert("No user found with given email.")
+                notification.showErrorNotification("No user found with given email.")
             }
         },
         async changePassword(){
@@ -77,22 +79,24 @@ export default {
                 
                 const claims = JwtUtil.parseJwt(this.token)
                 const emailClaim = JwtUtil.checkExpiration(claims["sub"])
+
                 const payload = {
                     email: emailClaim,
                     password: this.password,
                     token: this.token
                 }
+
                 const response = await api.changePassword(payload)
                 if(response.success){
-                    alert("Password has been changed")
+                    notification.showSuccessNotification("Password has been changed")
                     this.$router.push("login")
                 }
                 else{
-                    alert("Something went wrong, please try again later.")
+                    notification.showErrorNotification("Something went wrong, please try again later.")
                 }
             }
             else{
-                alert("Filled in passwords do not match.")
+                notification.showErrorNotification("Filled in passwords do not match.")
             }
         }
     }

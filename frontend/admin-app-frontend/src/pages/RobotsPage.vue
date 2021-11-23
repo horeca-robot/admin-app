@@ -82,7 +82,7 @@ export default {
                 const response = await RobotWrapper.putRobot(payload)
 
                 if(response.success){
-                    alert('Succesfully updated robot #' + payload.id)
+                    notification.showSuccessNotification('Succesfully updated robot #' + payload.id)
                 }
                 else{
                     notification.showErrorNotification(response.message)
