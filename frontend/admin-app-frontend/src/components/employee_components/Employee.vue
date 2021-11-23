@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import notification from '../../utils/NotificationUtil'
+
 export default {
     name: 'Employee',
     emits: ['addEmployees', 'updateEmployees', 'getEmployees', 'deleteEmployees'],
@@ -42,7 +44,7 @@ export default {
         },
         handleSubmit() {
             if(!this.username.trim() || !this.pincode) {
-                alert('All fields need to be filled in.')
+                notification.showErrorNotification('All fields need to be filled in.')
                 return
             }
 

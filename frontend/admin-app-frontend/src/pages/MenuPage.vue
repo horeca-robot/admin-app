@@ -38,6 +38,7 @@ import Category from '../components/menu_components/Category.vue'
 import Product from '../components/menu_components/Product.vue'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import ProductWrapper from '../wrappers/ProductWrapper'
+import notification from '../utils/NotificationUtil'
 
 export default {
     data() {
@@ -69,7 +70,7 @@ export default {
                 });
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
         async getProducts(){
@@ -79,7 +80,7 @@ export default {
                 this.products = response.products
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
         selectCategory(id){
@@ -106,7 +107,7 @@ export default {
         },
         redirectToProduct(){
             if(!this.categories.length){
-                alert("You'll need to add a category first.")
+                notification.showErrorNotification("You'll need to add a category first.")
                 return
             }
 

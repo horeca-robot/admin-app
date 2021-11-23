@@ -24,6 +24,7 @@
 
 <script>
 import api from "../wrappers/AuthenticationWrapper.js"
+import notification from '../utils/NotificationUtil'
 
 export default {
     data() {
@@ -36,7 +37,7 @@ export default {
         async handleLogIn() {
 
             if(!this.email.trim() || !this.password.trim()){
-                alert('All fields need to be filled in.')
+                notification.showErrorNotification('All fields need to be filled in.')
                 return
             }
 
@@ -58,7 +59,7 @@ export default {
                 }
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         }
     }

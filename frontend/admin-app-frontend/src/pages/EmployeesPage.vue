@@ -23,6 +23,7 @@
 <script>
 import EmployeeWrapper from '../wrappers/EmployeeWrapper'
 import Employee from '../components/employee_components/Employee.vue'
+import notification from '../utils/NotificationUtil'
 
 export default {
     data() {
@@ -49,26 +50,26 @@ export default {
                 });
             }
             else {
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
 
             this.isCreating = false
         },
         async addEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username)) {
-                alert('Already exists an employee with this username')
+                notification.showErrorNotification('Already exists an employee with this username.')
             }
             else if(payload.pincode < 1111 || payload.pincode > 9999) {
-                alert("Pin should be a four digit number")
+                notification.showErrorNotification('Pin should be a four digit number.')
             }
             else {
                 const response = await EmployeeWrapper.postEmployees(payload)
 
                 if(response.success) {
-                    alert('Succesfully added employee ' + payload.username)
+                    notification.showSuccessNotification(`Succesfully added employee ${payload.username}.`)
                 }
                 else {
-                    alert(response.message)
+                    notification.showErrorNotification(response.message)
                 }
             }
 
@@ -76,19 +77,19 @@ export default {
         },
         async updateEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username, payload.id)) {
-                alert('Already exists an employee with this username')
+                notification.showErrorNotification('Already exists an employee with this username.')
             }
             else if(payload.pincode < 1111 || payload.pincode > 9999) {
-                alert("Pin should be a four digit number")
+                notification.showErrorNotification('Pin should be a four digit number.')
             }
             else {
                 const response = await EmployeeWrapper.putEmployees(payload)
 
                 if(response.success) {                    
-                    alert('Succesfully updated employee ' + payload.username)
+                    notification.showSuccessNotification(`Succesfully updated employee ${payload.username}.`)
                 }
                 else {
-                    alert(response.message)
+                    notification.showErrorNotification(response.message)
                 }
             }
 
@@ -104,7 +105,7 @@ export default {
                 await this.getEmployees()
             }
             else {
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
         addRow() {            

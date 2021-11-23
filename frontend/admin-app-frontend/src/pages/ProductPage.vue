@@ -67,6 +67,7 @@
 import ProductWrapper from '../wrappers/ProductWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import ImagePreview from "../components/ImagePreview.vue";
+import notification from '../utils/NotificationUtil'
 
 export default {
     data(){
@@ -131,7 +132,7 @@ export default {
             e.preventDefault()
 
             if(!this.name || !this.price){
-                alert('Not all required fields are filled in, please check again')
+                notification.showErrorNotification('Not all required fields are filled in.')
                 return
             }
 
@@ -161,10 +162,10 @@ export default {
             const response = await ProductWrapper.postProduct(payload)
 
             if(response.success){
-                alert(`Succesfully added ${payload.name} to the menu.`)
+                notification.showSuccessNotification(`Succesfully added ${payload.name} to the menu.`)
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
 
@@ -183,10 +184,10 @@ export default {
             const response = await ProductWrapper.putProduct(payload)
 
             if(response.success){
-                alert(`Succesfully updated ${payload.name}.`)
+                notification.showSuccessNotification(`Succesfully updated ${payload.name}.`)
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
 
@@ -201,7 +202,7 @@ export default {
             if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
                 await ProductWrapper.deleteProduct(this.id)
                 this.$router.push('menu')
-                alert(`Succesfully deleted ${this.name}.`)
+                notification.showErrorNotification(`Succesfully deleted ${this.name}.`)
                 this.resetValues()
             }
         },
