@@ -131,9 +131,6 @@ export default {
             this.price = product.price
             this.discountPrice = product.discountPrice
             this.alcohol = product.containsAlcohol
-            this.img = product.image
-
-            console.log(this.categories)
 
             this.categories.forEach(function (category) {
                 if(product.categories.some(i => i === category.id)){
