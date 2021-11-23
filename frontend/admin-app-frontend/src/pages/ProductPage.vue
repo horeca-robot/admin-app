@@ -217,11 +217,6 @@ export default {
         async createTag(e){
             e.preventDefault()
 
-            if(!this.isEditing){
-                this.$router.push('menu')
-                return
-            }
-
             var result = await TagWrapper.postTag({
                 name: this.tag
             });
