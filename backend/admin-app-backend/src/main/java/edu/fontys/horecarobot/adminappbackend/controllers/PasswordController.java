@@ -28,6 +28,6 @@ public class PasswordController {
     @PutMapping
     public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestModel model){
         passwordService.changePassword(model.getEmail(), model.getPassword(), model.getToken());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

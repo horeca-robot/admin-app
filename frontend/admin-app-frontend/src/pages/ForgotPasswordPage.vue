@@ -55,7 +55,6 @@ export default {
                 this.$router.push("login")
             }
             this.hasToken = true
-            console.log(this.hasToken)
         }
     },
     methods:{
@@ -66,7 +65,7 @@ export default {
             }
             const response = await api.postResetPasswordRequest(this.email)
             if(response.success){
-                alert("Mail has been send.")
+                alert("A mail to reset your password has been sent.")
                 this.$router.push("login");
             }
             else{
@@ -83,7 +82,6 @@ export default {
                     password: this.password,
                     token: this.token
                 }
-                console.log(payload)
                 const response = await api.changePassword(payload)
                 if(response.success){
                     alert("Password has been changed")

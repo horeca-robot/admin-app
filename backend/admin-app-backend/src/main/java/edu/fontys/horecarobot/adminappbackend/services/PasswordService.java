@@ -3,6 +3,7 @@ package edu.fontys.horecarobot.adminappbackend.services;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -54,6 +55,7 @@ public class PasswordService {
         return false;
     }
 
+    @NonNull
     private UserDetails getAdminUser(String email){
         AdminUser exampleAdmin = new AdminUser();
         exampleAdmin.setEmail(email);
