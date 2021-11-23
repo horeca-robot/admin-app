@@ -75,8 +75,11 @@ export default {
         },
         async changePassword(){
             if(this.password === this.confirmPassword){
+                
+                const claims = JwtUtil.parseJwt(this.token)
+                const emailClaim = JwtUtil.checkExpiration(claims["sub"])
                 const payload = {
-                    email: JwtUtil.getEmail(this.token),
+                    email: emailClaim,
                     password: this.password,
                     token: this.token
                 }
