@@ -14,7 +14,7 @@ export default {
         var response;
 
         try {
-            response = await axios.get(`${baseUrl}/restaurant`, apiConfig)
+            response = await axios.get(`${baseUrl}/restaurant`)
         } catch (error) {
             response = error.response
         }
@@ -36,7 +36,7 @@ export default {
         var response;
 
         try {
-            response = await axios.get(`${baseUrl}/website`, apiConfig)
+            response = await axios.get(`${baseUrl}/website`)
         } catch (error) {
             response = error.response
         }
