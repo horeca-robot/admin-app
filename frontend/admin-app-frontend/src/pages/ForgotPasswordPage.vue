@@ -12,7 +12,7 @@
                 <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
             </div>
             <div >
-                <button class="btn" @click="changePassword">Change password</button>
+                <button class="btn" @click="changePassword">Change Password</button>
             </div>
         </div>
     </div>
