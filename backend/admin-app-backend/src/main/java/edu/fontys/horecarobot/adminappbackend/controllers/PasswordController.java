@@ -18,8 +18,12 @@ public class PasswordController {
 
     @PostMapping
     public ResponseEntity<?> resetPasswordLink(@RequestBody ResetPasswordRequestModel model){
-        passwordService.sendResetLink(model.getEmail());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        var result = passwordService.sendResetLink(model.getEmail());
+        if(result) {
+            return ResponseEntity.noContent().build();
+        } else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping
