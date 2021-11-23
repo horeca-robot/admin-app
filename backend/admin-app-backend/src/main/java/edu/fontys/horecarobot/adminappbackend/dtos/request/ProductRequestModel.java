@@ -20,4 +20,5 @@ public class ProductRequestModel {
     private String description;
     private boolean containsAlcohol;
     private List<UUID> categories = new ArrayList<>();
+    private List<UUID> tags = new ArrayList<>();
 }
