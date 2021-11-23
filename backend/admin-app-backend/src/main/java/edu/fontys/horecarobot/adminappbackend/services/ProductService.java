@@ -4,8 +4,10 @@ import edu.fontys.horecarobot.adminappbackend.dtos.request.ProductRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.response.ProductResponseModel;
 import edu.fontys.horecarobot.databaselibrary.models.Category;
 import edu.fontys.horecarobot.databaselibrary.models.Product;
+import edu.fontys.horecarobot.databaselibrary.models.Tag;
 import edu.fontys.horecarobot.databaselibrary.repositories.CategoryRepository;
 import edu.fontys.horecarobot.databaselibrary.repositories.ProductRepository;
+import edu.fontys.horecarobot.databaselibrary.repositories.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final TagRepository tagRepository;
 
     public boolean doesProductExist(UUID id) {
         return productRepository.findById(id).isPresent();
@@ -61,11 +64,20 @@ public class ProductService {
         p.setDiscountPrice(productModel.getDiscountPrice());
         p.setImage(productModel.getImage());
         p.setCategories(getProductCategories(productModel.getCategories()));
+        p.setTags(getProductTags(productModel.getTags()));
         return p;
     }
 
     private List<Category> getProductCategories(List<UUID> categories) {
         return categories.stream().map(categoryRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }
+
+    private List<Tag> getProductTags(List<UUID> tags) {
+        return tags.stream()
+                .map(tagRepository::findById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
