@@ -33,6 +33,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .csrf().disable().authorizeRequests()
                 .antMatchers("/api/sign-in").permitAll() //API endpoint with /api/sign-in permits all users
                 .antMatchers(HttpMethod.GET, "/api/info/**").permitAll() //Restaurant info is unauthorized
+                .antMatchers("/api/password").permitAll() //API endpoint with /api/password permits all users
                 .antMatchers("/v3/api-docs/**").permitAll() //Allows OpenAPI documentation access
                 .antMatchers("/swagger-ui/**").permitAll() //Allows Swagger documentation access
                 .anyRequest().authenticated() //Every other API endpoint is authenticated
