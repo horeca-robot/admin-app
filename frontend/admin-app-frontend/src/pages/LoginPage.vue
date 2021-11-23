@@ -62,7 +62,6 @@ export default {
             }
         },
         forgotPassword(){
-            console.log("test")
             this.$router.push("forgot-password")
         }
     }

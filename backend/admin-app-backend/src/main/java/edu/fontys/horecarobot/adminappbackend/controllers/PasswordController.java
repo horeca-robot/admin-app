@@ -18,7 +18,7 @@ public class PasswordController {
     private final PasswordService passwordService;
 
     @PostMapping
-    public ResponseEntity<?> resetPasswordLink(@RequestBody ResetPasswordRequestModel model){
+    public ResponseEntity<?> postResetPasswordRequest(@RequestBody ResetPasswordRequestModel model){
         var result = passwordService.sendResetLink(model.getEmail());
         if(result)
             return ResponseEntity.noContent().build();

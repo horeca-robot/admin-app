@@ -64,7 +64,7 @@ export default {
                 alert("Please fill in an email to receive a reset link.")
                 return
             }
-            const response = await api.postForgetPasswordLink(this.email)
+            const response = await api.postResetPasswordRequest(this.email)
             if(response.success){
                 alert("Mail has been send.")
                 this.$router.push("login");
@@ -84,7 +84,7 @@ export default {
                     token: this.token
                 }
                 console.log(payload)
-                const response = await api.resetpassword(payload)
+                const response = await api.changePassword(payload)
                 if(response.success){
                     alert("Password has been changed")
                     this.$router.push("login")

@@ -52,7 +52,6 @@ public class PasswordService {
             }
         }
         return false;
-
     }
 
     private UserDetails getAdminUser(String email){
@@ -66,17 +65,13 @@ public class PasswordService {
             AdminUser admin = optionalAdmin.get();
             return new User(admin.getEmail(), admin.getPassword(), new ArrayList<>());
         }
-        else{
-            return null;
-        }
+        return null;
     }
 
     private boolean isValidModel(String email, String token){
         var username = jwtUtil.extractUsername(token);
-        if(username != email){
+        if(username != email)
             return false;
-        }else{
-            return true;
-        }
+        return true;
     }
 }
