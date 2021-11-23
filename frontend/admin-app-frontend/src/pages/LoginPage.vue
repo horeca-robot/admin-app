@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="section" >
-            <p class="forgot-password" @click="forgotPassword">Forgot Password?</p>
+            <p class="forgot-password" @click="redirectToForgotPasswordPage">Forgot Password?</p>
             <button class="btn" @click="handleLogIn">Log In</button>
         </div>
     </div>
@@ -61,7 +61,7 @@ export default {
                 alert(response.message)
             }
         },
-        forgotPassword(){
+        redirectToForgotPasswordPage(){
             this.$router.push("forgot-password")
         }
     }
