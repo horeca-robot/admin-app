@@ -59,7 +59,7 @@ export default {
             response =  await axios.put(`${baseUrl}/${data.id}`, data, this.getHeaders())
 
             return {
-                success: response.status === 201
+                success: response.status === 204
             }
         }
         catch(error){
