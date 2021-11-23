@@ -72,8 +72,6 @@ public class PasswordService {
 
     private boolean isValidModel(String email, String token){
         var username = jwtUtil.extractUsername(token);
-        if(username != email)
-            return false;
-        return true;
+        return (username == email);
     }
 }
