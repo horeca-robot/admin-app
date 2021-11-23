@@ -25,7 +25,6 @@ public class PasswordService {
     public boolean sendResetLink(String email){
 
         try{
-
             final UserDetails userDetails = getAdminUser(email);
             final String jwt = jwtUtil.generateToken(userDetails, EXPIRATION_TIME);
 
@@ -38,19 +37,22 @@ public class PasswordService {
         }
     }
 
-    public boolean changePassword(String email, String password){
-        AdminUser exampleAdmin = new AdminUser();
-        exampleAdmin.setEmail(email);
-        Example<AdminUser> example = Example.of(exampleAdmin);
-        Optional<AdminUser> optionalAdmin = adminUserRepository.findOne(example);
+    public boolean changePassword(String email, String password, String token){
+        if(isValidModel(email, token)){
+            AdminUser exampleAdmin = new AdminUser();
+            exampleAdmin.setEmail(email);
+            Example<AdminUser> example = Example.of(exampleAdmin);
+            Optional<AdminUser> optionalAdmin = adminUserRepository.findOne(example);
 
-        if(optionalAdmin.isPresent()) {
-            var admin = optionalAdmin.get();
-            admin.setPassword(password);
-            adminUserRepository.saveAndFlush(admin);
-            return true;
+            if(optionalAdmin.isPresent()) {
+                var admin = optionalAdmin.get();
+                admin.setPassword(password);
+                adminUserRepository.saveAndFlush(admin);
+                return true;
+            }
         }
         return false;
+
     }
 
     private UserDetails getAdminUser(String email){
@@ -66,6 +68,15 @@ public class PasswordService {
         }
         else{
             return null;
+        }
+    }
+
+    private boolean isValidModel(String email, String token){
+        var username = jwtUtil.extractUsername(token);
+        if(username != email){
+            return false;
+        }else{
+            return true;
         }
     }
 }
