@@ -59,16 +59,21 @@ export default {
         }
     },
     methods:{
-        sendResetMail(){
+        async sendResetMail(){
             if(!this.email){
-                alert("Please fill in an email to receive a reset link")
+                alert("Please fill in an email to receive a reset link.")
                 return
             }
-            api.postForgetPasswordLink(this.email)
-            alert("Mail has been sended")
-            this.$router.push("login");
+            const response = await api.postForgetPasswordLink(this.email)
+            if(response.success){
+                alert("Mail has been send.")
+                this.$router.push("login");
+            }
+            else{
+                alert("No user found with given email.")
+            }
         },
-        changePassword(){
+        async changePassword(){
             if(this.password === this.confirmPassword){
                 const payload = {
                     email: JwtUtil.getEmail(this.token),
@@ -76,12 +81,17 @@ export default {
                     token: this.token
                 }
                 console.log(payload)
-                api.resetpassword(payload)
-                alert("Password has been changed")
-                this.$router.push("login")
+                const response = await api.resetpassword(payload)
+                if(response.success){
+                    alert("Password has been changed")
+                    this.$router.push("login")
+                }
+                else{
+                    alert("Something went wrong, please try again later.")
+                }
             }
             else{
-                alert("Filled in passwords do not match")
+                alert("Filled in passwords do not match.")
             }
         }
     }
