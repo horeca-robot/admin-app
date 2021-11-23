@@ -2,7 +2,7 @@
   <div>
     <Notifications />
     <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name" :restaurantName="this.restaurantSettings.name"/>
-    <router-view :class="{'other-page': isNotLoginPage,  'login-page': !isNotLoginPage}"/>
+    <router-view :class="{'other-page': isNotLoginPage && isNotPasswordForgotPage,  'login-page': !isNotLoginPage}"/>
     <Background ref="background" />
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     isNotLoginPage() {
-      if(this.$route.name !== 'login'){
+      if(this.$route.name !== 'login' && this.$route.name !== 'forgot-password'){
         return true;
       }
       return false;

@@ -1,69 +1,99 @@
 <template>
-    <div class="panel">
-        <div class="section">
-            <h1 class="title">HorecaRobot</h1>
-        </div>
-        <div class="section">
-            <div class="input">
-                <i class="icon fas fa-envelope"/>
-                <div class="line" />
-                <input v-model="email" class="input-field" placeholder="Email"/>
-            </div>
+    <div class="panel" v-if="hasToken">
+        <div class="section" >
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
                 <input v-model="password" type="password" class="input-field" placeholder="Password"/>
             </div>
+            <div class="input">
+                <i class="icon fas fa-lock"/>
+                <div class="line" />
+                <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
+            </div>
+            <div >
+                <button class="btn" @click="changePassword">Change Password</button>
+            </div>
         </div>
-        <div class="section" >
-            <p class="forgot-password" @click="redirectToForgotPasswordPage">Forgot Password?</p>
-            <button class="btn" @click="handleLogIn">Log In</button>
+    </div>
+    <div class="panel" v-else>
+        <div class="section">
+            <div class="input">
+                <i class="icon fas fa-envelope"/>
+                <div class="line" />
+                <input v-model="email" type="text" class="input-field" placeholder="email"/>
+            </div>
+            <div>
+                <button class="btn" @click="sendResetMail">Send Resetlink</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import api from "../wrappers/AuthenticationWrapper.js"
-import notification from '../utils/NotificationUtil'
+import api from '../wrappers/PasswordWrapper.js'
+import JwtUtil from '../utils/JwtUtil.js'
 
 export default {
-    data() {
-        return {
-            email: '',
-            password: ''
+    data(){
+        return{
+            token: '',
+            hasToken: false,
+            password: '',
+            confirmPassword: '',
+            email: ''
         }
     },
-    methods: {
-        async handleLogIn() {
-
-            if(!this.email.trim() || !this.password.trim()){
-                notification.showErrorNotification('All fields need to be filled in.')
+    async created(){
+        this.token = this.$route.query.token
+        if(this.token){
+            const claims = JwtUtil.parseJwt(this.token)
+            const isExpired = JwtUtil.checkExpiration(claims["exp"])
+            
+            if(isExpired){
+                alert("Token has expired")
+                this.$router.push("login")
+            }
+            this.hasToken = true
+        }
+    },
+    methods:{
+        async sendResetMail(){
+            if(!this.email){
+                alert("Please fill in an email to receive a reset link.")
                 return
             }
-
-            const payload = { 
-                email: this.email, 
-                password: this.password 
-            };
-
-            const response = await api.signIn(payload);
-
+            const response = await api.postResetPasswordRequest(this.email)
             if(response.success){
-                localStorage.setItem('jwt', response.token)
-
-                if(this.$route.params.nextUrl != null) {
-                    this.$router.push(this.$route.params.nextUrl)
+                alert("A mail to reset your password has been sent.")
+                this.$router.push("login");
+            }
+            else{
+                alert("No user found with given email.")
+            }
+        },
+        async changePassword(){
+            if(this.password === this.confirmPassword){
+                
+                const claims = JwtUtil.parseJwt(this.token)
+                const emailClaim = JwtUtil.checkExpiration(claims["sub"])
+                const payload = {
+                    email: emailClaim,
+                    password: this.password,
+                    token: this.token
                 }
-                else {
-                    this.$router.push('employees')
+                const response = await api.changePassword(payload)
+                if(response.success){
+                    alert("Password has been changed")
+                    this.$router.push("login")
+                }
+                else{
+                    alert("Something went wrong, please try again later.")
                 }
             }
             else{
-                notification.showErrorNotification(response.message)
+                alert("Filled in passwords do not match.")
             }
-        },
-        redirectToForgotPasswordPage(){
-            this.$router.push("forgot-password")
         }
     }
 }
@@ -74,7 +104,7 @@ export default {
         min-width: 500px;
         width: 32.5vw;
         min-height: fit-content;
-        height: 50vh;
+        height: 30vh;
         top:0;
         bottom: 0;
         left: 0;
@@ -86,6 +116,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
     }
 
     .section{
@@ -161,7 +192,7 @@ export default {
     }
 
     .btn{
-        width: 50%;
+        min-width: fit-content;
         height: 50px;
         font-family: Strait;
         padding: 20px;
@@ -184,3 +215,4 @@ export default {
         cursor: pointer;
     }
 </style>
+
