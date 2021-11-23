@@ -20,11 +20,9 @@ public class PasswordController {
     @PostMapping
     public ResponseEntity<?> resetPasswordLink(@RequestBody ResetPasswordRequestModel model){
         var result = passwordService.sendResetLink(model.getEmail());
-        if(result) {
+        if(result)
             return ResponseEntity.noContent().build();
-        } else{
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping
