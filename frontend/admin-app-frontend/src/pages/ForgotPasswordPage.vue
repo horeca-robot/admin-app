@@ -72,7 +72,8 @@ export default {
             if(this.password === this.confirmPassword){
                 const payload = {
                     email: JwtUtil.getEmail(this.token),
-                    password: this.password
+                    password: this.password,
+                    token: this.token
                 }
                 console.log(payload)
                 api.resetpassword(payload)
