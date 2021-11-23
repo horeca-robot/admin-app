@@ -1,5 +1,6 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
+import edu.fontys.horecarobot.adminappbackend.dtos.request.ChangePasswordRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ResetPasswordRequestModel;
 import edu.fontys.horecarobot.adminappbackend.services.PasswordService;
@@ -27,8 +28,8 @@ public class PasswordController {
     }
 
     @PutMapping
-    public ResponseEntity<?> changePassword(@RequestBody LoginRequestModel login){
-        passwordService.changePassword(login.getEmail(), login.getPassword());
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestModel model){
+        passwordService.changePassword(model.getEmail(), model.getPassword(), model.getToken());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
