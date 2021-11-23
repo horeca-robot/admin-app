@@ -5,15 +5,10 @@
         <label for="restaurantname">Restaurant Name</label>
         <input id="restaurantname" v-model="restaurantName" type="text" />
       </div>
-
+   
       <div>
         <label for="contactperson">Contact Person</label>
         <input id="contactperson" v-model="contactName" type="text" />
-      </div>
-
-      <div>
-        <label for="openingtime">Opening Time</label>
-        <input id="openingtime" v-model="openingTime" type="time" />
       </div>
 
       <div>
@@ -22,13 +17,20 @@
       </div>
 
       <div>
-        <label for="closingtime">Closing Time</label>
-        <input id="closingtime" v-model="closingTime" type="time" />
-      </div>
-
-      <div>
         <label for="contactphone">Contact Phone</label>
         <input id="contactphone" v-model="contactPhone" type="tel" />
+      </div>
+
+      <div id="days-open-wrapper">
+        <div class="days-open">
+          <label>Monday</label>
+          <div>
+            <input class="openingtime openingtime-monday" v-model="openingTime" type="time" />
+          </div>
+          <div>
+            <input class="closingtime closingtime-monday" v-model="closingTime" type="time" />
+          </div>
+        </div>
       </div>
 
       <div>
@@ -54,11 +56,12 @@ export default {
           let info = response.data.data.info
           
           this.restaurantName = info.name
-          this.openingTime = info.openingTime
-          this.closingTime = info.closingTime
           this.contactName = info.contactPersonName
           this.contactEmail = info.contactPersonEmail
           this.contactPhone = info.contactPersonPhone
+
+          this.openingTime = info.openingTime
+          this.closingTime = info.closingTime
 
           if(info.restaurantLogo)
             this.$refs.logo.setBase64(info.restaurantLogo)
@@ -67,11 +70,11 @@ export default {
   data(){
       return {
           restaurantName : '',
-          openingTime : '',
-          closingTime : '',
           contactName : '',
           contactEmail : '',
-          contactPhone : ''
+          contactPhone : '',
+          openingTime : '',
+          closingTime : '',
       }
   },
   methods : {
@@ -79,11 +82,11 @@ export default {
           const payload = {
               name : this.restaurantName,
               restaurantLogo : this.$refs.logo.base64,
-              openingTime : this.openingTime,
-              closingTime : this.closingTime,
               contactPersonName : this.contactName,
               contactPersonEmail : this.contactEmail,
-              contactPersonPhone : this.contactPhone
+              contactPersonPhone : this.contactPhone,
+              openingTime : this.openingTime,
+              closingTime : this.closingTime
           }
 
           await api.putRestaurantSettings(payload)
@@ -150,5 +153,10 @@ button:hover {
 
 button:active {
   transform: translateY(5px);
+}
+
+.openingtime {
+  float: left;
+  margin-right: 16px;
 }
 </style>
