@@ -83,7 +83,6 @@ export default {
             price: 0,
             discountPrice: 0, 
             alcohol: false,
-            img: '',
             tag: '',
             categories: [],
             tags: []
