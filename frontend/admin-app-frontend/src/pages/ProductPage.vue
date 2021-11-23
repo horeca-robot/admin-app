@@ -229,8 +229,14 @@ export default {
             var result = await TagWrapper.postTag({
                 name: this.tag
             });
+
+            if (!result.success) {
+                alert(result.message);
+                return;
+            }
             
-            alert('Created?' + JSON.stringify(result));
+            await this.getTags();
+            await this.getProductInfo();
         },
 
         async deleteProduct(e){
@@ -259,6 +265,9 @@ export default {
             this.alcohol = false
             this.categories.forEach(function (category) {
                 category.selected = false
+            })
+            this.tags.forEach(function (tag) {
+                tag.selected = false
             })
         }
     }
