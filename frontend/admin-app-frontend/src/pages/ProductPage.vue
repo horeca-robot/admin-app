@@ -217,6 +217,11 @@ export default {
         async createTag(e){
             e.preventDefault()
 
+            if (this.tags.some(t => t.name.toLowerCase() === this.tag)) {
+                alert('A tag with this name already exists')
+                return
+            }
+
             var result = await TagWrapper.postTag({
                 name: this.tag
             });
@@ -225,6 +230,8 @@ export default {
                 alert(result.message);
                 return;
             }
+
+            this.tag = '';
 
             await this.getTags();
             await this.getProductInfo();
