@@ -217,7 +217,7 @@ export default {
         async createTag(e){
             e.preventDefault()
 
-            if (this.tags.some(t => t.name.toLowerCase() === this.tag)) {
+            if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
                 alert('A tag with this name already exists')
                 return
             }
