@@ -43,15 +43,20 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername(), H_24);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String generateToken(UserDetails userDetails, long expirationTime) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, userDetails.getUsername(), expirationTime);
+    }
+
+    private String createToken(Map<String, Object> claims, String subject, long expirationTime) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + H_24))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, JWT_KEY)
                 .compact();
     }

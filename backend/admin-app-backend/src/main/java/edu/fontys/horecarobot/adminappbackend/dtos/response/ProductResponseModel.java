@@ -23,6 +23,10 @@ public class ProductResponseModel {
                 .stream()
                 .map(Category::getId)
                 .collect(Collectors.toList());
+        tags = product.getTags()
+                .stream()
+                .map(TagResponseModel::new)
+                .collect(Collectors.toList());
     }
 
     private final UUID id;
@@ -33,5 +37,6 @@ public class ProductResponseModel {
     private final String description;
     private final boolean containsAlcohol;
     private final List<UUID> categories;
+    private final List<TagResponseModel> tags;
 
 }

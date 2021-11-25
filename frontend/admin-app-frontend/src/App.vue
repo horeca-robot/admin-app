@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Notifications />
     <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name" :restaurantName="this.restaurantSettings.name"/>
     <router-view :class="{'other-page': isNotLoginPage,  'login-page': !isNotLoginPage}"/>
     <Background ref="background" />
@@ -9,12 +10,14 @@
 <script>
 import Background from './components/Background.vue'
 import NavigationBar from './components/NavigationBar.vue'
+import Notifications from './components/Notifications.vue'
 import ColorUtil from './utils/ColorUtil.js'
 import api from './wrappers/InfoWrapper.js'
+import notification from './utils/NotificationUtil'
 
 export default {
   name: 'App',
-  components: { Background, NavigationBar},
+  components: { Background, NavigationBar, Notifications},
   data() {
     return {
       restaurantSettings: {}
@@ -49,13 +52,13 @@ export default {
         this.restaurantSettings = response.data["data"]["info"]
       }
       else{
-        alert('Something went wrong, try again later.')
+        notification.showErrorNotification('Something went wrong, try again later.')
       }
     }
   },
   computed: {
     isNotLoginPage() {
-      if(this.$route.name !== 'login'){
+      if(this.$route.name !== 'login' && this.$route.name !== 'forgot-password'){
         return true;
       }
       return false;
