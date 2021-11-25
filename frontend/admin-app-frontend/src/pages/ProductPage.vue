@@ -223,7 +223,7 @@ export default {
             e.preventDefault()
 
             if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
-                alert('A tag with this name already exists')
+                notification.showErrorNotification('A tag with this name already exists')
                 return
             }
 
@@ -232,7 +232,7 @@ export default {
             });
 
             if (!result.success) {
-                alert(result.message);
+                notification.showErrorNotification(result.message)
                 return;
             }
 
