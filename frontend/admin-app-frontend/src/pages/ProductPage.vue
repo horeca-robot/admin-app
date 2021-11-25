@@ -70,6 +70,7 @@
 <script>
 import ProductWrapper from '../wrappers/ProductWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
+import notification from '../utils/NotificationUtil'
 import ImagePreview from '../components/ImagePreview.vue'
 import TagWrapper from '../wrappers/TagWrapper'
 
@@ -157,7 +158,7 @@ export default {
             e.preventDefault()
 
             if(!this.name || !this.price){
-                alert('Not all required fields are filled in, please check again')
+                notification.showErrorNotification('Not all required fields are filled in.')
                 return
             }
 
@@ -188,10 +189,10 @@ export default {
             const response = await ProductWrapper.postProduct(payload)
 
             if(response.success){
-                alert(`Succesfully added ${payload.name} to the menu.`)
+                notification.showSuccessNotification(`Succesfully added ${payload.name} to the menu.`)
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
 
@@ -211,10 +212,10 @@ export default {
             const response = await ProductWrapper.putProduct(payload)
 
             if(response.success){
-                alert(`Succesfully updated ${payload.name}.`)
+                notification.showSuccessNotification(`Succesfully updated ${payload.name}.`)
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
 
@@ -222,7 +223,7 @@ export default {
             e.preventDefault()
 
             if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
-                alert('A tag with this name already exists')
+                notification.showErrorNotification('A tag with this name already exists')
                 return
             }
 
@@ -231,7 +232,7 @@ export default {
             });
 
             if (!result.success) {
-                alert(result.message);
+                notification.showErrorNotification(result.message)
                 return;
             }
 
@@ -266,7 +267,7 @@ export default {
             if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
                 await ProductWrapper.deleteProduct(this.id)
                 this.$router.push('menu')
-                alert(`Succesfully deleted ${this.name}.`)
+                notification.showErrorNotification(`Succesfully deleted ${this.name}.`)
                 this.resetValues()
             }
         },
