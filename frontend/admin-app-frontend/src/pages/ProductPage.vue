@@ -95,6 +95,7 @@ export default {
     async created(){
         await this.getCategories()
         await this.getTags();
+        this.displayTags = this.tags;
 
         this.id = this.$route.query.id
 
@@ -236,8 +237,18 @@ export default {
 
             this.tag = '';
 
+            var selectedTags = this.tags.filter(t => t.selected)
+                .map(t => t.id);
+
             await this.getTags();
-            await this.getProductInfo();
+
+            this.tags.forEach(t => {
+                if (selectedTags.some(s => s === t.id)) {
+                    t.selected = true;
+                }
+            })
+
+            this.displayTags = this.tags;
         },
 
         async searchTags(){
