@@ -39,11 +39,15 @@
                     </div>
                     <div class="blocks">
                         <label class="text"> Tags:</label>
-                        <label class="extraLabel"/>
+                        <div class="categorieHolder">
+                            <div class="categories" v-for="tag in displayTags" :key="tag.id">
+                                <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="tags" placeholder="Tag..."/>
-                        <button class="button">Add</button>
+                        <input class="inputs inputsExtra" @input="searchTags" placeholder="Tag..." v-model="tag" />
+                        <button class="button" @click="createTag">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Select Categories:</label>
@@ -66,7 +70,8 @@
 <script>
 import ProductWrapper from '../wrappers/ProductWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
-import ImagePreview from "../components/ImagePreview.vue";
+import ImagePreview from '../components/ImagePreview.vue'
+import TagWrapper from '../wrappers/TagWrapper'
 
 export default {
     data(){
@@ -78,7 +83,10 @@ export default {
             price: 0,
             discountPrice: 0, 
             alcohol: false,
-            categories: []
+            tag: '',
+            categories: [],
+            displayTags: [],
+            tags: []
         }
     },
     components: {
@@ -86,6 +94,8 @@ export default {
     },
     async created(){
         await this.getCategories()
+        await this.getTags();
+        this.displayTags = this.tags;
 
         this.id = this.$route.query.id
 
@@ -100,6 +110,14 @@ export default {
             this.categories = response.categories
             this.categories.forEach(function (category) {
                 category.selected = false
+            })
+        },
+
+        async getTags(){
+            const response = await TagWrapper.getTags()
+            this.tags = response.tags
+            this.tags.forEach(function (tag) {
+                tag.selected = false
             })
         },
 
@@ -121,6 +139,14 @@ export default {
                     category.selected = true
                 }
             })
+
+            this.tags.forEach(function (tag) {
+                if(product.tags.some(i => i.id === tag.id)){
+                    tag.selected = true
+                }
+            })
+
+            this.displayTags = this.tags;
 
             if(product.image){
                 this.$refs.image.setBase64(product.image)
@@ -155,7 +181,8 @@ export default {
                 description: this.description,
                 containsAlcohol: this.alcohol,
                 image : this.$refs.image.base64,
-                categories: this.categories.filter(i => i.selected).map(i => i.id)
+                categories: this.categories.filter(i => i.selected).map(i => i.id),
+                tags: this.tags.filter(i => i.selected).map(i => i.id)
             }
             
             const response = await ProductWrapper.postProduct(payload)
@@ -177,7 +204,8 @@ export default {
                 discountPrice: this.discountPrice,
                 containsAlcohol: this.alcohol,
                 image: this.$refs.image.base64,
-                categories: this.categories.filter(i => i.selected).map(i => i.id)
+                categories: this.categories.filter(i => i.selected).map(i => i.id),
+                tags: this.tags.filter(i => i.selected).map(i => i.id)
             }
             
             const response = await ProductWrapper.putProduct(payload)
@@ -188,6 +216,43 @@ export default {
             else{
                 alert(response.message)
             }
+        },
+
+        async createTag(e){
+            e.preventDefault()
+
+            if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
+                alert('A tag with this name already exists')
+                return
+            }
+
+            var result = await TagWrapper.postTag({
+                name: this.tag
+            });
+
+            if (!result.success) {
+                alert(result.message);
+                return;
+            }
+
+            this.tag = '';
+
+            var selectedTags = this.tags.filter(t => t.selected)
+                .map(t => t.id);
+
+            await this.getTags();
+
+            this.tags.forEach(t => {
+                if (selectedTags.some(s => s === t.id)) {
+                    t.selected = true;
+                }
+            })
+
+            this.displayTags = this.tags;
+        },
+
+        async searchTags(){
+            this.displayTags = this.tags.filter(t => t.name.toLowerCase().includes(this.tag.toLowerCase()));
         },
 
         async deleteProduct(e){
@@ -217,6 +282,10 @@ export default {
             this.categories.forEach(function (category) {
                 category.selected = false
             })
+            this.tags.forEach(function (tag) {
+                tag.selected = false
+            })
+            this.displayTags = this.tags;
         }
     }
 }
