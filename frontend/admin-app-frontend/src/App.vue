@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavigationBar v-show="isNotLoginPage" :currentPage="this.$route.name" :restaurantName="this.restaurantSettings.name"/>
-    <router-view :class="{'other-page': isNotLoginPage && isNotPasswordForgotPage,  'login-page': !isNotLoginPage}"/>
+    <router-view :class="{'other-page': isNotLoginPage,  'login-page': !isNotLoginPage}"/>
     <Background ref="background" />
   </div>
 </template>
