@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" @input="searchTags" type="text" placeholder="Tag..." name="tags" v-model="tag" />
+                        <input class="inputs inputsExtra" @input="searchTags" placeholder="Tag..." v-model="tag" />
                         <button class="button" @click="createTag">Add</button>
                     </div>
                     <div class="blocks">
@@ -241,12 +241,7 @@ export default {
         },
 
         async searchTags(){
-            if (this.tag === '') {
-                this.displayTags = this.tags;
-            }
-
-            var searchTags = this.tags.filter(t => t.name.toLowerCase().includes(this.tag.toLowerCase()));
-            this.displayTags = searchTags;
+            this.displayTags = this.tags.filter(t => t.name.toLowerCase().includes(this.tag.toLowerCase()));
         },
 
         async deleteProduct(e){
