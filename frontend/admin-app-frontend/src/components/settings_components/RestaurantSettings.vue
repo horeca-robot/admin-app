@@ -21,15 +21,73 @@
         <input id="contactphone" v-model="contactPhone" type="tel" />
       </div>
 
-      <div id="days-open-wrapper">
-        <div class="days-open">
-          <label>Monday</label>
-          <div>
-            <input class="openingtime openingtime-monday" v-model="openingTime" type="time" />
-          </div>
-          <div>
-            <input class="closingtime closingtime-monday" v-model="closingTime" type="time" />
-          </div>
+      <div class="days-open">
+        <label>Monday</label>
+        <div>
+          <input class="openingtime openingtime-monday" v-model="openingTimeMonday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-monday" v-model="closingTimeMonday" type="time" />
+        </div>
+      </div>
+
+      <div class="days-open">
+        <label>Tuesday</label>
+        <div>
+          <input class="openingtime openingtime-tuesday" v-model="openingTimeTuesday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-tuesday" v-model="closingTimeTuesday" type="time" />
+        </div>
+      </div>
+
+      <div class="days-open">
+          <label>Wednesday</label>
+        <div>
+          <input class="openingtime openingtime-wednesday" v-model="openingTimeWednesday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-wednesday" v-model="closingTimeWednesday" type="time" />
+        </div>
+      </div>
+
+      <div class="days-open">
+          <label>Thursday</label>
+        <div>
+          <input class="openingtime openingtime-thursday" v-model="openingTimeThursday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-thursday" v-model="closingTimeThursday" type="time" />
+        </div>
+      </div>
+
+      <div class="days-open">
+          <label>Friday</label>
+        <div>
+          <input class="openingtime openingtime-friday" v-model="openingTimeFriday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-friday" v-model="closingTimeFriday" type="time" />
+        </div>
+      </div>
+
+      <div class="days-open">
+          <label>Saturday</label>
+        <div>
+          <input class="openingtime openingtime-saturday" v-model="openingTimeSaturday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-saturday" v-model="closingTimeSaturday" type="time" />
+        </div>
+      </div>
+
+      <div class="days-open">
+          <label>Sunday</label>
+        <div>
+          <input class="openingtime openingtime-sunday" v-model="openingTimeSunday" type="time" />
+        </div>
+        <div>
+          <input class="closingtime closingtime-sunday" v-model="closingTimeSunday" type="time" />
         </div>
       </div>
 
@@ -60,8 +118,20 @@ export default {
           this.contactEmail = info.contactPersonEmail
           this.contactPhone = info.contactPersonPhone
 
-          this.openingTime = info.openingTime
-          this.closingTime = info.closingTime
+          this.openingTimeMonday = info.openingTimeMonday
+          this.closingTimeMonday = info.closingTimeMonday
+          this.openingTimeTuesday = info.openingTimeTuesday
+          this.closingTimeTuesday = info.closingTimeTuesday
+          this.openingTimeWednesday = info.openingTimeWednesday
+          this.closingTimeWednesday = info.closingTimeWednesday
+          this.openingTimeThursday = info.openingTimeThursday
+          this.closingTimeThursday = info.closingTimeThursday
+          this.openingTimeFriday = info.openingTimeFriday
+          this.closingTimeFriday = info.closingTimeFriday
+          this.openingTimeSaturday = info.openingTimeSaturday
+          this.closingTimeSaturday = info.closingTimeSaturday
+          this.openingTimeSunday = info.openingTimeSunday
+          this.closingTimeSunday = info.closingTimeSunday
 
           if(info.restaurantLogo)
             this.$refs.logo.setBase64(info.restaurantLogo)
@@ -75,6 +145,15 @@ export default {
           contactPhone : '',
           openingTime : '',
           closingTime : '',
+          restaurantDays: [
+                  {name: 'monday', openingTime: this.openingTimeMonday, closingTime: this.closingTimeMonday},
+                  {name: 'tuesday', openingTime: this.openingTimeTuesday, closingTime: this.closingTimeTuesday},
+                  {name: 'wedsnesday', openingTime: this.openingTimeWednesday, closingTime: this.closingTimeWednesday},
+                  {name: 'thursday', openingTime: this.openingTimeThursday, closingTime: this.closingTimeThursday},
+                  {name: 'friday', openingTime: this.openingTimeFriday, closingTime: this.closingTimeFriday},
+                  {name: 'saturday', openingTime: this.openingTimeSaturday, closingTime: this.closingTimeSaturday},
+                  {name: 'sunday', openingTime: this.openingTimeSunday, closingTime: this.closingTimeSunday}
+                ]
       }
   },
   methods : {
@@ -85,11 +164,9 @@ export default {
               contactPersonName : this.contactName,
               contactPersonEmail : this.contactEmail,
               contactPersonPhone : this.contactPhone,
-              openingTime : this.openingTime,
-              closingTime : this.closingTime
+              restaurantDays: this.restaurantDays
           }
-
-          await api.putRestaurantSettings(payload)
+          //await api.putRestaurantSettings(payload)
       }
   },
   components: {
