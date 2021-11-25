@@ -40,13 +40,13 @@
                     <div class="blocks">
                         <label class="text"> Tags:</label>
                         <div class="categorieHolder">
-                            <div class="categories" v-for="tag in tags" :key="tag.id">
+                            <div class="categories" v-for="tag in displayTags" :key="tag.id">
                                 <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" placeholder="Tag..." name="tags" v-model="tag" />
+                        <input class="inputs inputsExtra" @input="searchTags" type="text" placeholder="Tag..." name="tags" v-model="tag" />
                         <button class="button" @click="createTag">Add</button>
                     </div>
                     <div class="blocks">
@@ -85,6 +85,7 @@ export default {
             alcohol: false,
             tag: '',
             categories: [],
+            displayTags: [],
             tags: []
         }
     },
@@ -143,6 +144,8 @@ export default {
                     tag.selected = true
                 }
             })
+
+            this.displayTags = this.tags;
 
             if(product.image){
                 this.$refs.image.setBase64(product.image)
@@ -237,6 +240,15 @@ export default {
             await this.getProductInfo();
         },
 
+        async searchTags(){
+            if (this.tag === '') {
+                this.displayTags = this.tags;
+            }
+
+            var searchTags = this.tags.filter(t => t.name.toLowerCase().includes(this.tag.toLowerCase()));
+            this.displayTags = searchTags;
+        },
+
         async deleteProduct(e){
             e.preventDefault()
 
@@ -267,6 +279,7 @@ export default {
             this.tags.forEach(function (tag) {
                 tag.selected = false
             })
+            this.displayTags = this.tags;
         }
     }
 }
