@@ -3,6 +3,7 @@ package edu.fontys.horecarobot.adminappbackend.services;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,7 +26,6 @@ public class PasswordService {
     public boolean sendResetLink(String email){
 
         try{
-
             final UserDetails userDetails = getAdminUser(email);
             final String jwt = jwtUtil.generateToken(userDetails, EXPIRATION_TIME);
 
@@ -38,21 +38,24 @@ public class PasswordService {
         }
     }
 
-    public boolean changePassword(String email, String password){
-        AdminUser exampleAdmin = new AdminUser();
-        exampleAdmin.setEmail(email);
-        Example<AdminUser> example = Example.of(exampleAdmin);
-        Optional<AdminUser> optionalAdmin = adminUserRepository.findOne(example);
+    public boolean changePassword(String email, String password, String token){
+        if(isValidModel(email, token)){
+            AdminUser exampleAdmin = new AdminUser();
+            exampleAdmin.setEmail(email);
+            Example<AdminUser> example = Example.of(exampleAdmin);
+            Optional<AdminUser> optionalAdmin = adminUserRepository.findOne(example);
 
-        if(optionalAdmin.isPresent()) {
-            var admin = optionalAdmin.get();
-            admin.setPassword(password);
-            adminUserRepository.saveAndFlush(admin);
-            return true;
+            if(optionalAdmin.isPresent()) {
+                var admin = optionalAdmin.get();
+                admin.setPassword(password);
+                adminUserRepository.saveAndFlush(admin);
+                return true;
+            }
         }
         return false;
     }
 
+    @NonNull
     private UserDetails getAdminUser(String email){
         AdminUser exampleAdmin = new AdminUser();
         exampleAdmin.setEmail(email);
@@ -64,8 +67,11 @@ public class PasswordService {
             AdminUser admin = optionalAdmin.get();
             return new User(admin.getEmail(), admin.getPassword(), new ArrayList<>());
         }
-        else{
-            return null;
-        }
+        return null;
+    }
+
+    private boolean isValidModel(String email, String token){
+        var username = jwtUtil.extractUsername(token);
+        return (username == email);
     }
 }

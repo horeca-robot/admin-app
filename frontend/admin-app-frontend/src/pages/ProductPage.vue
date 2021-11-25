@@ -117,7 +117,6 @@ export default {
             this.alcohol = product.containsAlcohol
 
             this.categories.forEach(function (category) {
-                console.log(category.id)
                 if(product.categories.some(i => i === category.id)){
                     category.selected = true
                 }

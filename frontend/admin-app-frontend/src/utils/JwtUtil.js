@@ -17,11 +17,4 @@ export default {
 
         return expDate.getTime() <= currentDate.getTime();
     },
-
-    //Get Role from JWT
-    getEmail(token){
-        const claims = this.parseJwt(token)
-        const role = claims["sub"]
-        return role
-    }
 }

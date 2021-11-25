@@ -12,7 +12,7 @@
                 <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
             </div>
             <div >
-                <button class="btn" @click="changePassword">Change password</button>
+                <button class="btn" @click="changePassword">Change Password</button>
             </div>
         </div>
     </div>
@@ -55,32 +55,44 @@ export default {
                 this.$router.push("login")
             }
             this.hasToken = true
-            console.log(this.hasToken)
         }
     },
     methods:{
-        sendResetMail(){
+        async sendResetMail(){
             if(!this.email){
-                alert("Please fill in an email to receive a reset link")
+                alert("Please fill in an email to receive a reset link.")
                 return
             }
-            api.postForgetPasswordLink(this.email)
-            alert("Mail has been sended")
-            this.$router.push("login");
-        },
-        changePassword(){
-            if(this.password === this.confirmPassword){
-                const payload = {
-                    email: JwtUtil.getEmail(this.token),
-                    password: this.password
-                }
-                console.log(payload)
-                api.resetpassword(payload)
-                alert("Password has been changed")
-                this.$router.push("login")
+            const response = await api.postResetPasswordRequest(this.email)
+            if(response.success){
+                alert("A mail to reset your password has been sent.")
+                this.$router.push("login");
             }
             else{
-                alert("Filled in passwords do not match")
+                alert("No user found with given email.")
+            }
+        },
+        async changePassword(){
+            if(this.password === this.confirmPassword){
+                
+                const claims = JwtUtil.parseJwt(this.token)
+                const emailClaim = JwtUtil.checkExpiration(claims["sub"])
+                const payload = {
+                    email: emailClaim,
+                    password: this.password,
+                    token: this.token
+                }
+                const response = await api.changePassword(payload)
+                if(response.success){
+                    alert("Password has been changed")
+                    this.$router.push("login")
+                }
+                else{
+                    alert("Something went wrong, please try again later.")
+                }
+            }
+            else{
+                alert("Filled in passwords do not match.")
             }
         }
     }

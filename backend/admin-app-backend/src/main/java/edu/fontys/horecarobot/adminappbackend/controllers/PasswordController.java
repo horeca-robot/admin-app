@@ -1,5 +1,6 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
+import edu.fontys.horecarobot.adminappbackend.dtos.request.ChangePasswordRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ResetPasswordRequestModel;
 import edu.fontys.horecarobot.adminappbackend.services.PasswordService;
@@ -17,18 +18,16 @@ public class PasswordController {
     private final PasswordService passwordService;
 
     @PostMapping
-    public ResponseEntity<?> resetPasswordLink(@RequestBody ResetPasswordRequestModel model){
+    public ResponseEntity<?> postResetPasswordRequest(@RequestBody ResetPasswordRequestModel model){
         var result = passwordService.sendResetLink(model.getEmail());
-        if(result) {
+        if(result)
             return ResponseEntity.noContent().build();
-        } else{
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping
-    public ResponseEntity<?> changePassword(@RequestBody LoginRequestModel login){
-        passwordService.changePassword(login.getEmail(), login.getPassword());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequestModel model){
+        passwordService.changePassword(model.getEmail(), model.getPassword(), model.getToken());
+        return ResponseEntity.noContent().build();
     }
 }
