@@ -43,6 +43,7 @@ export default {
           isEditing: false,
           catName: '',
           categories: [],
+          childCategories: [],
       }
     },
     created(){
@@ -62,6 +63,8 @@ export default {
       async getAllCategories(){
         const response = await CategoryWrapper.getCategories()
         this.categories = response.categories
+        this.categories = this.categories.filter(c => !c.parentCategories.length && this.id !== c.id)
+        console.log(this.categories)
         this.categories.forEach(function (category) {
                 category.selected = false
             })
