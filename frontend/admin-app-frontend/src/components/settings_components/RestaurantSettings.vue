@@ -157,13 +157,6 @@ export default {
   width: 75%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    ". ."
-    ". ."
-    ". .";
 }
 input,
 label {
@@ -199,7 +192,20 @@ button:active {
  display: grid;
 }
 .days-open input, .days-open label {
-  float: left;
   margin-right: 16px;
+}
+.days-open input {
+  float: right;
+  margin-top: 0;
+}
+.days-open label {
+  float: left;
+  margin-top: 3px;
+}
+.days-open {
+  width: 70%;
+}
+.restaurant-details-wrapper label, .restaurant-details-wrapper input {
+  margin-bottom: 16px;
 }
 </style>
