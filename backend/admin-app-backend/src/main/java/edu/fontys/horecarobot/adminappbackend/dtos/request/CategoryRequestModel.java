@@ -11,7 +11,6 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class CategoryRequestModel {
-    private UUID id;
     @NonNull
     private String name;
     private String image;

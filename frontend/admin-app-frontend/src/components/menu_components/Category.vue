@@ -1,13 +1,13 @@
 <template>
-    <div :class="{'head-category head-category-selected' : this.isSelected, 'head-category' : !this.isSelected}" 
+    <div :class="{'head-category head-category-selected' : this.isSelected, 'head-category' : !this.isSelected}"
     @click="selectHeadCategory" 
     @dblclick="redirectToCategory(this.id)">
         {{ name }}
     </div>
     <template v-if="isSelected">
-        <div v-for="childCategory in childCategories" :key="childCategory.id" 
+        <div v-for="childCategory in childCategories" :key="childCategory.id"
         :class="{'child-category child-category-selected' : childCategory.selected, 'child-category' : !childCategory.selected}" 
-        @click="selectChildCategory(childCategory)" 
+        @click="selectChildCategory(childCategory)"
         @dblclick="redirectToCategory(childCategory.id)">
             {{ childCategory.name }}
         </div>

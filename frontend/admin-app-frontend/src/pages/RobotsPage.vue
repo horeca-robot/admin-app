@@ -23,6 +23,7 @@
 <script>
 import RobotWrapper from '../wrappers/RobotWrapper'
 import Robot from '../components/robot_components/Robot.vue'
+import notification from '../utils/NotificationUtil'
 
 export default {
     data() {
@@ -48,26 +49,26 @@ export default {
                 });
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
 
             this.isCreating = false
         },
         async addRobot(payload){
             if(this.doesRobotListContainId(payload.id)){
-                alert('Already exists a robot with this id')
+                notification.showErrorNotification('Already exists a robot with this id.')
             }
             else if(this.doesRobotListContainName(payload.name)){
-                alert('Already exists a robot with this name')
+                notification.showErrorNotification('Already exists a robot with this name.')
             }
             else{
                 const response = await RobotWrapper.postRobot(payload)
 
                 if(response.success){
-                    alert('Succesfully added robot #' + payload.id)
+                    notification.showSuccessNotification('Succesfully added robot #' + payload.id)
                 }
                 else{
-                    alert(response.message)
+                    notification.showErrorNotification(response.message)
                 }
             }
 
@@ -75,16 +76,16 @@ export default {
         },
         async updateRobot(payload){
             if(this.doesRobotListContainName(payload.name)){
-                alert('Already exists a robot with this name')
+                notification.showErrorNotification('Already exists a robot with this name.')
             }
             else{
                 const response = await RobotWrapper.putRobot(payload)
 
                 if(response.success){
-                    alert('Succesfully updated robot #' + payload.id)
+                    notification.showSuccessNotification('Succesfully updated robot #' + payload.id)
                 }
                 else{
-                    alert(response.message)
+                    notification.showErrorNotification(response.message)
                 }
             }
 
@@ -100,7 +101,7 @@ export default {
                 await this.getRobots()
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
         addRow(){
