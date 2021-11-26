@@ -1,103 +1,71 @@
 <template>
   <div id="grid-container">
     <div class="grid container-element">
-      <div>
-        <label for="restaurantname">Restaurant Name</label>
-        <input id="restaurantname" v-model="restaurantName" type="text" />
-      </div>
-   
-      <div>
-        <label for="contactperson">Contact Person</label>
-        <input id="contactperson" v-model="contactName" type="text" />
-      </div>
-
-      <div>
-        <label for="contactemail">Contact Email</label>
-        <input id="contactemail" v-model="contactEmail" type="email" />
-      </div>
-
-      <div>
-        <label for="contactphone">Contact Phone</label>
-        <input id="contactphone" v-model="contactPhone" type="tel" />
-      </div>
-
-      <div class="days-open">
-        <label>Monday</label>
+      <div class="restaurant-details-wrapper">
         <div>
-          <input class="openingtime openingtime-monday" v-model="openingTimeMonday" type="time" />
+          <label for="restaurantname">Restaurant Name</label>
+          <input id="restaurantname" v-model="restaurantName" type="text" />
+        </div> 
+        <div>
+          <label for="contactperson">Contact Person</label>
+          <input id="contactperson" v-model="contactName" type="text" />
         </div>
         <div>
-          <input class="closingtime closingtime-monday" v-model="closingTimeMonday" type="time" />
-        </div>
-      </div>
-
-      <div class="days-open">
-        <label>Tuesday</label>
-        <div>
-          <input class="openingtime openingtime-tuesday" v-model="openingTimeTuesday" type="time" />
+          <label for="contactemail">Contact Email</label>
+          <input id="contactemail" v-model="contactEmail" type="email" />
         </div>
         <div>
-          <input class="closingtime closingtime-tuesday" v-model="closingTimeTuesday" type="time" />
+          <label for="contactphone">Contact Phone</label>
+          <input id="contactphone" v-model="contactPhone" type="tel" />
         </div>
-      </div>
-
-      <div class="days-open">
+      </div>   
+      <div class="days-open-wrapper">
+        <label>Opening and Closing Time</label>
+        <div class="days-open">
+          <label>Monday</label>
+          <input class="openingtime" v-model="openingTimeMonday" type="time" />
+          <input class="closingtime" v-model="closingTimeMonday" type="time" />
+        </div> 
+        <div class="days-open">
+          <label>Tuesday</label>
+          <input class="openingtime" v-model="openingTimeTuesday" type="time" />
+          <input class="closingtime" v-model="closingTimeTuesday" type="time" />
+        </div>
+        <div class="days-open">
           <label>Wednesday</label>
-        <div>
-          <input class="openingtime openingtime-wednesday" v-model="openingTimeWednesday" type="time" />
+          <input class="openingtime" v-model="openingTimeWednesday" type="time" />
+          <input class="closingtime" v-model="closingTimeWednesday" type="time" />
         </div>
-        <div>
-          <input class="closingtime closingtime-wednesday" v-model="closingTimeWednesday" type="time" />
-        </div>
-      </div>
-
-      <div class="days-open">
+        <div class="days-open">
           <label>Thursday</label>
-        <div>
-          <input class="openingtime openingtime-thursday" v-model="openingTimeThursday" type="time" />
-        </div>
-        <div>
-          <input class="closingtime closingtime-thursday" v-model="closingTimeThursday" type="time" />
-        </div>
-      </div>
-
-      <div class="days-open">
+          <input class="openingtime" v-model="openingTimeThursday" type="time" />
+          <input class="closingtime" v-model="closingTimeThursday" type="time" />
+        </div> 
+        <div class="days-open">
           <label>Friday</label>
-        <div>
-          <input class="openingtime openingtime-friday" v-model="openingTimeFriday" type="time" />
-        </div>
-        <div>
-          <input class="closingtime closingtime-friday" v-model="closingTimeFriday" type="time" />
-        </div>
-      </div>
-
-      <div class="days-open">
+          <input class="openingtime" v-model="openingTimeFriday" type="time" />
+          <input class="closingtime" v-model="closingTimeFriday" type="time" />
+        </div> 
+        <div class="days-open">
           <label>Saturday</label>
-        <div>
-          <input class="openingtime openingtime-saturday" v-model="openingTimeSaturday" type="time" />
+          <input class="openingtime" v-model="openingTimeSaturday" type="time" />
+          <input class="closingtime" v-model="closingTimeSaturday" type="time" />
         </div>
-        <div>
-          <input class="closingtime closingtime-saturday" v-model="closingTimeSaturday" type="time" />
-        </div>
-      </div>
-
-      <div class="days-open">
+        <div class="days-open">
           <label>Sunday</label>
-        <div>
-          <input class="openingtime openingtime-sunday" v-model="openingTimeSunday" type="time" />
-        </div>
-        <div>
-          <input class="closingtime closingtime-sunday" v-model="closingTimeSunday" type="time" />
+          <input class="openingtime" v-model="openingTimeSunday" type="time" />
+          <input class="closingtime" v-model="closingTimeSunday" type="time" />
         </div>
       </div>
-
+    </div>
+    <div class="image-preview-wrapper">
+      <div id="img-preview" class="container-element">
+        <label for="logo">Restaurant Logo</label>
+        <ImagePreview ref="logo"/>
+      </div>
       <div>
         <button @click="handleSave">Save Settings</button>
       </div>
-    </div>
-    <div id="img-preview" class="container-element">
-      <label for="logo">Restaurant Logo</label>
-      <ImagePreview ref="logo"/>
     </div>
   </div>
 </template>
@@ -107,7 +75,7 @@ import ImagePreview from "../ImagePreview.vue";
 import api from "../../wrappers/InfoWrapper.js";
 
 export default {
-  async mounted(){
+  async mounted() {
       let response = await api.getRestaurantSettings()
 
       if(response.data.data.info) {
@@ -137,7 +105,7 @@ export default {
             this.$refs.logo.setBase64(info.restaurantLogo)
       }
   },
-  data(){
+  data() {
       return {
           restaurantName : '',
           contactName : '',
@@ -166,7 +134,7 @@ export default {
               contactPersonPhone : this.contactPhone,
               restaurantDays: this.restaurantDays
           }
-          //await api.putRestaurantSettings(payload)
+          await api.putRestaurantSettings(payload)
       }
   },
   components: {
@@ -184,7 +152,6 @@ export default {
 }
 #img-preview {
   float: right;
-  width: 25%;
 }
 .grid {
   width: 75%;
@@ -208,7 +175,6 @@ label {
   margin-top: 10px;
   color: var(--text-color)
 }
-
 button {
   margin-top: 50px;
   min-width: 50%;
@@ -222,17 +188,17 @@ button {
   font-size: 18px;
   transition: 0.5s;
 }
-
 button:hover {
   background-color: green;
   cursor: pointer;
 }
-
 button:active {
   transform: translateY(5px);
 }
-
-.openingtime {
+.days-open-wrapper {
+ display: grid;
+}
+.days-open input, .days-open label {
   float: left;
   margin-right: 16px;
 }
