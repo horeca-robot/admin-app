@@ -77,7 +77,7 @@ export default {
         async changePassword(){
             if(this.password === this.confirmPassword){
                 
-                const email = JwtUtil.getEmail(this.token)
+                const email = JwtUtil.parseEmail(this.token)
 
                 const payload = {
                     email: email,
