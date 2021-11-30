@@ -3,15 +3,18 @@ package edu.fontys.horecarobot.adminappbackend.services;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ProductRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.response.ProductResponseModel;
 import edu.fontys.horecarobot.databaselibrary.models.Category;
+import edu.fontys.horecarobot.databaselibrary.models.IngredientProduct;
 import edu.fontys.horecarobot.databaselibrary.models.Product;
 import edu.fontys.horecarobot.databaselibrary.models.Tag;
 import edu.fontys.horecarobot.databaselibrary.repositories.CategoryRepository;
+import edu.fontys.horecarobot.databaselibrary.repositories.IngredientRepository;
 import edu.fontys.horecarobot.databaselibrary.repositories.ProductRepository;
 import edu.fontys.horecarobot.databaselibrary.repositories.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
+    private final IngredientRepository ingredientRepository;
 
     public boolean doesProductExist(UUID id) {
         return productRepository.findById(id).isPresent();
@@ -65,6 +69,7 @@ public class ProductService {
         p.setImage(productModel.getImage());
         p.setCategories(getProductCategories(productModel.getCategories()));
         p.setTags(getProductTags(productModel.getTags()));
+        p.setIngredients(getProductIngredients(p, productModel.getIngredients()));
         return p;
     }
 
@@ -80,6 +85,16 @@ public class ProductService {
                 .map(tagRepository::findById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
+                .collect(Collectors.toList());
+    }
+
+    private List<IngredientProduct> getProductIngredients(Product product, Map<UUID, Boolean> ingredients) {
+        return ingredients.keySet()
+                .stream()
+                .map(ingredientRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(i -> new IngredientProduct(null, product, i, ingredients.get(i.getId())))
                 .collect(Collectors.toList());
     }
 
