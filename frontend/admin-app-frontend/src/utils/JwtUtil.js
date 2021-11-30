@@ -17,4 +17,10 @@ export default {
 
         return expDate.getTime() <= currentDate.getTime();
     },
+
+    parseEmail(token){
+        const claims = this.parseJwt(token)
+        const email = claims["sub"]
+        return email
+    }
 }
