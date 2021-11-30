@@ -25,11 +25,11 @@ public class RestaurantService {
         var restaurantInfo = getRestaurantInfo();
         restaurantInfo.setName(model.getName());
         restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
-        restaurantInfo.setOpeningTime(model.getOpeningTime());
-        restaurantInfo.setClosingTime(model.getClosingTime());
         restaurantInfo.setContactPersonName(model.getContactPersonName());
         restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
         restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
+        restaurantInfo.setRestaurantDays(model.getRestaurantDays());
+
         restaurantInfoRepository.saveAndFlush(restaurantInfo);
     }
 
@@ -55,5 +55,4 @@ public class RestaurantService {
 
         return restaurantInfo.get();
     }
-
 }
