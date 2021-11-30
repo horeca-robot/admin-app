@@ -18,16 +18,19 @@ public class Startup {
 
     @Value("${debug}")
     private boolean debug;
+    @Value("${admin.email}")
+    private String email;
+    @Value("${admin.password}")
+    private String password;
     private final AdminUserRepository adminUserRepository;
 
     @EventListener(ApplicationReadyEvent.class)
-    public  void runAfterStartup(){
+    public void runAfterStartup(){
         if(debug)
             createUser();
     }
 
     private void createUser(){
-        var email = "info.rigs.fontys@gmail.com";
         AdminUser exampleAdmin = new AdminUser();
         exampleAdmin.setEmail(email);
         Example<AdminUser> example = Example.of(exampleAdmin);
@@ -36,7 +39,7 @@ public class Startup {
         if(optionalAdmin.isEmpty()){
             var admin = new AdminUser();
             admin.setEmail(email);
-            admin.setPassword("AbC1@DeF");
+            admin.setPassword(password);
             adminUserRepository.saveAndFlush(admin);
         }
     }
