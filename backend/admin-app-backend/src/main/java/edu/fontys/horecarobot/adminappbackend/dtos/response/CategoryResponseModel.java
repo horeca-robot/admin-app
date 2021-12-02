@@ -22,6 +22,7 @@ public class CategoryResponseModel {
                 .stream()
                 .map(CategoryResponseModel::new)
                 .collect(Collectors.toList());
+        visible = category.isVisible();
     }
 
     private final UUID id;
@@ -29,5 +30,6 @@ public class CategoryResponseModel {
     private final String image;
     private final List<UUID> parentCategories;
     private final List<CategoryResponseModel> childCategories;
+    private final boolean visible;
 
 }
