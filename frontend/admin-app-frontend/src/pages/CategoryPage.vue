@@ -76,6 +76,7 @@ export default {
       },
 
       setCategoryValues(category){
+        this.visible = category.visible
         this.id = category.id
         this.name = category.name
 
