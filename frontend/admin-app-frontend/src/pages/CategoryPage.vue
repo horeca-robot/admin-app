@@ -127,8 +127,6 @@ export default {
           visible: this.visible
         }
 
-        console.log(payload)
-
         const response = await CategoryWrapper.postCategory(payload)
 
         if(response.success){

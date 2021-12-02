@@ -15,5 +15,5 @@ public class CategoryRequestModel {
     private String name;
     private String image;
     private List<UUID> parentCategories = new ArrayList<>();
-    private Boolean visible;
+    private boolean visible;
 }
