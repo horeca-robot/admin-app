@@ -5,6 +5,9 @@
         <label>Name:</label>
         <input placeholder="Name..." v-model="name" type="text"/>
       </div>
+      <div>
+        <label>Is visible</label><input type="checkbox" v-model="visible"/>
+      </div>
       <div class="panel-section">
         <label>Image:</label>
         <ImagePreview ref="image" />
@@ -39,6 +42,7 @@ export default {
         id: '',
         isEditing: false,
         name: '',
+        visible: false,
         filteredCategories: [],
         allCategories: []
       }
@@ -118,8 +122,11 @@ export default {
         const payload = {
           name: this.name,
           image : this.$refs.image.base64,
-          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id)
+          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id),
+          visible: this.visible
         }
+
+        console.log(payload)
 
         const response = await CategoryWrapper.postCategory(payload)
 
@@ -136,7 +143,8 @@ export default {
           id: this.id,
           name: this.name,
           image : this.$refs.image.base64,
-          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id)
+          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id),
+          visible: this.visible
         }
 
         const response = await CategoryWrapper.putCategory(payload)
@@ -168,6 +176,7 @@ export default {
       resetValues(){
         this.id = ''
         this.name = ''
+        this.visible = false;
         this.filteredCategories.forEach(function (category) {
           category.selected = false
         })
@@ -184,8 +193,7 @@ export default {
   margin: auto;
   min-width: 500px;
   width: 30vw;
-  min-height: fit-content;
-  height: 30vh;
+  height: fit-content;
   background-color: var(--secondary-color);
   box-shadow: 5px 5px 5px 1px rgb(0 0 0 / 50%);
   border-radius: 10px;
@@ -217,7 +225,7 @@ input[type=text] {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   width: calc(100% - 14px);
-  height: 30px;
+  height: 20px;
   padding: 5px;
   margin-bottom: 5%;
 }
