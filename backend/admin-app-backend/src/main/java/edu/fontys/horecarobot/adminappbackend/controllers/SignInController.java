@@ -1,10 +1,9 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
-import edu.fontys.horecarobot.adminappbackend.dtos.ApiResponse;
-import edu.fontys.horecarobot.adminappbackend.dtos.LoginModel;
+import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
+import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
 import edu.fontys.horecarobot.adminappbackend.services.SignInService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-@RequestMapping(path = "api/SignIn")
+@RequestMapping(path = "api/sign-in")
 @CrossOrigin(origins = "http://localhost:4000")
 @RequiredArgsConstructor
 public class SignInController {
@@ -24,20 +21,29 @@ public class SignInController {
     private final SignInService signInService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginModel loginModel){
+    @PostMapping
+    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginRequestModel loginModel) {
         if(loginModel.getEmail().isBlank() || loginModel.getPassword().isBlank())
-            return new ResponseEntity<>(ApiResponse.error("Not all fields are filled in."), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
+
+        String jwt;
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getEmail(), loginModel.getPassword()));
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginModel.getEmail(),
+                            loginModel.getPassword()
+                    )
+            );
+
+            final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
+            jwt = signInService.generateJWT(userDetails);
         }
         catch(BadCredentialsException e) {
-            return new ResponseEntity<>(ApiResponse.error("Incorrect email or password.").addData("exception", e), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error("Incorrect email or password."));
         }
 
-        final UserDetails userDetails = signInService.loadUserByUsername(loginModel.getEmail());
-        final String jwt = signInService.generateJWT(userDetails);
-        return new ResponseEntity<>(ApiResponse.ok().addData("jwt", jwt), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.ok().addData("jwt", jwt));
     }
+
 }

@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="section" >
-            <p class="forgot-password">Forgot Password?</p>
+            <p class="forgot-password" @click="redirectToForgotPasswordPage">Forgot Password?</p>
             <button class="btn" @click="handleLogIn">Log In</button>
         </div>
     </div>
@@ -24,6 +24,7 @@
 
 <script>
 import api from "../wrappers/AuthenticationWrapper.js"
+import notification from '../utils/NotificationUtil'
 
 export default {
     data() {
@@ -33,11 +34,10 @@ export default {
         }
     },
     methods: {
-        async handleLogIn(e) {
-            e.preventDefault()
+        async handleLogIn() {
 
             if(!this.email.trim() || !this.password.trim()){
-                alert('All fields need to be filled in.')
+                notification.showErrorNotification('All fields need to be filled in.')
                 return
             }
 
@@ -59,8 +59,11 @@ export default {
                 }
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
+        },
+        redirectToForgotPasswordPage(){
+            this.$router.push("forgot-password")
         }
     }
 }
