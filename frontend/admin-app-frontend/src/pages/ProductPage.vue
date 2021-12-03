@@ -108,7 +108,7 @@ export default {
     methods: {
         async getCategories(){
             const response = await CategoryWrapper.getCategories()
-            this.categories = response.categories
+            this.categories = response.categories.filter(c => !c.childCategories.length)
             this.categories.forEach(function (category) {
                 category.selected = false
             })
@@ -267,7 +267,7 @@ export default {
             if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
                 await ProductWrapper.deleteProduct(this.id)
                 this.$router.push('menu')
-                notification.showErrorNotification(`Succesfully deleted ${this.name}.`)
+                notification.showSuccessNotification(`Succesfully deleted ${this.name}.`)
                 this.resetValues()
             }
         },
