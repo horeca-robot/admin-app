@@ -3,7 +3,7 @@
         <div class="panel">
             <div class="categories-box">
                 <h1 class="box-title">Categories</h1>
-                <div class="categories" v-if="categories.length !== 0">
+                <div class="categories" v-if="categories.length">
                     <Category v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id" 
                     :id="category.id" 
                     :name="category.name" 
@@ -15,7 +15,7 @@
             </div>
             <div class="products-box">
                 <h1 class="box-title">Products</h1>
-                <div class="products" v-if="selectedProducts.length !== 0">
+                <div class="products" v-if="selectedProducts.length">
                     <Product v-for="product in selectedProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id" 
                     :id="product.id" 
                     :name="product.name" 
@@ -23,7 +23,8 @@
                     :image="product.image"/>
                 </div>
                 <h1 class="box-message" v-else-if="!selectedCategory">Select a category.</h1>
-                <h1 class="box-message" v-else>Currently selected category doesn't contain any products.</h1>
+                <h1 class="box-message" v-else-if="categories.find(c => c.id === selectedCategory) ? categories.find(c => c.id === selectedCategory).childCategories.length : false">Select a child-category.</h1>
+                <h1 class="box-message" v-else-if="!selectedProducts.length">Currently selected category doesn't contain any products.</h1>
             </div>
         </div>
         <div class="buttons-box">
@@ -86,6 +87,7 @@ export default {
         selectCategory(id){
             this.selectedCategory = id
             this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
+            console.log(this.categories.find(c => c.id === this.selectedCategory))
         },
         isOtherCategorySelected(categoryId){
             const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
