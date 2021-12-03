@@ -14,7 +14,7 @@
       <div class="panel-section">
         <label>Select Parent-Categories:</label>
         <div id="categories">
-          <div class="category" v-for="category in filteredCategories" :key="category.id"> 
+          <div class="category" v-for="category in filteredCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
               <input type="checkbox" v-model="category.selected"> 
               <label>{{ category.name }}</label>
           </div>

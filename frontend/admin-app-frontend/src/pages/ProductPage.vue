@@ -34,25 +34,25 @@
                         <label class="extraLabel"/>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="ingredients" placeholder="Ingredient..."/>
+                        <input class="inputs inputsExtra" type="text" name="ingredients" placeholder="Search Ingredient..."/>
                         <button class="button">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Tags:</label>
                         <div class="categorieHolder">
-                            <div class="categories" v-for="tag in displayTags" :key="tag.id">
+                            <div class="categories" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
                                 <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" @input="searchTags" placeholder="Tag..." v-model="tag" />
+                        <input class="inputs inputsExtra" @input="searchTags" placeholder="Search Tag..." v-model="tag" />
                         <button class="button" @click="createTag">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Select Categories:</label>
                         <div class="categorieHolder"> 
-                            <div class="categories" v-for="category in categories" :key="category.id"> 
+                            <div class="categories" v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
                                 <input type="checkbox" v-model="category.selected"> <label>{{category.name}}</label>
                             </div>
                         </div>

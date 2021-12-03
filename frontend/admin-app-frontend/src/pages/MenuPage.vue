@@ -4,10 +4,10 @@
             <div class="categories-box">
                 <h1 class="box-title">Categories</h1>
                 <div class="categories" v-if="categories.length !== 0">
-                    <Category v-for="category in categories" :key="category.id" 
+                    <Category v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id" 
                     :id="category.id" 
                     :name="category.name" 
-                    :childCategories="category.childCategories" 
+                    :childCategories="category.childCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" 
                     :otherIsSelected="isOtherCategorySelected(category.id)" 
                     @selectCategory="selectCategory"/>
                 </div>
@@ -16,7 +16,7 @@
             <div class="products-box">
                 <h1 class="box-title">Products</h1>
                 <div class="products" v-if="selectedProducts.length !== 0">
-                    <Product v-for="product in selectedProducts" :key="product.id" 
+                    <Product v-for="product in selectedProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id" 
                     :id="product.id" 
                     :name="product.name" 
                     :description="product.description" 

@@ -3,20 +3,22 @@ import axios from "axios";
 // Base url can be found in the .env file in the root folder
 export const baseUrl = `${process.env.VUE_APP_API_BASE_URL}/api/product`;
 
-var apiConfig = {
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem('jwt')}`
-    }
-}
-
 export default {
+
+    getHeaders(){
+        return {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            }
+        }
+    },
     
     async getProducts(){
 
         var response;
 
         try{
-            response = await axios.get(baseUrl, apiConfig)
+            response = await axios.get(baseUrl, this.getHeaders())
         }
         catch(error){
             response = error.response
@@ -34,7 +36,7 @@ export default {
         var response;
 
         try{
-            response = await axios.get(`${baseUrl}/${id}`, apiConfig)
+            response = await axios.get(`${baseUrl}/${id}`, this.getHeaders())
         }
         catch(error){
             response = error.response
@@ -51,7 +53,7 @@ export default {
         var response;
 
         try{
-            response =  await axios.post(baseUrl, data, apiConfig)
+            response =  await axios.post(baseUrl, data, this.getHeaders())
         }
         catch(error){
             response = error.response
@@ -67,7 +69,7 @@ export default {
         var response;
 
         try{
-            response =  await axios.put(`${baseUrl}/${data.id}`, data, apiConfig)
+            response =  await axios.put(`${baseUrl}/${data.id}`, data, this.getHeaders())
         }
         catch(error){
             response = error.response
@@ -82,7 +84,7 @@ export default {
         var response;
 
         try{
-            response = await axios.delete(`${baseUrl}/${id}`, apiConfig)
+            response = await axios.delete(`${baseUrl}/${id}`, this.getHeaders())
         }
         catch(error){
             response = error.response
