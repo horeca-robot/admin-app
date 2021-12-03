@@ -171,6 +171,7 @@ export default {
         this.filteredCategories.forEach(function (category) {
           category.selected = false
         })
+        this.$refs.image.setBase64(null);
       }
     }
 }

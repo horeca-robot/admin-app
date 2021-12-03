@@ -287,6 +287,7 @@ export default {
                 tag.selected = false
             })
             this.displayTags = this.tags;
+            this.$refs.image.setBase64(null);
         }
     }
 }
