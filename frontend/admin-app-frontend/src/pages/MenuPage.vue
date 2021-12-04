@@ -87,7 +87,6 @@ export default {
         selectCategory(id){
             this.selectedCategory = id
             this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
-            console.log(this.categories.find(c => c.id === this.selectedCategory))
         },
         isOtherCategorySelected(categoryId){
             const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
