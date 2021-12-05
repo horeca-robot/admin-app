@@ -1,0 +1,13 @@
+{
+    "languages":
+                [
+                    {
+                        "id": "1",
+                        "name":"nederlands"
+                    },
+                    {
+                        "id": "2",
+                        "name": "engels"
+                    }
+                ]
+}

@@ -10,6 +10,7 @@
       <div id="base-content">
         <div ref="websiteTab" class="tab active">
           <WebsiteSettings/>
+          <LanguageSettings/>
         </div>
         <div ref="restaurantTab" class="tab">
           <RestaurantSettings/>
@@ -22,6 +23,7 @@
 <script>
 import WebsiteSettings from "../components/settings_components/WebsiteSettings.vue"
 import RestaurantSettings from "../components/settings_components/RestaurantSettings.vue"
+import LanguageSettings from "../components/settings_components/LanguageSettings.vue"
 
 
 export default{
@@ -32,6 +34,7 @@ export default{
     components:{
         WebsiteSettings,
         RestaurantSettings,
+        LanguageSettings,
     },
     methods: {
         setTab(e){
@@ -48,7 +51,7 @@ export default{
                     this.$refs.restaurantBtn.classList.remove('active')
                     this.$refs.restaurantTab.classList.remove('active')
                     this.$refs.restaurantTab.style.display = 'none !important';
-                break;
+                    break;
 
                 case 'restaurant':
                     this.$refs.restaurantBtn.classList.add('active')
