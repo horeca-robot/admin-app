@@ -13,6 +13,7 @@
                     @selectCategory="selectCategory"/>
                 </div>
                 <h1 class="box-message" v-else>No existing categories.</h1>
+                <button class="categories last-item" @click="selectArchivedCategorie">Archived</button>
             </div>
             <div class="products-box">
                 <h1 class="box-title">Products</h1>
@@ -88,6 +89,10 @@ export default {
         selectCategory(id){
             this.selectedCategory = id
             this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
+        },
+        selectArchivedCategorie(){
+            this.selectedCategory = 'archive'
+            this.selectedProducts = this.products.filter(i => !i.categories.length)  
         },
         isOtherCategorySelected(categoryId){
             const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
@@ -174,6 +179,26 @@ export default {
     .categories{
         width: 100%;
     }
+
+    .last-item{
+        height: 45px;
+        color: var(--secondary-color);
+        background: var(--notvisible-color);
+        border:0;
+        margin-top: auto;
+        margin-bottom: 0;
+        display: flex;
+        font-size: 1.25rem;
+        padding: 12.5px 12.5px 12.5px 25px;
+        opacity: 0.75;
+        border-radius: 0 0 0 9px;
+    }
+
+        .last-item:hover{
+            opacity: 1;
+            cursor: pointer;
+            background: var(--primary-color);
+        }
 
     .products{
         height: 100%;
