@@ -6,7 +6,7 @@
         <input placeholder="Name..." v-model="name" type="text"/>
       </div>
       <div>
-        <label>Is visible</label><input type="checkbox" v-model="visible"/>
+        <label>Is Visible</label><input type="checkbox" v-model="visible"/>
       </div>
       <div class="panel-section">
         <label>Image:</label>
@@ -42,7 +42,7 @@ export default {
         id: '',
         isEditing: false,
         name: '',
-        visible: false,
+        visible: true,
         filteredCategories: [],
         allCategories: []
       }
@@ -175,7 +175,7 @@ export default {
       resetValues(){
         this.id = ''
         this.name = ''
-        this.visible = false;
+        this.visible = true;
         this.filteredCategories.forEach(function (category) {
           category.selected = false
         })
