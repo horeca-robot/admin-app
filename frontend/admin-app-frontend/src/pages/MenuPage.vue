@@ -13,7 +13,7 @@
                     @selectCategory="selectCategory"/>
                 </div>
                 <h1 class="box-message" v-else>No existing categories.</h1>
-                <button class="categories last-item" @click="selectArchivedCategorie">Archived</button>
+                <button :class="selectedCategory === 'archive' ? 'categories last-item last-item-selected' : 'categories last-item'" @click="selectArchivedCategorie">Archived</button>
             </div>
             <div class="products-box">
                 <h1 class="box-title">Products</h1>
@@ -192,6 +192,8 @@ export default {
         padding: 12.5px 12.5px 12.5px 25px;
         opacity: 0.75;
         border-radius: 0 0 0 9px;
+        align-items: center;
+        font-family: inherit;
     }
 
         .last-item:hover{
@@ -199,6 +201,11 @@ export default {
             cursor: pointer;
             background: var(--primary-color);
         }
+
+    .last-item-selected{            
+        opacity: 1 !important;
+        background: var(--primary-color) !important;
+    }
 
     .products{
         height: 100%;
