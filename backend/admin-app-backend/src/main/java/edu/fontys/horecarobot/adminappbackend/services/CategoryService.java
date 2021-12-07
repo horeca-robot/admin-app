@@ -39,7 +39,7 @@ public class CategoryService {
     }
 
     public void updateCategory(CategoryRequestModel categoryRequestModel, UUID id) {
-        Category c = convertFromCategoryModel(categoryRequestModel);
+        Category c = convertFromCategoryModel(categoryRequestModel, id);
         c.setId(id);
         categoryRepository.saveAndFlush(c);
     }
@@ -49,7 +49,15 @@ public class CategoryService {
     }
 
     private Category convertFromCategoryModel(CategoryRequestModel categoryModel) {
-        Category c = new Category();
+        return convertFromCategoryModel(categoryModel, new Category());
+    }
+
+    private Category convertFromCategoryModel(CategoryRequestModel categoryModel, UUID id) {
+        Category c = categoryRepository.getById(id);
+        return convertFromCategoryModel(categoryModel, c);
+    }
+
+    private Category convertFromCategoryModel(CategoryRequestModel categoryModel, Category c){
         c.setVisible(categoryModel.isVisible());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
