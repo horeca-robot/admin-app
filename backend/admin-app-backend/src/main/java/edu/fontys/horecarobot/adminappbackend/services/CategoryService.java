@@ -50,7 +50,7 @@ public class CategoryService {
 
     private Category convertFromCategoryModel(CategoryRequestModel categoryModel) {
         Category c = new Category();
-        c.setVisible(categoryModel.getVisible());
+        c.setVisible(categoryModel.isVisible());
         c.setName(categoryModel.getName());
         c.setImage(categoryModel.getImage());
         c.setParentCategories(getCategoriesByIds(categoryModel.getParentCategories()));
