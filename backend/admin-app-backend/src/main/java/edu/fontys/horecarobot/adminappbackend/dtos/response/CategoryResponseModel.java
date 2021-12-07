@@ -1,6 +1,7 @@
 package edu.fontys.horecarobot.adminappbackend.dtos.response;
 
 import edu.fontys.horecarobot.databaselibrary.models.Category;
+import edu.fontys.horecarobot.databaselibrary.models.Product;
 import lombok.Data;
 
 import java.util.List;
@@ -23,6 +24,10 @@ public class CategoryResponseModel {
                 .stream()
                 .map(CategoryResponseModel::new)
                 .collect(Collectors.toList());
+        products = category.getProducts()
+                .stream()
+                .map(Product::getId)
+                .collect(Collectors.toList());
     }
 
     private final UUID id;
@@ -31,5 +36,6 @@ public class CategoryResponseModel {
     private final boolean visible;
     private final List<UUID> parentCategories;
     private final List<CategoryResponseModel> childCategories;
+    private final List<UUID> products;
 
 }
