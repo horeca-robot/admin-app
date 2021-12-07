@@ -8,6 +8,7 @@ import ProductPage from '../pages/ProductPage'
 import CategoryPage from '../pages/CategoryPage'
 import RobotsPage from '../pages/RobotsPage'
 import MapPage from '../pages/MapPage'
+import OrderHistoryPage from '../pages/OrderHistoryPage'
 import SettingsPage from '../pages/SettingsPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import JwtUtil from "../utils/JwtUtil"
@@ -65,6 +66,14 @@ const routes = [{
         path: '/map',
         name: 'map',
         component: MapPage,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/order-history',
+        name: 'order-history',
+        component: OrderHistoryPage,
         meta: {
             requiresAuth: true
         }
