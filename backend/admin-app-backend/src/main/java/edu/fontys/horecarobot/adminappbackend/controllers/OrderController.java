@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<?> getOrders(@RequestParam Optional<String> from, @RequestParam Optional<String> to) throws ParseException {
+    public ResponseEntity<?> getOrders(@RequestParam(required = false) String from, @RequestParam(required = false) String to) throws ParseException {
         List<OrderResponseModel> orders;
 
         if(from.isEmpty() || to.isEmpty()){
@@ -34,8 +35,8 @@ public class OrderController {
             }
         }
         else{
-            var fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from.get());
-            var toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to.get());
+            var fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from);
+            var toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to);
 
             try {
                 orders = orderService.getOrdersByDates(fromDate, toDate);
