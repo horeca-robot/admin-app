@@ -5,6 +5,9 @@
         <label>Name:</label>
         <input placeholder="Name..." v-model="name" type="text"/>
       </div>
+      <div style="margin-bottom: 5px;">
+        <label class="isVisible">Is Visible:</label><input type="checkbox" v-model="visible"/>
+      </div>
       <div class="panel-section">
         <label>Image:</label>
         <ImagePreview ref="image" />
@@ -39,6 +42,7 @@ export default {
         id: '',
         isEditing: false,
         name: '',
+        visible: true,
         filteredCategories: [],
         allCategories: []
       }
@@ -72,6 +76,7 @@ export default {
       },
 
       setCategoryValues(category){
+        this.visible = category.visible
         this.id = category.id
         this.name = category.name
 
@@ -118,7 +123,8 @@ export default {
         const payload = {
           name: this.name,
           image : this.$refs.image.base64,
-          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id)
+          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id),
+          visible: this.visible
         }
 
         const response = await CategoryWrapper.postCategory(payload)
@@ -136,7 +142,8 @@ export default {
           id: this.id,
           name: this.name,
           image : this.$refs.image.base64,
-          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id)
+          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id),
+          visible: this.visible
         }
 
         const response = await CategoryWrapper.putCategory(payload)
@@ -168,6 +175,7 @@ export default {
       resetValues(){
         this.id = ''
         this.name = ''
+        this.visible = true;
         this.filteredCategories.forEach(function (category) {
           category.selected = false
         })
@@ -217,7 +225,7 @@ input[type=text] {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   width: calc(100% - 14px);
-  height: 30px;
+  height: 20px;
   padding: 5px;
   margin-bottom: 5%;
 }
@@ -260,6 +268,10 @@ input[type=checkbox]{
   font-family: inherit;
   cursor: pointer;
   padding: 5px;
+}
+
+.isVisible{
+  margin-right: 5px;
 }
 
 #save{

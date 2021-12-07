@@ -9,6 +9,7 @@
                     :name="category.name" 
                     :childCategories="category.childCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" 
                     :otherIsSelected="isOtherCategorySelected(category.id)" 
+                    :isVisible="category.visible"
                     @selectCategory="selectCategory"/>
                 </div>
                 <h1 class="box-message" v-else>No existing categories.</h1>
