@@ -5,8 +5,8 @@
         <label>Name:</label>
         <input placeholder="Name..." v-model="name" type="text"/>
       </div>
-      <div>
-        <label>Is Visible</label><input type="checkbox" v-model="visible"/>
+      <div style="margin-bottom: 5px;">
+        <label class="isVisible">Is Visible:</label><input type="checkbox" v-model="visible"/>
       </div>
       <div class="panel-section">
         <label>Image:</label>
@@ -268,6 +268,10 @@ input[type=checkbox]{
   font-family: inherit;
   cursor: pointer;
   padding: 5px;
+}
+
+.isVisible{
+  margin-right: 5px;
 }
 
 #save{
