@@ -21,15 +21,7 @@ import DayColumn from './DayColumn.vue'
 export default {
     data() {
         return {
-            week: [
-                { id: 1, name: 'Monday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 2, name: 'Tuesday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 3, name: 'Wednesday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 4, name: 'Thursday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 5, name: 'Friday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 6, name: 'Saturday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 0, name: 'Sunday', orders: 0, subTotal: 0.00, amount: 0 }
-            ],
+            week: [],
             selectedDay: {},
             highestAmount: 0
         }
@@ -64,7 +56,6 @@ export default {
         },
         fillWeekData(){
             this.resetValues()
-            console.log(this.orders)
             this.orders.forEach(o => o.createdAt = new Date(o.createdAt))
             this.week.forEach(day => {
                 this.orders.filter(o => o.createdAt.getDay() === day.id).forEach(o => {
@@ -77,7 +68,6 @@ export default {
                 day.amount = days.filter(this.onlyUnique).length
             })
             this.getHighestOrderAmount()
-            console.log(this.week)
         },
         onlyUnique(value, index, self) {
             return self.indexOf(value) === index;
