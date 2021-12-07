@@ -68,22 +68,34 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Strait !important;
-}
+  #app {
+    font-family: Strait !important;
+  }
 
-.login-page{
-  position: absolute;
-}
+  .login-page{
+    position: absolute;
+  }
 
-.other-page{
-  position: absolute;
-  left: 12.5vw;
-}
+  .other-page{
+    position: absolute;
+    left: 12.5vw;
+  }
 
-:root{
-  --primary-color: rgb(1, 87, 228);
-  --secondary-color: rgb(255, 255, 255);
-  --text-color: rgb(0, 0, 0);
-}
+  :root{
+    --primary-color: rgb(1, 87, 228);
+    --secondary-color: rgb(255, 255, 255);
+    --text-color: rgb(0, 0, 0);
+  }
+
+  ::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 5px solid var(--secondary-color);
+    border-radius: 50px;
+    background-color: var(--primary-color);
+    background-clip: padding-box;
+    cursor: pointer;
+  }
 </style>
