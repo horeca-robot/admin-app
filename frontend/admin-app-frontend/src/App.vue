@@ -85,7 +85,7 @@ export default {
     --primary-color: rgb(1, 87, 228);
     --secondary-color: rgb(255, 255, 255);
     --text-color: rgb(0, 0, 0);
-    --notvisible-color: rgb(128,128,128);
+    --notvisible-color: rgb(128 ,128 ,128);
   }
 
   ::-webkit-scrollbar {
