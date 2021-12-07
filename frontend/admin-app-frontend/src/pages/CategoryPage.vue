@@ -17,7 +17,7 @@
       <div class="panel-section">
         <label>Select Parent-Categories:</label>
         <div id="categories">
-          <div class="category" v-for="category in filteredCategories" :key="category.id"> 
+          <div class="category" v-for="category in filteredCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
               <input type="checkbox" v-model="category.selected"> 
               <label>{{ category.name }}</label>
           </div>
@@ -179,6 +179,7 @@ export default {
         this.filteredCategories.forEach(function (category) {
           category.selected = false
         })
+        this.$refs.image.setBase64(null);
       }
     }
 }
@@ -191,7 +192,7 @@ export default {
   right: 0;
   margin: auto;
   min-width: 500px;
-  width: 30vw;
+  width: 25vw;
   height: fit-content;
   background-color: var(--secondary-color);
   box-shadow: 5px 5px 5px 1px rgb(0 0 0 / 50%);
