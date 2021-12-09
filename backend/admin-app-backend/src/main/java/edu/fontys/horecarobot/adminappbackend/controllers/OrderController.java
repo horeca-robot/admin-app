@@ -4,14 +4,12 @@ import edu.fontys.horecarobot.adminappbackend.dtos.response.ApiResponse;
 import edu.fontys.horecarobot.adminappbackend.dtos.response.OrderResponseModel;
 import edu.fontys.horecarobot.adminappbackend.services.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/order")
@@ -22,10 +20,15 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<?> getOrders(@RequestParam(required = false) String from, @RequestParam(required = false) String to) throws ParseException {
+    public ResponseEntity<?> getOrders(
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
+    ){
         List<OrderResponseModel> orders;
+        System.out.println(from);
+        System.out.println(to);
 
-        if(from.isEmpty() || to.isEmpty()){
+        if(from == null || to == null){
             try {
                 orders = orderService.getAllOrders();
             }
@@ -35,11 +38,8 @@ public class OrderController {
             }
         }
         else{
-            var fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(from);
-            var toDate = new SimpleDateFormat("yyyy-MM-dd").parse(to);
-
             try {
-                orders = orderService.getOrdersByDates(fromDate, toDate);
+                orders = orderService.getOrdersByDates(from, to);
             }
             catch (Exception e) {
                 e.printStackTrace();
