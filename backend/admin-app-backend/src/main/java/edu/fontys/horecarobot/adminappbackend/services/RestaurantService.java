@@ -8,6 +8,7 @@ import edu.fontys.horecarobot.databaselibrary.repositories.RestaurantInfoReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +30,7 @@ public class RestaurantService {
         restaurantInfo.setName(model.getName());
         restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
         restaurantInfo.setOpeningTimes(
-                model.getOpeningPeriods()
+                model.getOpeningPeriods() == null ? new ArrayList<>() : model.getOpeningPeriods()
                         .stream()
                         .map(m -> new OpeningPeriod(null, m.getDayOfWeek(), m.getOpeningTime(), m.getClosingTime()))
                         .collect(Collectors.toList())
