@@ -13,11 +13,11 @@
                 <div id="time-select">
                     <div>
                         <label>From:</label>
-                        <input type="date" :value="dateToYYYYMMDD(this.fromTemp)" @input="fromTemp = $event.target.valueAsDate"/>
+                        <input type="date" :value="dateToYYYYMMDD(this.fromTemp)" @input="fromTemp = $event.target.valueAsDate" :max="dateToYYYYMMDD(this.toTemp)"/>
                     </div>
                     <div>
                         <label>To:</label>
-                        <input type="date" :value="dateToYYYYMMDD(this.toTemp)" @input="toTemp = $event.target.valueAsDate"/>
+                        <input type="date" :value="dateToYYYYMMDD(this.toTemp)" @input="toTemp = $event.target.valueAsDate" :min="dateToYYYYMMDD(this.fromTemp)" :max="dateToYYYYMMDD(new Date())"/>
                     </div>
                 </div>
                 <button id="time-apply" @click="applyDates">Apply</button>
