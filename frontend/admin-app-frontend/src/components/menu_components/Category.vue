@@ -1,13 +1,13 @@
 <template>
-    <div :class="{'head-category head-category-selected' : this.isSelected, 'head-category' : !this.isSelected}" 
+    <div :class="{'head-category head-category-selected' : this.isSelected, 'head-category' : !this.isSelected, 'head-category categorie-invisible' : !this.isVisible}"
     @click="selectHeadCategory" 
     @dblclick="redirectToCategory(this.id)">
         {{ name }}
     </div>
     <template v-if="isSelected">
-        <div v-for="childCategory in childCategories" :key="childCategory.id" 
-        :class="{'child-category child-category-selected' : childCategory.selected, 'child-category' : !childCategory.selected}" 
-        @click="selectChildCategory(childCategory)" 
+        <div v-for="childCategory in childCategories" :key="childCategory.id"
+        :class="{'child-category child-category-selected' : childCategory.selected, 'child-category' : !childCategory.selected, 'child-category categorie-invisible' : !childCategory.visible}" 
+        @click="selectChildCategory(childCategory)"
         @dblclick="redirectToCategory(childCategory.id)">
             {{ childCategory.name }}
         </div>
@@ -27,7 +27,8 @@ export default {
         id: String,
         name: String,
         childCategories: Array,
-        otherIsSelected: Boolean
+        otherIsSelected: Boolean,
+        isVisible: Boolean
     },
     watch: {
         otherIsSelected() {
@@ -74,10 +75,15 @@ export default {
     .head-category:hover{
         cursor: pointer;
         opacity: 1 !important;
+        background: var(--primary-color) !important;
     }
 
     .head-category-selected{
         opacity: 1 !important;
+    }
+
+    .categorie-invisible{
+        background: var(--notvisible-color) !important;
     }
 
     .child-category{
@@ -92,6 +98,7 @@ export default {
     .child-category:hover{
         cursor: pointer;
         opacity: 1 !important;
+        background: var(--primary-color) !important;
     }
 
     .child-category-selected{

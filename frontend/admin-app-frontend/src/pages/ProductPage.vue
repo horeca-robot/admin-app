@@ -5,11 +5,11 @@
                 <div class="leftBlock">
                     <div class="blocks">
                         <label class="text"> *Title:</label>
-                        <input class="inputs" placeholder="Product Name" v-model="name" name="name"/>
+                        <input class="inputs" placeholder="Product Name..." v-model="name" name="name"/>
                     </div>
                     <div class="blocks">
                     <label class="text"> Description:</label>
-                    <textarea class="textareas" v-model="description"/>
+                    <textarea class="textareas" placeholder="Product Description..." v-model="description"/>
                     </div>
                     <div class="blocks">
                         <label class="text"> *Price:</label>
@@ -24,11 +24,8 @@
                         <input class="checkbox" type="checkbox" name="alcohol" v-model="alcohol"/>
                     </div>
                     <div class="blocks imageComponent">
-                        <!-- TODO Place image component here -->
                         <label class="text"> Image:</label>
-                        <div class="imageCom">
-                            <input type="file" id="img" name="img" accept="image/*" @change="FileSelected"/>
-                        </div>
+                        <ImagePreview ref="image"/>
                     </div>
                 </div>
                 <div class="rightBlock"> 
@@ -37,21 +34,25 @@
                         <label class="extraLabel"/>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="ingredients" />
+                        <input class="inputs inputsExtra" type="text" name="ingredients" placeholder="Search Ingredient..."/>
                         <button class="button">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Tags:</label>
-                        <label class="extraLabel"/>
+                        <div class="categorieHolder">
+                            <div class="categories" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
+                                <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="tags" />
-                        <button class="button">Add</button>
+                        <input class="inputs inputsExtra" @input="searchTags" placeholder="Search Tag..." v-model="tag" />
+                        <button class="button" @click="createTag">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Select Categories:</label>
                         <div class="categorieHolder"> 
-                            <div class="categories" v-for="category in categories" :key="category.id"> 
+                            <div class="categories" v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
                                 <input type="checkbox" v-model="category.selected"> <label>{{category.name}}</label>
                             </div>
                         </div>
@@ -69,6 +70,9 @@
 <script>
 import ProductWrapper from '../wrappers/ProductWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
+import notification from '../utils/NotificationUtil'
+import ImagePreview from '../components/ImagePreview.vue'
+import TagWrapper from '../wrappers/TagWrapper'
 
 export default {
     data(){
@@ -80,12 +84,19 @@ export default {
             price: 0,
             discountPrice: 0, 
             alcohol: false,
-            img: '',
-            categories: []
+            tag: '',
+            categories: [],
+            displayTags: [],
+            tags: []
         }
+    },
+    components: {
+        ImagePreview
     },
     async created(){
         await this.getCategories()
+        await this.getTags();
+        this.displayTags = this.tags;
 
         this.id = this.$route.query.id
 
@@ -97,9 +108,17 @@ export default {
     methods: {
         async getCategories(){
             const response = await CategoryWrapper.getCategories()
-            this.categories = response.categories
+            this.categories = response.categories.filter(c => !c.childCategories.length)
             this.categories.forEach(function (category) {
                 category.selected = false
+            })
+        },
+
+        async getTags(){
+            const response = await TagWrapper.getTags()
+            this.tags = response.tags
+            this.tags.forEach(function (tag) {
+                tag.selected = false
             })
         },
 
@@ -115,23 +134,31 @@ export default {
             this.price = product.price
             this.discountPrice = product.discountPrice
             this.alcohol = product.containsAlcohol
-            this.img = product.image
-
-            console.log(this.categories)
 
             this.categories.forEach(function (category) {
-                console.log(category.id)
                 if(product.categories.some(i => i === category.id)){
                     category.selected = true
                 }
             })
+
+            this.tags.forEach(function (tag) {
+                if(product.tags.some(i => i.id === tag.id)){
+                    tag.selected = true
+                }
+            })
+
+            this.displayTags = this.tags;
+
+            if(product.image){
+                this.$refs.image.setBase64(product.image)
+            }
         },
 
         onSubmit(e){
             e.preventDefault()
 
             if(!this.name || !this.price){
-                alert('Not all required fields are filled in, please check again')
+                notification.showErrorNotification('Not all required fields are filled in.')
                 return
             }
 
@@ -154,17 +181,18 @@ export default {
                 discountPrice: this.discountPrice,
                 description: this.description,
                 containsAlcohol: this.alcohol,
-                image : this.img,
-                categories: this.categories.filter(i => i.selected).map(i => i.id)
+                image : this.$refs.image.base64,
+                categories: this.categories.filter(i => i.selected).map(i => i.id),
+                tags: this.tags.filter(i => i.selected).map(i => i.id)
             }
             
             const response = await ProductWrapper.postProduct(payload)
 
             if(response.success){
-                alert(`Succesfully added ${payload.name} to the menu.`)
+                notification.showSuccessNotification(`Succesfully added ${payload.name} to the menu.`)
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
 
@@ -176,18 +204,56 @@ export default {
                 price: this.price,
                 discountPrice: this.discountPrice,
                 containsAlcohol: this.alcohol,
-                image: this.img,
-                categories: this.categories.filter(i => i.selected).map(i => i.id)
+                image: this.$refs.image.base64,
+                categories: this.categories.filter(i => i.selected).map(i => i.id),
+                tags: this.tags.filter(i => i.selected).map(i => i.id)
             }
             
             const response = await ProductWrapper.putProduct(payload)
 
             if(response.success){
-                alert(`Succesfully updated ${payload.name}.`)
+                notification.showSuccessNotification(`Succesfully updated ${payload.name}.`)
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
+        },
+
+        async createTag(e){
+            e.preventDefault()
+
+            if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
+                notification.showErrorNotification('A tag with this name already exists')
+                return
+            }
+
+            var result = await TagWrapper.postTag({
+                name: this.tag
+            });
+
+            if (!result.success) {
+                notification.showErrorNotification(result.message)
+                return;
+            }
+
+            this.tag = '';
+
+            var selectedTags = this.tags.filter(t => t.selected)
+                .map(t => t.id);
+
+            await this.getTags();
+
+            this.tags.forEach(t => {
+                if (selectedTags.some(s => s === t.id)) {
+                    t.selected = true;
+                }
+            })
+
+            this.displayTags = this.tags;
+        },
+
+        async searchTags(){
+            this.displayTags = this.tags.filter(t => t.name.toLowerCase().includes(this.tag.toLowerCase()));
         },
 
         async deleteProduct(e){
@@ -201,7 +267,7 @@ export default {
             if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
                 await ProductWrapper.deleteProduct(this.id)
                 this.$router.push('menu')
-                alert(`Succesfully deleted ${this.name}.`)
+                notification.showSuccessNotification(`Succesfully deleted ${this.name}.`)
                 this.resetValues()
             }
         },
@@ -214,10 +280,14 @@ export default {
             this.price = 0
             this.discountPrice = 0
             this.alcohol = false
-            this.img = ''
             this.categories.forEach(function (category) {
                 category.selected = false
             })
+            this.tags.forEach(function (tag) {
+                tag.selected = false
+            })
+            this.displayTags = this.tags;
+            this.$refs.image.setBase64(null);
         }
     }
 }
@@ -263,6 +333,7 @@ export default {
     .text{
         font-size: 1.5rem;
         margin-bottom: 2px;
+        color: var(--text-color);
     }
 
 
@@ -300,7 +371,7 @@ export default {
         background-color: var(--primary-color);
         border: 2px solid var(--primary-color);
         border-radius: 5px;
-        color: white;
+        color: var(--secondary-color);
         margin-left: 1%;
         font-size: 1em;
         font-family: inherit;
@@ -325,7 +396,7 @@ export default {
         margin-left: 10%;
         height: 3vh;
         width: 5vw;
-        background-color: white;
+        background-color: transparent;
         color: var(--primary-color);
         font-size: 1rem;
     }
@@ -343,6 +414,7 @@ export default {
         float: left;
         height: auto;
         width: 100%;
+        color: var(--text-color);
     }
 
     .textareas{

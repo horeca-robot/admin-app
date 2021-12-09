@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import notification from '../../utils/NotificationUtil'
+
 export default {
     name: 'Robot',
     emits: ['addRobot', 'updateRobot', 'getRobots', 'deleteRobot'],
@@ -49,7 +51,7 @@ export default {
         },
         handleSubmit(){
             if(!this.id.trim() || !this.name.trim()){
-                alert('All fields need to be filled in.')
+                notification.showErrorNotification('All fields need to be filled in.')
                 return
             }
 
@@ -89,6 +91,7 @@ export default {
         padding: 10px;
         font-size: 1.25rem;
         font-weight: normal;
+        color: var(--text-color);
     }
 
     input{

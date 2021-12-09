@@ -2,7 +2,8 @@
     <div class="navigation-bar">
         <div class="top-part">
             <div class="section">
-                <h1 class="restaurant-name">Welcome,<br/>{{ restaurantName }}</h1>
+                <h1 v-if="this.restaurantName !== undefined && this.restaurantName.length" class="restaurant-name">Welcome,<br/>{{ this.restaurantName }}</h1>
+                <h1 v-else class="restaurant-name">Welcome,<br/>Administrator</h1>
             </div>
             <div class="section">
                 <a class="link" href="employees"> <!-- TODO: Add link to employee app -->
@@ -41,6 +42,12 @@
                         Map
                     </div>
                 </div>
+                <div :class="{'nav-item nav-item-selected': currentPage === 'order-history',  'nav-item': currentPage !== 'order-history'}" @click="redirectToPage('order-history')">
+                    <div class="nav-item-content">
+                        <i class="nav-icon fas fa-history"/>
+                        Order History
+                    </div>
+                </div>
             </div>
             <div class="section">
                 <div :class="{'nav-item nav-item-selected': currentPage === 'settings',  'nav-item': currentPage !== 'settings'}" @click="redirectToPage('settings')">
@@ -59,12 +66,8 @@
 export default {
     name: 'NavigationBar',
     props: {
-        currentPage: String
-    },
-    data() {
-        return {
-            restaurantName: '[RESTAURANT]'
-        }
+        currentPage: String,
+        restaurantName: String
     },
     created() {
         this.getRestaurantName()

@@ -3,27 +3,30 @@
         <div class="panel">
             <div class="categories-box">
                 <h1 class="box-title">Categories</h1>
-                <div class="categories" v-if="categories.length !== 0">
-                    <Category v-for="category in categories" :key="category.id" 
+                <div class="categories" v-if="categories.length">
+                    <Category v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id" 
                     :id="category.id" 
                     :name="category.name" 
-                    :childCategories="category.childCategories" 
+                    :childCategories="category.childCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" 
                     :otherIsSelected="isOtherCategorySelected(category.id)" 
+                    :isVisible="category.visible"
                     @selectCategory="selectCategory"/>
                 </div>
                 <h1 class="box-message" v-else>No existing categories.</h1>
+                <button :class="selectedCategory === 'archive' ? 'categories last-item last-item-selected' : 'categories last-item'" @click="selectArchivedCategorie">Archived</button>
             </div>
             <div class="products-box">
                 <h1 class="box-title">Products</h1>
-                <div class="products" v-if="selectedProducts.length !== 0">
-                    <Product v-for="product in selectedProducts" :key="product.id" 
+                <div class="products" v-if="selectedProducts.length">
+                    <Product v-for="product in selectedProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id" 
                     :id="product.id" 
                     :name="product.name" 
                     :description="product.description" 
                     :image="product.image"/>
                 </div>
                 <h1 class="box-message" v-else-if="!selectedCategory">Select a category.</h1>
-                <h1 class="box-message" v-else>Currently selected category doesn't contain any products.</h1>
+                <h1 class="box-message" v-else-if="categories.find(c => c.id === selectedCategory) ? categories.find(c => c.id === selectedCategory).childCategories.length : false">Select a child-category.</h1>
+                <h1 class="box-message" v-else-if="!selectedProducts.length">Currently selected category doesn't contain any products.</h1>
             </div>
         </div>
         <div class="buttons-box">
@@ -38,6 +41,7 @@ import Category from '../components/menu_components/Category.vue'
 import Product from '../components/menu_components/Product.vue'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import ProductWrapper from '../wrappers/ProductWrapper'
+import notification from '../utils/NotificationUtil'
 
 export default {
     data() {
@@ -69,7 +73,7 @@ export default {
                 });
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
         async getProducts(){
@@ -79,12 +83,16 @@ export default {
                 this.products = response.products
             }
             else{
-                alert(response.message)
+                notification.showErrorNotification(response.message)
             }
         },
         selectCategory(id){
             this.selectedCategory = id
             this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
+        },
+        selectArchivedCategorie(){
+            this.selectedCategory = 'archive'
+            this.selectedProducts = this.products.filter(i => !i.categories.length)  
         },
         isOtherCategorySelected(categoryId){
             const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
@@ -106,7 +114,7 @@ export default {
         },
         redirectToProduct(){
             if(!this.categories.length){
-                alert("You'll need to add a category first.")
+                notification.showErrorNotification("You'll need to add a category first.")
                 return
             }
 
@@ -143,7 +151,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        box-shadow: 1px 0px 5px 2px rgb(0 0 0 / 50%);
+        border-right: 1px solid var(--text-color);
         text-align: center;
     }
 
@@ -158,6 +166,7 @@ export default {
         margin: 0;
         font-weight: 500;
         padding: 20px;
+        color: var(--text-color);
     }
 
     .box-message{
@@ -169,6 +178,33 @@ export default {
 
     .categories{
         width: 100%;
+    }
+
+    .last-item{
+        height: 45px;
+        color: var(--secondary-color);
+        background: var(--notvisible-color);
+        border:0;
+        margin-top: auto;
+        margin-bottom: 0;
+        display: flex;
+        font-size: 1.25rem;
+        padding: 12.5px 12.5px 12.5px 25px;
+        opacity: 0.75;
+        border-radius: 0 0 0 9px;
+        align-items: center;
+        font-family: inherit;
+    }
+
+        .last-item:hover{
+            opacity: 1;
+            cursor: pointer;
+            background: var(--primary-color);
+        }
+
+    .last-item-selected{            
+        opacity: 1 !important;
+        background: var(--primary-color) !important;
     }
 
     .products{
