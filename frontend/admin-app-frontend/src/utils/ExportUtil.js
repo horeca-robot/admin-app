@@ -13,7 +13,6 @@ export default {
             subTotal: `€${o.subTotal.toFixed(2)}`,
             products: this.getProductsString(o.products.map(p => p.name))
         }))
-
     },
 
     getProductsString(allProducts){
