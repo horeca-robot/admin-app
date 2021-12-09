@@ -2,10 +2,13 @@ package edu.fontys.horecarobot.adminappbackend.services;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.RestaurantModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.WebsiteModel;
+import edu.fontys.horecarobot.databaselibrary.models.OpeningPeriod;
 import edu.fontys.horecarobot.databaselibrary.models.RestaurantInfo;
 import edu.fontys.horecarobot.databaselibrary.repositories.RestaurantInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +28,12 @@ public class RestaurantService {
         var restaurantInfo = getRestaurantInfo();
         restaurantInfo.setName(model.getName());
         restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
-        restaurantInfo.setOpeningTime(model.getOpeningTime());
-        restaurantInfo.setClosingTime(model.getClosingTime());
+        restaurantInfo.setOpeningTimes(
+                model.getOpeningPeriods()
+                        .stream()
+                        .map(m -> new OpeningPeriod(null, m.getDayOfWeek(), m.getOpeningTime(), m.getClosingTime()))
+                        .collect(Collectors.toList())
+        );
         restaurantInfo.setContactPersonName(model.getContactPersonName());
         restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
         restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
