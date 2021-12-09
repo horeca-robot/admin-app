@@ -17,7 +17,7 @@ export default {
     },
 
     getProductsString(allProducts){
-        let singleProducts = allProducts.filter((item, pos, self) => { return self.indexOf(item) == pos; })
+        let singleProducts = allProducts.filter((item, pos, self) => self.indexOf(item) == pos )
         let products = []
 
         singleProducts.forEach(a => {
