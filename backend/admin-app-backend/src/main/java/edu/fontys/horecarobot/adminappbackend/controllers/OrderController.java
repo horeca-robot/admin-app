@@ -25,8 +25,6 @@ public class OrderController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
     ){
         List<OrderResponseModel> orders;
-        System.out.println(from);
-        System.out.println(to);
 
         if(from == null || to == null){
             try {
