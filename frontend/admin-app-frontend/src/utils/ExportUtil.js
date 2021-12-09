@@ -17,7 +17,7 @@ export default {
     },
 
     getProductsString(allProducts){
-        var singleProducts = allProducts.filter((item, pos, self) => self.indexOf(item) == pos )
+        var singleProducts = allProducts.filter((item, pos, self) => self.indexOf(item) == pos)
         var products = []
 
         singleProducts.forEach(a => {
