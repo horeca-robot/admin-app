@@ -14,6 +14,7 @@ public class CategoryResponseModel {
         id = category.getId();
         name = category.getName();
         image = category.getImage();
+        visible = category.isVisible();
         parentCategories = category.getParentCategories()
                 .stream()
                 .map(Category::getId)
@@ -27,6 +28,7 @@ public class CategoryResponseModel {
     private final UUID id;
     private final String name;
     private final String image;
+    private final boolean visible;
     private final List<UUID> parentCategories;
     private final List<CategoryResponseModel> childCategories;
 
