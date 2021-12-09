@@ -8,11 +8,12 @@ export default {
     },
 
     getExportOrdersObject(orders){
-        return orders.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0)).map(o => ({
+        return orders.sort((a,b) => (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())).map(o => ({
             date: new Date(o.createdAt).toString().slice(0, 24),
             subTotal: `€${o.subTotal.toFixed(2)}`,
             products: this.getProductsString(o.products.map(p => p.name))
         }))
+
     },
 
     getProductsString(allProducts){
