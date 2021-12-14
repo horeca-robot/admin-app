@@ -33,7 +33,11 @@
                         <label class="text"> Ingredients:</label>
                         <div class="categorieHolder">
                             <div class="categories" v-for="ingredient in displayIngredients.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="ingredient.id">
-                                <input type="checkbox" v-model="ingredient.selected"> <label>{{ingredient.name}}</label>
+                                <input type="checkbox" v-model="ingredient.selected" /> <label>{{ingredient.name}}</label>
+                                <select v-model="ingredient.required">
+                                    <option value="true">Required</option>
+                                    <option value="false">Not Required</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -45,7 +49,7 @@
                         <label class="text"> Tags:</label>
                         <div class="categorieHolder">
                             <div class="categories" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
-                                <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
+                                <input type="checkbox" v-model="tag.selected" /> <label>{{tag.name}}</label>
                             </div>
                         </div>
                     </div>
@@ -137,6 +141,7 @@ export default {
             this.ingredients = response.ingredients
             this.ingredients.forEach(function (ingredient) {
                 ingredient.selected = false
+                ingredient.required = false
             })
         },
 
@@ -170,6 +175,7 @@ export default {
             this.ingredients.forEach(function (ingredient) {
                 if(product.ingredients.some(i => i.id === ingredient.id)){
                     ingredient.selected = true
+                    ingredient.required = product.ingredients.find(i => i.id === ingredient.id).required
                 }
             })
 
@@ -201,6 +207,10 @@ export default {
         },
 
         async addProduct(){
+            const ingredients = new Map();
+            this.ingredients.filter(i => i.selected).map(i => i.id)
+                .forEach(i => ingredients.set(i, i.required));
+
             const payload = {
                 name: this.name,
                 price: this.price,
@@ -210,7 +220,7 @@ export default {
                 image : this.$refs.image.base64,
                 categories: this.categories.filter(i => i.selected).map(i => i.id),
                 tags: this.tags.filter(i => i.selected).map(i => i.id),
-                ingredients: this.ingredients.filter(i => i.selected).map(i => i.id)
+                ingredients: Object.fromEntries(ingredients)
             }
             
             const response = await ProductWrapper.postProduct(payload)
@@ -225,8 +235,8 @@ export default {
 
         async updateProduct(){
             const ingredients = new Map();
-            this.ingredients.filter(i => i.selected).map(i => i.id)
-                .forEach(i => ingredients.set(i, true));
+            this.ingredients.filter(i => i.selected)
+                .forEach(i => ingredients.set(i.id, i.required));
 
             const payload = {
                 id: this.id,
@@ -240,6 +250,11 @@ export default {
                 tags: this.tags.filter(i => i.selected).map(i => i.id),
                 ingredients: Object.fromEntries(ingredients)
             }
+
+            console.log('Ingredients:')
+            console.log(this.ingredients)
+            console.log('Payload:')
+            console.log(payload)
             
             const response = await ProductWrapper.putProduct(payload)
 
@@ -356,8 +371,9 @@ export default {
                 tag.selected = false
             })
             this.displayTags = this.tags;
-            this.ingedients.forEach(function (ingredient) {
+            this.ingredients.forEach(function (ingredient) {
                 ingredient.selected = false
+                ingredient.required = false
             })
             this.displayIngredients = this.ingredients;
             this.$refs.image.setBase64(null);
