@@ -39,7 +39,7 @@ public class IngredientService {
     }
 
     public IngredientResponseModel addIngredient(IngredientRequestModel ingredientRequestModel) {
-        var Ingredient = new Ingredient(null, ingredientRequestModel.getName(), "");
+        var Ingredient = new Ingredient(null, ingredientRequestModel.getName());
         Ingredient = ingredientRepository.save(Ingredient);
         return new IngredientResponseModel(Ingredient);
     }
