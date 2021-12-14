@@ -42,6 +42,12 @@
                         Map
                     </div>
                 </div>
+                <div :class="{'nav-item nav-item-selected': currentPage === 'order-history',  'nav-item': currentPage !== 'order-history'}" @click="redirectToPage('order-history')">
+                    <div class="nav-item-content">
+                        <i class="nav-icon fas fa-history"/>
+                        Order History
+                    </div>
+                </div>
             </div>
             <div class="section">
                 <div :class="{'nav-item nav-item-selected': currentPage === 'settings',  'nav-item': currentPage !== 'settings'}" @click="redirectToPage('settings')">
