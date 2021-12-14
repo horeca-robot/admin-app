@@ -17,7 +17,9 @@ public class ProductRequestModel {
     private double discountPrice;
     private String description;
     private boolean containsAlcohol;
+    private boolean canBeServedAsByProduct;
     private List<UUID> categories = new ArrayList<>();
+    private List<UUID> byProducts = new ArrayList<>();
     private List<UUID> tags = new ArrayList<>();
     private Map<UUID, Boolean> ingredients = new HashMap<>();
 }
