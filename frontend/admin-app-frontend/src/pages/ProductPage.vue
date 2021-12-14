@@ -225,12 +225,8 @@ export default {
 
         async updateProduct(){
             const ingredients = new Map();
-
-            
             this.ingredients.filter(i => i.selected).map(i => i.id)
                 .forEach(i => ingredients.set(i, true));
-
-            console.log(ingredients);
 
             const payload = {
                 id: this.id,
@@ -242,7 +238,6 @@ export default {
                 image: this.$refs.image.base64,
                 categories: this.categories.filter(i => i.selected).map(i => i.id),
                 tags: this.tags.filter(i => i.selected).map(i => i.id),
-                
                 ingredients: Object.fromEntries(ingredients)
             }
             
