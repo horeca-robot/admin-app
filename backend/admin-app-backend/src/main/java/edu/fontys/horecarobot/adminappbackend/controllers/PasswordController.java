@@ -1,11 +1,9 @@
 package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ChangePasswordRequestModel;
-import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ResetPasswordRequestModel;
 import edu.fontys.horecarobot.adminappbackend.services.PasswordService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

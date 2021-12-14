@@ -1,6 +1,5 @@
 package edu.fontys.horecarobot.adminappbackend.dtos.response;
 
-import edu.fontys.horecarobot.databaselibrary.models.Product;
 import edu.fontys.horecarobot.databaselibrary.models.Tag;
 import lombok.Data;
 
