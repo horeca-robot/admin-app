@@ -250,11 +250,6 @@ export default {
                 tags: this.tags.filter(i => i.selected).map(i => i.id),
                 ingredients: Object.fromEntries(ingredients)
             }
-
-            console.log('Ingredients:')
-            console.log(this.ingredients)
-            console.log('Payload:')
-            console.log(payload)
             
             const response = await ProductWrapper.putProduct(payload)
 
