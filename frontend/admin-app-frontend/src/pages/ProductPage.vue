@@ -35,8 +35,8 @@
                             <div class="categories" v-for="ingredient in displayIngredients.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="ingredient.id">
                                 <input type="checkbox" v-model="ingredient.selected" /> <label>{{ingredient.name}}</label>
                                 <select v-model="ingredient.required">
-                                    <option value="true">Required</option>
-                                    <option value="false">Not Required</option>
+                                    <option :value=true>Required</option>
+                                    <option :value=false>Not Required</option>
                                 </select>
                             </div>
                         </div>
