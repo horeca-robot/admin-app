@@ -69,7 +69,7 @@ public class ProductService {
         p.setImage(productModel.getImage());
         p.setCategories(getProductCategories(productModel.getCategories()));
         p.setTags(getProductTags(productModel.getTags()));
-        p.setIngredients(getProductIngredients(p, productModel.getIngredients()));
+        p.setIngredients(getProductIngredients(productModel.getIngredients()));
         return p;
     }
 
@@ -88,13 +88,13 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    private List<IngredientProduct> getProductIngredients(Product product, Map<UUID, Boolean> ingredients) {
+    private List<IngredientProduct> getProductIngredients(Map<UUID, Boolean> ingredients) {
         return ingredients.keySet()
                 .stream()
                 .map(ingredientRepository::findById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .map(i -> new IngredientProduct(null, product, i, ingredients.get(i.getId())))
+                .map(i -> new IngredientProduct(null, null, i, ingredients.get(i.getId())))
                 .collect(Collectors.toList());
     }
 
