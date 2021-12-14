@@ -4,7 +4,6 @@ import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Example;

@@ -47,6 +47,7 @@ public class InfoController {
         try {
             restaurantService.updateWebsiteInfo(model);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
@@ -58,6 +59,7 @@ public class InfoController {
         try {
             restaurantService.updateRestaurantInfo(model);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return ResponseEntity.internalServerError().body(ApiResponse.GENERAL_EXCEPTION_ERROR);
         }
 
