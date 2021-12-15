@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +19,5 @@ public class ProductRequestModel {
     private boolean containsAlcohol;
     private List<UUID> categories = new ArrayList<>();
     private List<UUID> tags = new ArrayList<>();
+    private Map<UUID, Boolean> ingredients = new HashMap<>();
 }

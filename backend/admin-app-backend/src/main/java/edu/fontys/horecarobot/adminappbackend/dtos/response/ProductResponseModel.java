@@ -27,6 +27,10 @@ public class ProductResponseModel {
                 .stream()
                 .map(TagResponseModel::new)
                 .collect(Collectors.toList());
+        ingredients = product.getIngredients()
+                .stream()
+                .map(IngredientProductResponseModel::new)
+                .collect(Collectors.toList());
     }
 
     private final UUID id;
@@ -38,5 +42,6 @@ public class ProductResponseModel {
     private final boolean containsAlcohol;
     private final List<UUID> categories;
     private final List<TagResponseModel> tags;
+    private final List<IngredientProductResponseModel> ingredients;
 
 }

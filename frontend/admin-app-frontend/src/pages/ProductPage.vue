@@ -31,17 +31,25 @@
                 <div class="rightBlock"> 
                     <div class="blocks">
                         <label class="text"> Ingredients:</label>
-                        <label class="extraLabel"/>
+                        <div class="categorieHolder">
+                            <div class="categories" v-for="ingredient in displayIngredients.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="ingredient.id">
+                                <input type="checkbox" v-model="ingredient.selected" /> <label>{{ingredient.name}}</label>
+                                <select v-model="ingredient.required">
+                                    <option :value=true>Required</option>
+                                    <option :value=false>Not Required</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="blocks-row">
-                        <input class="inputs inputsExtra" type="text" name="ingredients" placeholder="Search Ingredient..."/>
-                        <button class="button">Add</button>
+                        <input class="inputs inputsExtra" @input="searchIngredient" placeholder="Search Ingredient..." v-model="ingredient" />
+                        <button class="button" @click="createIngredient">Add</button>
                     </div>
                     <div class="blocks">
                         <label class="text"> Tags:</label>
                         <div class="categorieHolder">
                             <div class="categories" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
-                                <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
+                                <input type="checkbox" v-model="tag.selected" /> <label>{{tag.name}}</label>
                             </div>
                         </div>
                     </div>
@@ -73,6 +81,7 @@ import CategoryWrapper from '../wrappers/CategoryWrapper'
 import notification from '../utils/NotificationUtil'
 import ImagePreview from '../components/ImagePreview.vue'
 import TagWrapper from '../wrappers/TagWrapper'
+import IngredientWrapper from '../wrappers/IngredientWrapper'
 
 export default {
     data(){
@@ -85,9 +94,12 @@ export default {
             discountPrice: 0, 
             alcohol: false,
             tag: '',
+            ingedient: '',
             categories: [],
             displayTags: [],
-            tags: []
+            tags: [],
+            displayIngredients: [],
+            ingredients: []
         }
     },
     components: {
@@ -96,7 +108,9 @@ export default {
     async created(){
         await this.getCategories()
         await this.getTags();
+        await this.getIngredients();
         this.displayTags = this.tags;
+        this.displayIngredients = this.ingredients;
 
         this.id = this.$route.query.id
 
@@ -119,6 +133,15 @@ export default {
             this.tags = response.tags
             this.tags.forEach(function (tag) {
                 tag.selected = false
+            })
+        },
+
+        async getIngredients(){
+            const response = await IngredientWrapper.getIngredients()
+            this.ingredients = response.ingredients
+            this.ingredients.forEach(function (ingredient) {
+                ingredient.selected = false
+                ingredient.required = false
             })
         },
 
@@ -149,6 +172,15 @@ export default {
 
             this.displayTags = this.tags;
 
+            this.ingredients.forEach(function (ingredient) {
+                if(product.ingredients.some(i => i.id === ingredient.id)){
+                    ingredient.selected = true
+                    ingredient.required = product.ingredients.find(i => i.id === ingredient.id).required
+                }
+            })
+
+            this.displayIngredients = this.ingredients;
+
             if(product.image){
                 this.$refs.image.setBase64(product.image)
             }
@@ -175,6 +207,10 @@ export default {
         },
 
         async addProduct(){
+            const ingredients = new Map();
+            this.ingredients.filter(i => i.selected).map(i => i.id)
+                .forEach(i => ingredients.set(i, i.required));
+
             const payload = {
                 name: this.name,
                 price: this.price,
@@ -183,7 +219,8 @@ export default {
                 containsAlcohol: this.alcohol,
                 image : this.$refs.image.base64,
                 categories: this.categories.filter(i => i.selected).map(i => i.id),
-                tags: this.tags.filter(i => i.selected).map(i => i.id)
+                tags: this.tags.filter(i => i.selected).map(i => i.id),
+                ingredients: Object.fromEntries(ingredients)
             }
             
             const response = await ProductWrapper.postProduct(payload)
@@ -197,6 +234,10 @@ export default {
         },
 
         async updateProduct(){
+            const ingredients = new Map();
+            this.ingredients.filter(i => i.selected)
+                .forEach(i => ingredients.set(i.id, i.required));
+
             const payload = {
                 id: this.id,
                 name: this.name,
@@ -206,7 +247,8 @@ export default {
                 containsAlcohol: this.alcohol,
                 image: this.$refs.image.base64,
                 categories: this.categories.filter(i => i.selected).map(i => i.id),
-                tags: this.tags.filter(i => i.selected).map(i => i.id)
+                tags: this.tags.filter(i => i.selected).map(i => i.id),
+                ingredients: Object.fromEntries(ingredients)
             }
             
             const response = await ProductWrapper.putProduct(payload)
@@ -256,6 +298,43 @@ export default {
             this.displayTags = this.tags.filter(t => t.name.toLowerCase().includes(this.tag.toLowerCase()));
         },
 
+        async createIngredient(e){
+            e.preventDefault()
+
+            if (this.ingredients.some(t => t.name.toLowerCase() === this.ingredient.toLowerCase())) {
+                notification.showErrorNotification('A ingredient with this name already exists')
+                return
+            }
+
+            var result = await IngredientWrapper.postIngredient({
+                name: this.ingredient
+            });
+
+            if (!result.success) {
+                notification.showErrorNotification(result.message)
+                return;
+            }
+
+            this.ingredient = '';
+
+            var selectedIngredients = this.ingredients.filter(i => i.selected)
+                .map(i => i.id);
+
+            await this.getIngredients();
+
+            this.ingredients.forEach(i => {
+                if (selectedIngredients.some(j => j === i.id)) {
+                    i.selected = true;
+                }
+            })
+
+            this.displayIngredients = this.ingredients;
+        },
+
+        async searchIngredients(){
+            this.displayIngredients = this.ingredients.filter(i => i.name.toLowerCase().includes(this.ingedient.toLowerCase()));
+        },
+
         async deleteProduct(e){
             e.preventDefault()
 
@@ -287,6 +366,11 @@ export default {
                 tag.selected = false
             })
             this.displayTags = this.tags;
+            this.ingredients.forEach(function (ingredient) {
+                ingredient.selected = false
+                ingredient.required = false
+            })
+            this.displayIngredients = this.ingredients;
             this.$refs.image.setBase64(null);
         }
     }
