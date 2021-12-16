@@ -34,7 +34,7 @@
                 <ImagePreview ref="image"/>
             </div>
             <div id="buttons">
-                <input class="button save" type="submit" :value="ProdPage_Save" />
+                <input class="button save" type="submit" :value="text.ProdPage_Save" />
                 <button class="button delete" @click="deleteProduct()">{{text.ProdPage_Delete}}</button>
             </div>
         </div>
