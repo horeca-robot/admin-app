@@ -2,20 +2,20 @@
   <form id="panel" @submit="onSubmit">
     <div class="panel-side">
       <div class="panel-section">
-        <label>Name:</label>
+        <label>{{text.CatPage_Name}}</label>
         <input placeholder="Name..." v-model="name" type="text"/>
       </div>
       <div style="margin-bottom: 5px;">
-        <label class="isVisible">Is Visible:</label><input type="checkbox" v-model="visible"/>
+        <label class="isVisible">{{text.CatPage_Visible}}</label><input type="checkbox" v-model="visible"/>
       </div>
       <div class="panel-section">
-        <label>Image:</label>
+        <label>{{text.CatPage_Image}}</label>
         <ImagePreview ref="image" />
       </div>
     </div>
     <div class="panel-side">
       <div class="panel-section">
-        <label>Select Parent-Categories:</label>
+        <label>{{text.CatPage_Parent}}</label>
         <div id="categories">
           <div class="category" v-for="category in filteredCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
               <input type="checkbox" v-model="category.selected"> 
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div id="buttons">
-        <input class="button" id="save" type="submit" value="Save">
-        <button class="button" id="delete" @click="deleteCategory">Delete</button>
+        <input class="button" id="save" type="submit" :value="text.CatPage_Save"/>
+        <button class="button" id="delete" @click="deleteCategory">{{text.CatPage_Delete}}</button>
       </div>
     </div>
   </form>
@@ -35,10 +35,12 @@
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import ImagePreview from '../components/ImagePreview.vue'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
       return {
+        text: LanguageUtil.getTextObject(),
         id: '',
         isEditing: false,
         name: '',
@@ -98,12 +100,12 @@ export default {
         e.preventDefault()
 
         if(!this.name){
-          notification.showErrorNotification('Not all required fields are filled in, please check again')
+          notification.showErrorNotification('Not all required fields are filled in, please check again') // nog niet vertaald
           return
         }
 
         if(this.filteredCategories.some(c => c.name.toLowerCase() === this.name.toLowerCase())){
-          notification.showErrorNotification('Already a category exist with the same name.')
+          notification.showErrorNotification('Already a category exist with the same name.') // nog niet vertaald
           return
         }
 
@@ -130,7 +132,7 @@ export default {
         const response = await CategoryWrapper.postCategory(payload)
 
         if(response.success){
-          notification.showSuccessNotification(`Successfully added ${payload.name} to the menu.`)
+          notification.showSuccessNotification(`Successfully added ${payload.name} to the menu.`) //nog niet vertaald
         }
         else {
           notification.showErrorNotification(response.message)
@@ -149,7 +151,7 @@ export default {
         const response = await CategoryWrapper.putCategory(payload)
 
         if(response.success){
-          notification.showSuccessNotification(`Successfully updated ${payload.name}.`)
+          notification.showSuccessNotification(`Successfully updated ${payload.name}.`) // nog niet vertaald
         }
         else {
           notification.showErrorNotification(response.message)
@@ -164,10 +166,10 @@ export default {
           return
         }
 
-        if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
+        if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){ // nog niet vertaald
           await CategoryWrapper.deleteCategory(this.id)
           this.$router.push('menu')
-          notification.showSuccessNotification(`Successfully deleted ${this.name}.`)
+          notification.showSuccessNotification(`Successfully deleted ${this.name}.`) // nog niet vertaald
           this.resetValues()
         }
       },

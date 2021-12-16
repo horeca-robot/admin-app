@@ -16,8 +16,8 @@
             </div>
         </div>
         <div class="section" >
-            <p class="forgot-password" @click="redirectToForgotPasswordPage">Forgot Password?</p>
-            <button class="btn" @click="handleLogIn">Log In</button>
+            <p class="forgot-password" @click="redirectToForgotPasswordPage">{{text.LogPage_Forgot}}</p>
+            <button class="btn" @click="handleLogIn">{{text.LogPage_Login}}</button>
         </div>
     </div>
 </template>
@@ -25,10 +25,12 @@
 <script>
 import api from "../wrappers/AuthenticationWrapper.js"
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             email: '',
             password: ''
         }

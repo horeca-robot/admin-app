@@ -2,41 +2,41 @@
   <div id="grid-container">
     <div class="grid container-element">
       <div>
-        <label for="restaurantname">Restaurant Name</label>
+        <label for="restaurantname">{{text.ResSet_RestaurantName}}</label>
         <input id="restaurantname" v-model="restaurantName" type="text" />
       </div>
 
       <div>
-        <label for="contactperson">Contact Person</label>
+        <label for="contactperson">{{text.ResSet_ContactPerson}}</label>
         <input id="contactperson" v-model="contactName" type="text" />
       </div>
 
       <div>
-        <label for="openingtime">Opening Time</label>
+        <label for="openingtime">{{text.ResSet_OpeningTime}}</label>
         <input id="openingtime" v-model="openingTime" type="time" />
       </div>
 
       <div>
-        <label for="contactemail">Contact Email</label>
+        <label for="contactemail">{{text.ResSet_ContactEmail}}</label>
         <input id="contactemail" v-model="contactEmail" type="email" />
       </div>
 
       <div>
-        <label for="closingtime">Closing Time</label>
+        <label for="closingtime">{{text.ResSet_ClosingTime}}</label>
         <input id="closingtime" v-model="closingTime" type="time" />
       </div>
 
       <div>
-        <label for="contactphone">Contact Phone</label>
+        <label for="contactphone">{{text.ResSet_ContactPhone}}</label>
         <input id="contactphone" v-model="contactPhone" type="tel" />
       </div>
 
       <div>
-        <button @click="handleSave">Save Settings</button>
+        <button @click="handleSave">{{text.ResSet_SaveSettings}}</button>
       </div>
     </div>
     <div id="img-preview" class="container-element">
-      <label for="logo">Restaurant Logo</label>
+      <label for="logo">{{text.ResSet_RestaurantLogo}}</label>
       <ImagePreview ref="logo"/>
     </div>
   </div>
@@ -45,6 +45,7 @@
 <script>
 import ImagePreview from "../ImagePreview.vue";
 import api from "../../wrappers/InfoWrapper.js";
+import LanguageUtil from '../../utils/LanguageUtil';
 
 export default {
   async mounted(){
@@ -66,6 +67,7 @@ export default {
   },
   data(){
       return {
+          text: LanguageUtil.getTextObject(),
           restaurantName : '',
           openingTime : '',
           closingTime : '',

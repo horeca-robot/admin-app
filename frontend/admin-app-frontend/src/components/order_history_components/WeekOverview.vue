@@ -3,12 +3,12 @@
         <div v-if="selectedDay.name" id="info">
             <h1>{{ selectedDay.name }}</h1>
             <div>
-                <label>Average Total Orders:<label>{{ selectedDay.amount ? (selectedDay.orders / selectedDay.amount) : 0 }}</label></label>
-                <label>Average Total Revenue:<label>€{{ selectedDay.amount ? (selectedDay.subTotal / selectedDay.amount).toFixed(2) : 0 }}</label></label>
+                <label>{{text.WeekComp_AvgTotOrder}}<label>{{ selectedDay.amount ? (selectedDay.orders / selectedDay.amount) : 0 }}</label></label>
+                <label>{{text.WeekComp_AvgTotRev}}<label>€{{ selectedDay.amount ? (selectedDay.subTotal / selectedDay.amount).toFixed(2) : 0 }}</label></label>
             </div>
         </div>
         <div v-else id="info">
-            <h1 id="message">Hover over a day.</h1>
+            <h1 id="message">{{text.WeekComp_HoverMessage}}</h1>
         </div>
         <div id="days">
             <DayColumn v-for="day in week" :key="day.name" :day="day" :highest="highestAmount" @onHover="selectDay"/>
@@ -17,10 +17,12 @@
 </template>
 <script>
 import DayColumn from './DayColumn.vue'
+import LanguageUtil from '../../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             week: [],
             selectedDay: {},
             highestAmount: 0
@@ -43,13 +45,13 @@ export default {
     methods: {
         resetValues(){
             this.week = [
-                { id: 1, name: 'Monday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 2, name: 'Tuesday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 3, name: 'Wednesday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 4, name: 'Thursday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 5, name: 'Friday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 6, name: 'Saturday', orders: 0, subTotal: 0.00, amount: 0 },
-                { id: 0, name: 'Sunday', orders: 0, subTotal: 0.00, amount: 0 }
+                { id: 1, name: this.text.WeekComp_Monday, orders: 0, subTotal: 0.00, amount: 0 },
+                { id: 2, name: this.text.WeekComp_Tuesday, orders: 0, subTotal: 0.00, amount: 0 },
+                { id: 3, name: this.text.WeekComp_Wednesday, orders: 0, subTotal: 0.00, amount: 0 },
+                { id: 4, name: this.text.WeekComp_Thursday, orders: 0, subTotal: 0.00, amount: 0 },
+                { id: 5, name: this.text.WeekComp_Friday, orders: 0, subTotal: 0.00, amount: 0 },
+                { id: 6, name: this.text.WeekComp_Saturday, orders: 0, subTotal: 0.00, amount: 0 },
+                { id: 0, name: this.text.WeekComp_Sunday, orders: 0, subTotal: 0.00, amount: 0 }
             ]
             this.selectedDay = {}
             this.highestAmount = 0

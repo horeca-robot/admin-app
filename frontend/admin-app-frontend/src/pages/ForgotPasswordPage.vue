@@ -12,7 +12,7 @@
                 <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
             </div>
             <div >
-                <button class="btn" @click="changePassword">Change Password</button>
+                <button class="btn" @click="changePassword">{{text.PassPage_Change}}</button>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
                 <input v-model="email" type="text" class="input-field" placeholder="email"/>
             </div>
             <div>
-                <button class="btn" @click="sendResetMail">Send Resetlink</button>
+                <button class="btn" @click="sendResetMail">{{text.PassPage_ResetLink}}</button>
             </div>
         </div>
     </div>
@@ -34,10 +34,12 @@
 import api from '../wrappers/PasswordWrapper.js'
 import JwtUtil from '../utils/JwtUtil.js'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data(){
         return{
+            text: LanguageUtil.getTextObject(),
             token: '',
             hasToken: false,
             password: '',

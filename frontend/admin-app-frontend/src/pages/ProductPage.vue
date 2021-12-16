@@ -2,61 +2,61 @@
     <form id="panel" @submit.prevent="onSubmit">
         <div class="panel-side">
             <div class="product-property">
-                <label class="property-title">Name: (Required)</label>
+                <label class="property-title">{{text.ProdPage_Title}}</label> <!-- required toevoegen in vertaling !-->
                 <input v-model="name" type="text" placeholder="Name..."/>
             </div>
             <div class="product-property">
-                <label class="property-title">Description:</label>
+                <label class="property-title">{{text.ProdPage_Description}}</label>
                 <textarea v-model="description" placeholder="Description..."/>
             </div>
             <div class="product-property">
-                <label class="property-title">Price: (Required)</label>
+                <label class="property-title">{{text.ProdPage_Price}}</label> <!-- required toevoegen in vertaling !-->
                 <input v-model="price" type="number" placeholder="Price..." step="any"/>
             </div>
             <div class="product-property">
-                <label class="property-title">Discount Price:</label>
+                <label class="property-title">{{text.ProdPage_Discount}}</label>
                 <input v-model="discountPrice" type="number" placeholder="Discount..." step="any"/>
             </div>
             <div class="product-property">
                 <div>
-                    <label class="property-title">Contains Alcohol:</label> 
+                    <label class="property-title">{{text.ProdPage_Alcohol}}</label> 
                     <input v-model="alcohol" type="checkbox"/>
                 </div>
             </div>
             <div class="product-property">
                 <div>
-                    <label class="property-title">Is A By-Product:</label> 
+                    <label class="property-title">{{text.ProdPage_IsByProduct}}</label> 
                     <input v-model="canBeServedAsByProduct" type="checkbox" @click="byProducts.forEach(p => p.selected = false)"/>
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">Image:</label> 
+                <label class="property-title">{{text.ProdPage_Image}}</label> 
                 <ImagePreview ref="image"/>
             </div>
             <div id="buttons">
-                <input class="button save" type="submit" value="Save" />
-                <button class="button delete" @click="deleteProduct()">Delete</button>
+                <input class="button save" type="submit" :value="text.ProdPage_Save" />
+                <button class="button delete" @click="deleteProduct()">{{text.ProdPage_Delete}}</button>
             </div>
         </div>
         <div class="panel-side">
             <div class="product-property">
-                <label class="property-title">Ingredients:</label> 
+                <label class="property-title">{{text.ProdPage_Ingredients}}</label> 
                 <div class="property-list">
                     <div class="list-entry" v-for="ingredient in displayIngredients.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="ingredient.id">
                         <input type="checkbox" v-model="ingredient.selected" /><label>{{ingredient.name}}</label>
                         <select v-if="ingredient.selected" v-model="ingredient.required">
-                            <option :value=true>Required</option>
-                            <option :value=false>Not Required</option>
+                            <option :value=true>{{text.ProdPage_Required}}</option>
+                            <option :value=false>{{text.ProdPage_NotRequired}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="list-search">
                     <input type="text" @input="searchIngredients" placeholder="Search Ingredient..." v-model="ingredient" />
-                    <button class="button" @click="createIngredient">Add</button>
+                    <button class="button" @click="createIngredient">{{text.ProdPage_Add}}</button>
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">Tags:</label> 
+                <label class="property-title">{{text.ProdPage_Tags}}</label> 
                 <div class="property-list">
                     <div class="list-entry" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
                         <input type="checkbox" v-model="tag.selected" /><label>{{tag.name}}</label>
@@ -64,11 +64,11 @@
                 </div>
                 <div class="list-search">
                     <input type="text" @input="searchTags" placeholder="Search Tag..." v-model="tag" />
-                    <button class="button" @click="createTag">Add</button>
+                    <button class="button" @click="createTag">{{text.ProdPage_Add}}</button>
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">Categories:</label> 
+                <label class="property-title">{{text.ProdPage_Categories}}</label> 
                 <div class="property-list">
                     <div class="list-entry" v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id">
                         <input type="checkbox" v-model="category.selected" /><label>{{category.name}}</label>
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">By-Products:</label> 
+                <label class="property-title">{{text.ProdPage_ByProducts}}</label>
                 <div class="property-list">
                     <div class="list-entry" v-for="product in byProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id">
                         <input v-if="!this.canBeServedAsByProduct" type="checkbox" v-model="product.selected" /><label>{{product.name}}</label>
@@ -93,11 +93,13 @@ import CategoryWrapper from '../wrappers/CategoryWrapper'
 import notification from '../utils/NotificationUtil'
 import ImagePreview from '../components/ImagePreview.vue'
 import TagWrapper from '../wrappers/TagWrapper'
+import LanguageUtil from '../utils/LanguageUtil'
 import IngredientWrapper from '../wrappers/IngredientWrapper'
 
 export default {
     data(){
         return{
+            text: LanguageUtil.getTextObject(),
             id: '',
             isEditing: false,
             name: '',
