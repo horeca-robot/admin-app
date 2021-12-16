@@ -15,7 +15,7 @@
                 <h1 class="box-message" v-else>No existing categories.</h1>
                 <div id="bottom-categories">
                     <button :class="selectedCategory === 'byProducts' ? 'categories by-products category-selected' : 'categories by-products'" @click="selectByProductCategory">ByProducts</button>
-                    <button :class="selectedCategory === 'archive' ? 'categories last-item category-selected' : 'categories last-item'" @click="selectArchivedCategorie">Archived</button>
+                    <button :class="selectedCategory === 'archive' ? 'categories last-item category-selected' : 'categories last-item'" @click="selectArchivedCategory">Archived</button>
                 </div>
             </div>
             <div class="products-box">
@@ -97,7 +97,7 @@ export default {
             this.selectedCategory = 'byProducts'
             this.selectedProducts = this.products.filter(i => i.canBeServedAsByProduct)  
         },
-        selectArchivedCategorie(){
+        selectArchivedCategory(){
             this.selectedCategory = 'archive'
             this.selectedProducts = this.products.filter(i => !i.categories.length && !i.canBeServedAsByProduct)  
         },
