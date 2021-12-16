@@ -64,10 +64,12 @@ public class ProductService {
         p.setName(productModel.getName());
         p.setDescription(productModel.getDescription());
         p.setPrice(productModel.getPrice());
-        p.setContainsAlcohol(productModel.isContainsAlcohol());
         p.setDiscountPrice(productModel.getDiscountPrice());
+        p.setContainsAlcohol(productModel.isContainsAlcohol());
+        p.setCanBeServedAsByProduct(productModel.isCanBeServedAsByProduct());
         p.setImage(productModel.getImage());
         p.setCategories(getProductCategories(productModel.getCategories()));
+        p.setByProducts(getProductByProducts(productModel.getByProducts()));
         p.setTags(getProductTags(productModel.getTags()));
         p.setIngredients(getProductIngredients(productModel.getIngredients()));
         return p;
@@ -75,6 +77,13 @@ public class ProductService {
 
     private List<Category> getProductCategories(List<UUID> categories) {
         return categories.stream().map(categoryRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+    }
+
+    private List<Product> getProductByProducts(List<UUID> byProducts) {
+        return byProducts.stream().map(productRepository::findById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
