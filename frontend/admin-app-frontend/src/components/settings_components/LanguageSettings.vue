@@ -1,30 +1,41 @@
 <template>
   <div class="language_col">
-    <!--  <div v-for="data in language" :key="data.id">
-      <li> {{data}} </li>
-    </div> !-->
-    <ul>
-      <li :key="language.id" v-for="language in languages"> {{language[0]}} </li>
-    </ul>
+    <select  v-model="selected" @change="setLanguage()">
+      <option v-for="language in Object.keys(languages)" v-bind:key="language">{{ language }}</option>
+    </select>
   </div>
 </template>
 
 <script>
-import jsonData from "../../assets/language.json"
+import languages from "../../assets/languages/languages.json";
+import LanguageUtil from '../../utils/LanguageUtil';
 
 export default {
-  mounted()
-  {
+  data(){
+    return{
+      text: LanguageUtil.getTextObject(),
+      selected: 'English',
+      languages: languages,
+    }
   },
-  data()
-  {
-        return{
-            languages: jsonData,
-        }
+  created(){
+      this.getLanguage();
   },
-  methods : 
-  {
-  },
+  methods:{
+    getLanguage(){
+      const language = localStorage.getItem('language');
+      if(language){
+        this.selected = language
+      }
+      else{
+        localStorage.setItem("language", this.selected);
+      }
+    },
+    setLanguage(){
+      localStorage.setItem("language", this.selected);
+      window.location.reload();
+    }
+  }
 };
 </script>
 
@@ -32,8 +43,8 @@ export default {
 .language_col
 {
   border: 2px solid black;
-  min-width: 200px;
-  min-height: 50px;
-  float: right;
+  width: 200px;
+  height: 100px;
+  margin-top: 5px;
 }
 </style>

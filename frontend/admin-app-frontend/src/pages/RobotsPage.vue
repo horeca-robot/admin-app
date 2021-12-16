@@ -6,7 +6,7 @@
                     <tr>
                         <th>Robot</th>
                         <th>Id</th>
-                        <th style="text-align: right;">Edit</th>
+                        <th style="text-align: right;">{{text.RobotPage_Edit}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -16,7 +16,7 @@
                 </tbody>
             </table>
         </div>
-        <button @click="addRow">Add Robot</button>
+        <button @click="addRow">{{text.RobotPage_Add}}</button>
     </div>
 </template>
 
@@ -24,10 +24,12 @@
 import RobotWrapper from '../wrappers/RobotWrapper'
 import Robot from '../components/robot_components/Robot.vue'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             robots: [],
             isCreating: false
         }

@@ -4,41 +4,41 @@
             <div class="container">
                 <div class="leftBlock">
                     <div class="blocks">
-                        <label class="text"> *Title:</label>
+                        <label class="text">{{text.ProdPage_Title}}</label>
                         <input class="inputs" placeholder="Product Name..." v-model="name" name="name"/>
                     </div>
                     <div class="blocks">
-                    <label class="text"> Description:</label>
+                    <label class="text">{{text.ProdPage_Description}}</label>
                     <textarea class="textareas" placeholder="Product Description..." v-model="description"/>
                     </div>
                     <div class="blocks">
-                        <label class="text"> *Price:</label>
+                        <label class="text">{{text.ProdPage_Price}}</label>
                         <input class="inputs" type="number" placeholder="Price" name="price" v-model="price" step="any"/>
                     </div>
                     <div class="blocks">
-                        <label class="text"> Discount price:</label>
+                        <label class="text">{{text.ProdPage_Discount}}</label>
                         <input class="inputs" type="number" placeholder="Discount price" name="discountPrice" v-model="discountPrice" step="any"/>
                     </div>
                     <div class="block-contains-alcohol">
-                        <label class="text"> Contains Alcohol:</label>
+                        <label class="text">{{text.ProdPage_Alcohol}}</label>
                         <input class="checkbox" type="checkbox" name="alcohol" v-model="alcohol"/>
                     </div>
                     <div class="blocks imageComponent">
-                        <label class="text"> Image:</label>
+                        <label class="text">{{text.ProdPage_Image}}</label>
                         <ImagePreview ref="image"/>
                     </div>
                 </div>
                 <div class="rightBlock"> 
                     <div class="blocks">
-                        <label class="text"> Ingredients:</label>
+                        <label class="text">{{text.ProdPage_Ingredients}}</label>
                         <label class="extraLabel"/>
                     </div>
                     <div class="blocks-row">
                         <input class="inputs inputsExtra" type="text" name="ingredients" placeholder="Search Ingredient..."/>
-                        <button class="button">Add</button>
+                        <button class="button">{{text.ProdPage_Add}}</button>
                     </div>
                     <div class="blocks">
-                        <label class="text"> Tags:</label>
+                        <label class="text">{{text.ProdPage_Tags}}</label>
                         <div class="categorieHolder">
                             <div class="categories" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
                                 <input type="checkbox" v-model="tag.selected"> <label>{{tag.name}}</label>
@@ -47,10 +47,10 @@
                     </div>
                     <div class="blocks-row">
                         <input class="inputs inputsExtra" @input="searchTags" placeholder="Search Tag..." v-model="tag" />
-                        <button class="button" @click="createTag">Add</button>
+                        <button class="button" @click="createTag">{{text.ProdPage_Add}}</button>
                     </div>
                     <div class="blocks">
-                        <label class="text"> Select Categories:</label>
+                        <label class="text">{{text.ProdPage_Categories}}</label>
                         <div class="categorieHolder"> 
                             <div class="categories" v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
                                 <input type="checkbox" v-model="category.selected"> <label>{{category.name}}</label>
@@ -58,8 +58,8 @@
                         </div>
                     </div>
                     <div class="blocks-row-buttons">
-                        <input class="button formbuttonSave" type="submit" value="Save"/>
-                        <button class="button formbuttonDelete" @click="deleteProduct">Delete</button>
+                        <input class="button formbuttonSave" type="submit" :value="text.ProdPage_Save"/>
+                        <button class="button formbuttonDelete" @click="deleteProduct">{{text.ProdPage_Delete}}</button>
                     </div>
                 </div>
             </div>
@@ -73,10 +73,12 @@ import CategoryWrapper from '../wrappers/CategoryWrapper'
 import notification from '../utils/NotificationUtil'
 import ImagePreview from '../components/ImagePreview.vue'
 import TagWrapper from '../wrappers/TagWrapper'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data(){
         return{
+            text: LanguageUtil.getTextObject(),
             id: '',
             isEditing: false,
             name: '',

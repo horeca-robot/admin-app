@@ -4,9 +4,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Employee</th>
-                        <th>Pin</th>
-                        <th style="text-align: right;">Edit</th>
+                        <th>{{text.EmpPage_Employee}}</th>
+                        <th>{{text.EmpPage_Pin}}</th>
+                        <th style="text-align: right;">{{text.EmpPage_Edit}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -16,7 +16,7 @@
                 </tbody>
             </table>
         </div>
-        <button @click="addRow">Add Employee</button>
+        <button @click="addRow">{{text.EmpPage_Add}}</button>
     </div>
 </template>
 
@@ -24,10 +24,12 @@
 import EmployeeWrapper from '../wrappers/EmployeeWrapper'
 import Employee from '../components/employee_components/Employee.vue'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             employees: [],
             isCreating: false
         }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <img id="preview" :src="base64" />
-    <label for="file-upload" id="upload" class="custom-file-upload">Upload Image</label>
+    <label for="file-upload" id="upload" class="custom-file-upload">{{text.ImgPrev_UploadImage}}</label>
     <input
       @input="previewImage"
       ref="fileInput"
@@ -13,10 +13,13 @@
 </template>
 
 <script>
+import LanguageUtil from '../utils/LanguageUtil';
+
 export default {
   name: "ImagePreview",
   data() {
     return {
+      text: LanguageUtil.getTextObject(),
       base64: null,
     };
   },

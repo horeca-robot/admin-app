@@ -2,7 +2,7 @@
     <div class="page">
         <div class="panel">
             <div class="categories-box">
-                <h1 class="box-title">Categories</h1>
+                <h1 class="box-title">{{text.MenuPage_Categories}}</h1>
                 <div class="categories" v-if="categories.length">
                     <Category v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id" 
                     :id="category.id" 
@@ -12,11 +12,11 @@
                     :isVisible="category.visible"
                     @selectCategory="selectCategory"/>
                 </div>
-                <h1 class="box-message" v-else>No existing categories.</h1>
-                <button :class="selectedCategory === 'archive' ? 'categories last-item last-item-selected' : 'categories last-item'" @click="selectArchivedCategorie">Archived</button>
+                <h1 class="box-message" v-else>{{text.MenuPage_CatExist}}</h1>
+                <button :class="selectedCategory === 'archive' ? 'categories last-item last-item-selected' : 'categories last-item'" @click="selectArchivedCategorie">{{text.MenuPage_Archive}}</button>
             </div>
             <div class="products-box">
-                <h1 class="box-title">Products</h1>
+                <h1 class="box-title">{{text.MenuPage_Products}}</h1>
                 <div class="products" v-if="selectedProducts.length">
                     <Product v-for="product in selectedProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id" 
                     :id="product.id" 
@@ -24,14 +24,14 @@
                     :description="product.description" 
                     :image="product.image"/>
                 </div>
-                <h1 class="box-message" v-else-if="!selectedCategory">Select a category.</h1>
-                <h1 class="box-message" v-else-if="categories.find(c => c.id === selectedCategory) ? categories.find(c => c.id === selectedCategory).childCategories.length : false">Select a child-category.</h1>
-                <h1 class="box-message" v-else-if="!selectedProducts.length">Currently selected category doesn't contain any products.</h1>
+                <h1 class="box-message" v-else-if="!selectedCategory">{{text.MenuPage_SelCat}}</h1>
+                <h1 class="box-message" v-else-if="categories.find(c => c.id === selectedCategory) ? categories.find(c => c.id === selectedCategory).childCategories.length : false">{{text.MenuPage_SelChild}}</h1>
+                <h1 class="box-message" v-else-if="!selectedProducts.length">{{text.MenuPage_CatEmpty}}</h1>
             </div>
         </div>
         <div class="buttons-box">
-            <button class="add-button" @click="redirectToCategory">Add Category</button>
-            <button class="add-button" @click="redirectToProduct">Add Product</button>
+            <button class="add-button" @click="redirectToCategory">{{text.MenuPage_AddCat}}</button>
+            <button class="add-button" @click="redirectToProduct">{{text.MenuPage_AddProd}}</button>
         </div>
     </div>
 </template>
@@ -42,10 +42,12 @@ import Product from '../components/menu_components/Product.vue'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import ProductWrapper from '../wrappers/ProductWrapper'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             categories: [],
             products: [],
             selectedCategory: '',

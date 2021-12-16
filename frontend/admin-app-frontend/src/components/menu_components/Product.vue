@@ -4,13 +4,20 @@
         <div class="product-info">
             <b class="text">{{ name }}</b>
             <label class="text">{{ description }}</label>
-            <label class="edit" @click="redirectToProduct">Edit</label>
+            <label class="edit" @click="redirectToProduct">{{text.ProdComp_Edit}}</label>
         </div>
     </div>
 </template>
 
 <script>
+import LanguageUtil from '../../utils/LanguageUtil';
+
 export default {
+    data(){
+        return{
+            text: LanguageUtil.getTextObject(),
+        }
+    },
     name: 'Product',
     props: {
         id: String,

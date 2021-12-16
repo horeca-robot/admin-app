@@ -2,16 +2,16 @@
     <div class="navigation-bar">
         <div class="top-part">
             <div class="section">
-                <h1 v-if="this.restaurantName !== undefined && this.restaurantName.length" class="restaurant-name">Welcome,<br/>{{ this.restaurantName }}</h1>
-                <h1 v-else class="restaurant-name">Welcome,<br/>Administrator</h1>
+                <h1 v-if="this.restaurantName !== undefined && this.restaurantName.length" class="restaurant-name">{{text.Nav_Welcome}}<br/>{{ this.restaurantName }}</h1>
+                <h1 v-else class="restaurant-name">{{text.Nav_Welcome}}<br/>Administrator</h1>
             </div>
             <div class="section">
                 <a class="link" href="employees"> <!-- TODO: Add link to employee app -->
-                    Go to Employee App
+                    {{text.Nav_Ref}}
                     <i class="link-icon fas fa-external-link-alt"/>
                 </a>
                 <a class="link" @click="handleLogOut">
-                    Log Out
+                    {{text.Nav_Logout}}
                     <i class="link-icon fas fa-sign-out-alt"/>
                 </a>
             </div>
@@ -21,31 +21,31 @@
                 <div :class="{'nav-item nav-item-selected': currentPage === 'employees',  'nav-item': currentPage !== 'employees'}" @click="redirectToPage('employees')">
                     <div class="nav-item-content">
                         <i class="nav-icon fas fa-users"/>
-                        Employees
+                        {{text.Nav_Employees}}
                     </div>
                 </div>
                 <div :class="{'nav-item nav-item-selected': currentPage === 'menu',  'nav-item': currentPage !== 'menu'}" @click="redirectToPage('menu')">
                     <div class="nav-item-content">
                         <i class="nav-icon fas fa-utensils"/>
-                        Menu
+                        {{text.Nav_Menu}}
                     </div>
                 </div>
                 <div :class="{'nav-item nav-item-selected': currentPage === 'robots',  'nav-item': currentPage !== 'robots'}" @click="redirectToPage('robots')">
                     <div class="nav-item-content">
                         <i class="nav-icon fas fa-robot"/>
-                        Robots
+                        {{text.Nav_Robots}}
                     </div>
                 </div>
                 <div :class="{'nav-item nav-item-selected': currentPage === 'map',  'nav-item': currentPage !== 'map'}" @click="redirectToPage('map')">
                     <div class="nav-item-content">
                         <i class="nav-icon fas fa-map-marked-alt"/>
-                        Map
+                        {{text.Nav_Map}}
                     </div>
                 </div>
                 <div :class="{'nav-item nav-item-selected': currentPage === 'order-history',  'nav-item': currentPage !== 'order-history'}" @click="redirectToPage('order-history')">
                     <div class="nav-item-content">
                         <i class="nav-icon fas fa-history"/>
-                        Order History
+                        {{text.Nav_OrderHistory}}
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <div :class="{'nav-item nav-item-selected': currentPage === 'settings',  'nav-item': currentPage !== 'settings'}" @click="redirectToPage('settings')">
                     <div class="nav-item-content">
                         <i class="nav-icon fas fa-cog"/>
-                        Settings
+                        {{text.Nav_Settings}}
                     </div>
                 </div>
             </div>
@@ -62,9 +62,15 @@
 </template>
 
 <script>
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     name: 'NavigationBar',
+    data(){
+        return{
+            text: LanguageUtil.getTextObject()
+        }
+    },
     props: {
         currentPage: String,
         restaurantName: String
