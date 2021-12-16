@@ -13,7 +13,10 @@
                     @selectCategory="selectCategory"/>
                 </div>
                 <h1 class="box-message" v-else>{{text.MenuPage_CatExist}}</h1>
-                <button :class="selectedCategory === 'archive' ? 'categories last-item last-item-selected' : 'categories last-item'" @click="selectArchivedCategorie">{{text.MenuPage_Archive}}</button>
+                <div id="bottom-categories">
+                    <button :class="selectedCategory === 'byProducts' ? 'categories by-products category-selected' : 'categories by-products'" @click="selectByProductCategory">ByProducts</button> <!-- vertaal !-->
+                    <button :class="selectedCategory === 'archive' ? 'categories last-item category-selected' : 'categories last-item'" @click="selectArchivedCategory">{{text.MenuPage_Archive}}</button>
+                </div>
             </div>
             <div class="products-box">
                 <h1 class="box-title">{{text.MenuPage_Products}}</h1>
@@ -92,9 +95,13 @@ export default {
             this.selectedCategory = id
             this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
         },
-        selectArchivedCategorie(){
+        selectByProductCategory(){
+            this.selectedCategory = 'byProducts'
+            this.selectedProducts = this.products.filter(i => i.canBeServedAsByProduct)  
+        },
+        selectArchivedCategory(){
             this.selectedCategory = 'archive'
-            this.selectedProducts = this.products.filter(i => !i.categories.length)  
+            this.selectedProducts = this.products.filter(i => !i.categories.length && !i.canBeServedAsByProduct)  
         },
         isOtherCategorySelected(categoryId){
             const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
@@ -182,12 +189,39 @@ export default {
         width: 100%;
     }
 
+    #bottom-categories{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .by-products{
+        height: 45px;
+        color: var(--secondary-color);
+        background: var(--primary-color);
+        border: 0;
+        margin-bottom: 0;
+        display: flex;
+        font-size: 1.25rem;
+        padding: 12.5px 12.5px 12.5px 25px;
+        opacity: 0.75;
+        align-items: center;
+        font-family: inherit;
+    }  
+
+        .by-products:hover{
+            opacity: 1;
+            cursor: pointer;
+            background: var(--primary-color);
+        }
+
     .last-item{
         height: 45px;
         color: var(--secondary-color);
         background: var(--notvisible-color);
-        border:0;
-        margin-top: auto;
+        border: 0;
         margin-bottom: 0;
         display: flex;
         font-size: 1.25rem;
@@ -204,7 +238,7 @@ export default {
             background: var(--primary-color);
         }
 
-    .last-item-selected{            
+    .category-selected{            
         opacity: 1 !important;
         background: var(--primary-color) !important;
     }

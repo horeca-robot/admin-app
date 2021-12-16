@@ -202,6 +202,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 30px;
+  color: var(--text-color);
 }
 
 .panel-side{

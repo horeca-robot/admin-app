@@ -28,7 +28,7 @@
                 <label>{{text.OrderHisPage_AvgOrderRev}} <label>€{{ this.orders.length ? parseFloat(getSumOfArray(this.orders.map(i => i.subTotal)) / this.orders.length).toFixed(2) : 0 }}</label></label>
                 <label>{{text.OrderHisPage_TotProdOrdered}} <label>{{ this.products.length }}</label></label>
             </div>
-            <label id="export">{{text.OrderHisPage_ExpOrderHis}}</label>
+            <label id="export" @click="exportOrderHistory()">{{text.OrderHisPage_ExpOrderHis}}</label>
         </div>
         <div class="panel">
             <WeekOverview :orders="orders"/>
@@ -45,6 +45,7 @@
 import OrderWrapper from '../wrappers/OrderWrapper'
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import NotificationUtil from '../utils/NotificationUtil'
+import ExportUtil from '../utils/ExportUtil'
 import WeekOverview from '../components/order_history_components/WeekOverview.vue'
 import CategoryDropdown from '../components/order_history_components/CategoryDropdown.vue'
 import LanguageUtil from '../utils/LanguageUtil'
@@ -59,7 +60,8 @@ export default {
             toTemp: Date,
             orders: [],
             categories: [],
-            products: []
+            products: [],
+            excel: {}
         }
     },
     components: {
@@ -100,6 +102,7 @@ export default {
             else{
                 NotificationUtil.showErrorNotification(response.message)
             }
+            this.excel = ExportUtil.convertToCSVString(this.orders)
         },
         async getOrderHistoryByDates(){
             const response = await OrderWrapper.getOrderHistoryByDates(this.from, this.to)
@@ -112,6 +115,7 @@ export default {
             else{
                 NotificationUtil.showErrorNotification(response.message)
             }
+            this.excel = ExportUtil.convertToCSVString(this.orders)
         },
         getProducts(){
             this.products = []
@@ -139,6 +143,9 @@ export default {
         },
         rerenderCategories(){
             this.categories.forEach(c => c.rerender = !c.rerender)
+        },
+        exportOrderHistory(){
+            ExportUtil.downloadCSVFile(this.excel)
         }
     }
 }
