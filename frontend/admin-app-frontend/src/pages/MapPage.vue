@@ -53,22 +53,29 @@ export default {
       clientWidth = document.getElementById("map").clientWidth;
 
       canvas = new fabric.Canvas("canvas");
-      
+
       canvas.setWidth(clientWidth);
       canvas.setHeight(clientHeight);
 
-      canvas.on('mouse:down',(options) => this.handleSave(options))
+      canvas.on("mouse:down", () => this.handleSave());
+
+      var canvasData = localStorage.getItem("mapConfig")
+
+      if(canvasData)
+      {
+        canvas.loadFromJSON(canvasData);
+      }
     },
     placeRobotStart() {
       const o = new fabric.Circle({
-          radius: 10,
-          fill: "gray",
-          left: 10,
-          right: 10,
-          top: 10,
-          id: this.genId(),
-        });
-        canvas.add(o);
+        radius: 10,
+        fill: "gray",
+        left: 10,
+        right: 10,
+        top: 10,
+        id: this.genId(),
+      });
+      canvas.add(o);
     },
     placeTable() {
       const o = new fabric.Rect({
@@ -79,7 +86,6 @@ export default {
         strokeWidth: 2,
         originX: "center",
         originY: "center",
-        type: "table",
         id: this.genId(),
       });
 
@@ -90,6 +96,7 @@ export default {
         textAlign: "center",
         originX: "center",
         originY: "center",
+        id: this.genId(),
       });
 
       const g = new fabric.Group([o, t], {
@@ -98,7 +105,6 @@ export default {
         centeredRotation: true,
         snapAngle: 45,
         selectable: true,
-        type: "table",
       });
 
       canvas.add(g);
@@ -117,7 +123,6 @@ export default {
         centeredRotation: true,
         snapAngle: 45,
         selectable: true,
-        type: "wall",
         id: this.genId(),
       });
 
@@ -136,7 +141,6 @@ export default {
         centeredRotation: true,
         snapAngle: 45,
         selectable: true,
-        type: "wall",
       });
 
       canvas.add(g);
@@ -145,18 +149,19 @@ export default {
       var activeOBj = canvas.getActiveObject();
 
       if (activeOBj) {
-          canvas.remove(activeOBj);
-          canvas.discardActiveObject();
-          canvas.renderAll();
+        canvas.remove(activeOBj);
+        canvas.discardActiveObject();
+        canvas.renderAll();
       }
     },
-    handleSave(options) {
-      // TODO save json table data
-      console.log(options, "Save to db");
+    handleSave() {
+      localStorage.setItem("mapConfig",'')
+      var json = JSON.stringify(canvas)
+      localStorage.setItem("mapConfig",json)
     },
-    exportAsYAML(){
+    exportAsYAML() {
       console.log("Export to yaml");
-    }
+    },
   },
 };
 </script>
