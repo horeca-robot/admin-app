@@ -2,16 +2,17 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.AdminAppBackendApplication;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ProductRequestModel;
+import edu.fontys.horecarobot.adminappbackend.utilities.JsonConverterUtil;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = AdminAppBackendApplication.class)
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProductControllerTest {
 
     @Autowired
@@ -39,7 +41,7 @@ public class ProductControllerTest {
     private JwtUtil jwtUtil;
     private String token;
 
-    @BeforeEach
+    @BeforeAll
     public void setUp(){
         createAccount();
     }
@@ -52,10 +54,21 @@ public class ProductControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void post_new_product() throws Exception{
-//        mvc.perform(post("/api/product"))
-//    }
+    @Test
+    public void post_new_product() throws Exception{
+        String json = JsonConverterUtil.convertToJson(product());
+
+        mvc.perform(post("/api/product")
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void get_product_by_UUID() throws Exception{
+        
+    }
 
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         AdminUser exampleAdmin = new AdminUser();

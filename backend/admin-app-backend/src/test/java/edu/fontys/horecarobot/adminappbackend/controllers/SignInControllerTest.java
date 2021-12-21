@@ -5,7 +5,6 @@ import edu.fontys.horecarobot.adminappbackend.dtos.request.LoginRequestModel;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,6 @@ public class SignInControllerTest {
     public void should_obtain_JWT_when_valid_credentials() throws Exception{
 
         var json = jsonConverter("test@gmail.com", "AbC1@DeF");
-        System.out.println("DSHSDFHISDFHSDFHSFDH" + json);
         mvc.perform(post("/api/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
