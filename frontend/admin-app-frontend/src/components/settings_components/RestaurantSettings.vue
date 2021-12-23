@@ -80,26 +80,42 @@ export default {
 
       if(response.data.data.info) {
           let info = response.data.data.info
-          
+
           this.restaurantName = info.name
           this.contactName = info.contactPersonName
           this.contactEmail = info.contactPersonEmail
           this.contactPhone = info.contactPersonPhone
 
-          this.openingTimeMonday = info.openingTimeMonday
-          this.closingTimeMonday = info.closingTimeMonday
-          this.openingTimeTuesday = info.openingTimeTuesday
-          this.closingTimeTuesday = info.closingTimeTuesday
-          this.openingTimeWednesday = info.openingTimeWednesday
-          this.closingTimeWednesday = info.closingTimeWednesday
-          this.openingTimeThursday = info.openingTimeThursday
-          this.closingTimeThursday = info.closingTimeThursday
-          this.openingTimeFriday = info.openingTimeFriday
-          this.closingTimeFriday = info.closingTimeFriday
-          this.openingTimeSaturday = info.openingTimeSaturday
-          this.closingTimeSaturday = info.closingTimeSaturday
-          this.openingTimeSunday = info.openingTimeSunday
-          this.closingTimeSunday = info.closingTimeSunday
+          for (let i = 0; i < info.openingPeriods.length; i++) {
+            if(info.openingPeriods[i].dayOfWeek == 1) {
+              this.openingTimeMonday = info.openingPeriods[i].openingTime
+              this.closingTimeMonday = info.openingPeriods[i].closingTime
+            }
+            if(info.openingPeriods[i].dayOfWeek == 2) {
+              this.openingTimeTuesday = info.openingPeriods[i].openingTime
+              this.closingTimeTuesday = info.openingPeriods[i].closingTime
+            }
+            if(info.openingPeriods[i].dayOfWeek == 3) {
+              this.openingTimeWednesday = info.openingPeriods[i].openingTime
+              this.closingTimeWednesday = info.openingPeriods[i].closingTime
+            }
+            if(info.openingPeriods[i].dayOfWeek == 4) {
+              this.openingTimeThursday = info.openingPeriods[i].openingTime
+              this.closingTimeThursday  = info.openingPeriods[i].closingTime
+            }
+            if(info.openingPeriods[i].dayOfWeek == 5) {
+              this.openingTimeFriday = info.openingPeriods[i].openingTime
+              this.closingTimeFriday = info.openingPeriods[i].closingTime
+            }
+            if(info.openingPeriods[i].dayOfWeek == 6) {
+              this.openingTimeSaturday = info.openingPeriods[i].openingTime
+              this.closingTimeSaturday = info.openingPeriods[i].closingTime
+            }
+            if(info.openingPeriods[i].dayOfWeek == 0) {
+              this.openingTimeSunday = info.openingPeriods[i].openingTime
+              this.closingTimeSunday = info.openingPeriods[i].closingTime
+            }
+          }
 
           if(info.restaurantLogo)
             this.$refs.logo.setBase64(info.restaurantLogo)
@@ -111,28 +127,43 @@ export default {
           contactName : '',
           contactEmail : '',
           contactPhone : '',
-          openingTime : '',
-          closingTime : '',
-          restaurantDays: [
-                  {name: 'monday', openingTime: this.openingTimeMonday, closingTime: this.closingTimeMonday},
-                  {name: 'tuesday', openingTime: this.openingTimeTuesday, closingTime: this.closingTimeTuesday},
-                  {name: 'wedsnesday', openingTime: this.openingTimeWednesday, closingTime: this.closingTimeWednesday},
-                  {name: 'thursday', openingTime: this.openingTimeThursday, closingTime: this.closingTimeThursday},
-                  {name: 'friday', openingTime: this.openingTimeFriday, closingTime: this.closingTimeFriday},
-                  {name: 'saturday', openingTime: this.openingTimeSaturday, closingTime: this.closingTimeSaturday},
-                  {name: 'sunday', openingTime: this.openingTimeSunday, closingTime: this.closingTimeSunday}
-                ]
+
+          openingTimeMonday : '',
+          openingTimeTuesday : '',
+          openingTimeWednesday : '',
+          openingTimeThursday : '',
+          openingTimeFriday : '',
+          openingTimeSaturday : '',
+          openingTimeSunday : '',
+
+          closingTimeMonday : '',
+          closingTimeTuesday : '',
+          closingTimeWednesday : '',
+          closingTimeThursday : '',
+          closingTimeFriday : '',
+          closingTimeSaturday : '',
+          closingTimeSunday : '',
+
+          restaurantLogo : ''      
       }
   },
   methods : {
       async handleSave () {
           const payload = {
-              name : this.restaurantName,
-              restaurantLogo : this.$refs.logo.base64,
+              name : this.restaurantName,             
               contactPersonName : this.contactName,
               contactPersonEmail : this.contactEmail,
               contactPersonPhone : this.contactPhone,
-              restaurantDays: this.restaurantDays
+              openingPeriods: [
+                  {dayOfWeek: 1, openingTime: this.openingTimeMonday, closingTime: this.closingTimeMonday},
+                  {dayOfWeek: 2, openingTime: this.openingTimeTuesday, closingTime: this.closingTimeTuesday},
+                  {dayOfWeek: 3, openingTime: this.openingTimeWednesday, closingTime: this.closingTimeWednesday},
+                  {dayOfWeek: 4, openingTime: this.openingTimeThursday, closingTime: this.closingTimeThursday},
+                  {dayOfWeek: 5, openingTime: this.openingTimeFriday, closingTime: this.closingTimeFriday},
+                  {dayOfWeek: 6, openingTime: this.openingTimeSaturday, closingTime: this.closingTimeSaturday},
+                  {dayOfWeek: 0, openingTime: this.openingTimeSunday, closingTime: this.closingTimeSunday}
+              ],
+              restaurantLogo : this.$refs.logo.base64,
           }
           await api.putRestaurantSettings(payload)
       }
