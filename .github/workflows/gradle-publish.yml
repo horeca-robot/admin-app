@@ -7,9 +7,9 @@ on:
   # Trigger the workflow on push or pull request,
   # but only for the Opzetten-CI/CD-pipeline branch.
   push:
-    branches: [ Opzetten-CI/CD-pipeline ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ Opzetten-CI/CD-pipeline ]
+    branches: [ main, develop ]
 
 jobs:
   build:
