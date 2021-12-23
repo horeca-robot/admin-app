@@ -9,4 +9,5 @@ class AdminAppBackendApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+	
 }
