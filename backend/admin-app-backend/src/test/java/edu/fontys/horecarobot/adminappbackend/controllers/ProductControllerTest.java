@@ -89,6 +89,7 @@ public class ProductControllerTest {
         final UserDetails userDetails = loadUserByUsername(user.getEmail());
         token = jwtUtil.generateToken(userDetails);
     }
+
     public ProductRequestModel product(){
         ProductRequestModel product = new ProductRequestModel();
         product.setName("Bread");
