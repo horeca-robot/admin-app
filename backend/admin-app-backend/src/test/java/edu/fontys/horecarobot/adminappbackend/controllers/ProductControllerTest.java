@@ -65,11 +65,6 @@ public class ProductControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @Test
-    public void get_product_by_UUID() throws Exception{
-        
-    }
-
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         AdminUser exampleAdmin = new AdminUser();
         exampleAdmin.setEmail(userName);
