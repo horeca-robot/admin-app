@@ -14,8 +14,10 @@ public class RestaurantModel {
 
     private String name;
     private String restaurantLogo;
+    private String contactPersonName;
     private String contactPersonEmail;
-    private List<RestaurantDayModel> restaurantDays;
+    private String contactPersonPhone;
+    private List<OpeningPeriodModel> openingPeriods;
 
     public RestaurantModel(RestaurantInfo model) {
         name = model.getName();
@@ -27,6 +29,5 @@ public class RestaurantModel {
         contactPersonName = model.getContactPersonName();
         contactPersonEmail = model.getContactPersonEmail();
         contactPersonPhone = model.getContactPersonPhone();
-        restaurantDays = model.getRestaurantDays();
     }
 }
