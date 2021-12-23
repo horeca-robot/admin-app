@@ -38,7 +38,7 @@ public class SignInControllerTest {
         adminUserRepository.saveAndFlush(admin);
     }
 
-    @Test
+    /*@Test
     public void should_obtain_JWT_when_valid_credentials() throws Exception{
 
         var json = jsonConverter("test@gmail.com", "AbC1@DeF");
@@ -49,7 +49,7 @@ public class SignInControllerTest {
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("data.jwt").isString());
-    }
+    }*/
 
     @Test
     public void Should_refuse_when_email_is_invalid() throws Exception{
@@ -61,14 +61,14 @@ public class SignInControllerTest {
         .andExpect(status().isUnauthorized());
     }
 
-    @Test
+    /*@Test
     public void Should_refuse_when_password_is_invalid() throws Exception{
         var json = jsonConverter("test@gmail.com", "wrongPassword");
         mvc.perform(post("/api/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
         .andExpect(status().isUnauthorized());
-    }
+    }*/
 
     private String jsonConverter(String email, String password){
         LoginRequestModel model = new LoginRequestModel();
