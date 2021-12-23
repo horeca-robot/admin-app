@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base url can be found in the .env file in the root folder
-export const baseUrl = `${process.env.VUE_APP_API_BASE_URL}/api/category`;
+export const baseUrl = `${process.env.VUE_APP_API_BASE_URL}/api/ingredient`;
 
 export default {
 
@@ -13,7 +13,7 @@ export default {
         }
     },
 
-    async getCategories(){
+    async getIngredients(){
         var response;
 
         try{
@@ -26,11 +26,11 @@ export default {
         return {
             success: response.data["success"],
             message: response.data["message"],
-            categories: response.data["data"]["categories"]
+            ingredients: response.data["data"]["ingredients"]
         }
     },
 
-    async getCategoryById(id){
+    async getIngredientById(id){
         var response;
 
         try{
@@ -43,63 +43,23 @@ export default {
         return {
             success: response.data["success"],
             message: response.data["message"],
-            category: response.data["data"]["category"]
+            ingredient: response.data["data"]["ingredient"]
         }
     },
-
-    async postCategory(data) 
-    {
+    
+    async postIngredient(data) {
         var response;
 
         try{
             response =  await axios.post(baseUrl, data, this.getHeaders())
         }
-        catch(error)
-        {
-            response = error.response
-            console.log(error)
-        }
-
-
-
-        return{
-            success: response.status === 201
-        }
-    },
-    
-    async putCategory(data) 
-    {
-        var response;
-
-        try{
-            response =  await axios.put(`${baseUrl}/${data.id}`, data, this.getHeaders())
-        }
         catch(error){
             response = error.response
-            console.log(error)
         }
-
-        return{
-            success: response.status === 204
-        }
-    },
-
-    async deleteCategory(id) 
-    {
-        var response;
-
-        try{
-            response =  await axios.delete(`${baseUrl}/${id}`, this.getHeaders())
-        }
-        catch(error){
-            response = error.response
-            console.log(error)
-        }
-
-
 
         return{
             success: response.status === 201
         }
     }
+
 } 

@@ -3,27 +3,33 @@
         <div class="panel">
             <div class="categories-box">
                 <h1 class="box-title">Categories</h1>
-                <div class="categories" v-if="categories.length !== 0">
-                    <Category v-for="category in categories" :key="category.id" 
+                <div class="categories" v-if="categories.length">
+                    <Category v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id" 
                     :id="category.id" 
                     :name="category.name" 
-                    :childCategories="category.childCategories" 
+                    :childCategories="category.childCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" 
                     :otherIsSelected="isOtherCategorySelected(category.id)" 
+                    :isVisible="category.visible"
                     @selectCategory="selectCategory"/>
                 </div>
                 <h1 class="box-message" v-else>No existing categories.</h1>
+                <div id="bottom-categories">
+                    <button :class="selectedCategory === 'byProducts' ? 'categories by-products category-selected' : 'categories by-products'" @click="selectByProductCategory">ByProducts</button>
+                    <button :class="selectedCategory === 'archive' ? 'categories last-item category-selected' : 'categories last-item'" @click="selectArchivedCategory">Archived</button>
+                </div>
             </div>
             <div class="products-box">
                 <h1 class="box-title">Products</h1>
-                <div class="products" v-if="selectedProducts.length !== 0">
-                    <Product v-for="product in selectedProducts" :key="product.id" 
+                <div class="products" v-if="selectedProducts.length">
+                    <Product v-for="product in selectedProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id" 
                     :id="product.id" 
                     :name="product.name" 
                     :description="product.description" 
                     :image="product.image"/>
                 </div>
                 <h1 class="box-message" v-else-if="!selectedCategory">Select a category.</h1>
-                <h1 class="box-message" v-else>Currently selected category doesn't contain any products.</h1>
+                <h1 class="box-message" v-else-if="categories.find(c => c.id === selectedCategory) ? categories.find(c => c.id === selectedCategory).childCategories.length : false">Select a child-category.</h1>
+                <h1 class="box-message" v-else-if="!selectedProducts.length">Currently selected category doesn't contain any products.</h1>
             </div>
         </div>
         <div class="buttons-box">
@@ -86,6 +92,14 @@ export default {
         selectCategory(id){
             this.selectedCategory = id
             this.selectedProducts = this.products.filter(i => i.categories.some(x => x === id))
+        },
+        selectByProductCategory(){
+            this.selectedCategory = 'byProducts'
+            this.selectedProducts = this.products.filter(i => i.canBeServedAsByProduct)  
+        },
+        selectArchivedCategory(){
+            this.selectedCategory = 'archive'
+            this.selectedProducts = this.products.filter(i => !i.categories.length && !i.canBeServedAsByProduct)  
         },
         isOtherCategorySelected(categoryId){
             const childCategories = this.categories.find( ({ id }) => id === categoryId ).childCategories
@@ -171,6 +185,60 @@ export default {
 
     .categories{
         width: 100%;
+    }
+
+    #bottom-categories{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .by-products{
+        height: 45px;
+        color: var(--secondary-color);
+        background: var(--primary-color);
+        border: 0;
+        margin-bottom: 0;
+        display: flex;
+        font-size: 1.25rem;
+        padding: 12.5px 12.5px 12.5px 25px;
+        opacity: 0.75;
+        align-items: center;
+        font-family: inherit;
+    }  
+
+        .by-products:hover{
+            opacity: 1;
+            cursor: pointer;
+            background: var(--primary-color);
+        }
+
+    .last-item{
+        height: 45px;
+        color: var(--secondary-color);
+        background: var(--notvisible-color);
+        border: 0;
+        margin-bottom: 0;
+        display: flex;
+        font-size: 1.25rem;
+        padding: 12.5px 12.5px 12.5px 25px;
+        opacity: 0.75;
+        border-radius: 0 0 0 9px;
+        align-items: center;
+        font-family: inherit;
+    }
+
+        .last-item:hover{
+            opacity: 1;
+            cursor: pointer;
+            background: var(--primary-color);
+        }
+
+    .category-selected{            
+        opacity: 1 !important;
+        background: var(--primary-color) !important;
     }
 
     .products{
