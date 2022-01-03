@@ -5,5 +5,5 @@ RUN gradle build -x test --no-daemon
 FROM openjdk:11-jre-slim AS production
 EXPOSE 8080
 RUN mkdir /app
-COPY /home/gradle/src/build/libs/*.jar app.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
