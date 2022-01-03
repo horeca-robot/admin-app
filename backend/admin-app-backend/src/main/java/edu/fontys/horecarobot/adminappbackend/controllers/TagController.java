@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/tag")
-@CrossOrigin(origins = "http://localhost:4000")
+@CrossOrigin(origins = "http://localhost:8081")
 @RequiredArgsConstructor
 public class TagController {
 

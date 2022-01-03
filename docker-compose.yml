@@ -9,7 +9,7 @@ services:
     build:
       context: ./backend/admin-app-backend
     ports:
-      - "8080:80"
+      - "8080:8080"
 
   admin-frontend:
     container_name: admin-frontend
@@ -17,7 +17,7 @@ services:
     build:
       context: ./frontend/admin-app-frontend
     ports:
-      - "8081:80"
+      - "8081:8081"
 
   db:
     image: mariadb
@@ -27,3 +27,5 @@ services:
     environment:
       MARIADB_DATABASE: "rigs_db"
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
+    ports:
+      - "3306:3306"

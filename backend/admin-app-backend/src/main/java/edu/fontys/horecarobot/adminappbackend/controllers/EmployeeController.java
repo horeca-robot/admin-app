@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "api/employee")
-@CrossOrigin(origins = "http://localhost:4000")
+@CrossOrigin(origins = "http://localhost:8081")
 @RequiredArgsConstructor
 public class EmployeeController {
 
