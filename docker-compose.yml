@@ -1,0 +1,29 @@
+﻿version: "3.9"
+
+services:
+  admin-backend:
+    container_name: admin-backend
+    image: rubenotter/rigs-admin-backend:latest
+    depends_on:
+      - db
+    build:
+      context: ./backend/admin-app-backend
+    ports:
+      - "8080:80"
+
+  admin-frontend:
+    container_name: admin-frontend
+    image: rubenotter/rigs-admin-frontend:latest
+    build:
+      context: ./frontend/admin-app-frontend
+    ports:
+      - "8081:80"
+
+  db:
+    image: mariadb
+    container_name: admin-database
+    restart: unless-stopped
+    tty: true
+    environment:
+      MARIADB_DATABASE: "rigs_db"
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
