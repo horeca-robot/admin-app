@@ -3,9 +3,10 @@
 services:
   admin-backend:
     container_name: admin-backend
-    image: rubenotter/rigs-admin-backend:latest
+    image: kodakcms/admin-backend:latest
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     build:
       context: ./backend/admin-app-backend
     ports:
@@ -13,7 +14,7 @@ services:
 
   admin-frontend:
     container_name: admin-frontend
-    image: rubenotter/rigs-admin-frontend:latest
+    image: kodakcms/admin-frontend:latest
     build:
       context: ./frontend/admin-app-frontend
     ports:
@@ -29,3 +30,7 @@ services:
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
     ports:
       - "3306:3306"
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
