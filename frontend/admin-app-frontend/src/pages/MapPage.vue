@@ -21,6 +21,9 @@
             Delete Selected
           </button>
         </div>
+
+         <div ref="scaleView" class="map-navigation-item">
+        </div>
       </div>
     </div>
   </div>
@@ -39,7 +42,12 @@ const wallStroke = "#686868";
 
 export default {
   data() {
-    return {};
+    return {
+      canvasZoom: 0,
+      nummm: 0,
+    };
+  },
+  setup(){
   },
   mounted() {
     this.initCanvas();
@@ -52,17 +60,36 @@ export default {
       clientHeight = document.getElementById("map").clientHeight;
       clientWidth = document.getElementById("map").clientWidth;
 
-      canvas = new fabric.Canvas("canvas");
+      canvas = new fabric.Canvas("canvas", {});
 
       canvas.setWidth(clientWidth);
       canvas.setHeight(clientHeight);
 
+      if(localStorage.getItem("mapZoom"))
+      {
+        this.canvasZoom = parseFloat(localStorage.getItem("mapZoom"));
+        canvas.setZoom(this.canvasZoom);
+      }
+
+      canvas.on("mouse:wheel", function (opt) {
+        var delta = opt.e.deltaY;
+        this.canvasZoom = canvas.getZoom();
+        this.canvasZoom *= 0.999 ** delta;
+        if (this.canvasZoom > 5) this.canvasZoom = 5;
+        if (this.canvasZoom < 1) this.canvasZoom = 1;
+        canvas.setZoom(this.canvasZoom);
+        opt.e.preventDefault();
+        opt.e.stopPropagation();
+
+        localStorage.setItem("mapZoom", this.canvasZoom);
+        console.log(this.$refs)
+      });
+
       canvas.on("mouse:down", () => this.handleSave());
 
-      var canvasData = localStorage.getItem("mapConfig")
+      var canvasData = localStorage.getItem("mapConfig");
 
-      if(canvasData)
-      {
+      if (canvasData) {
         canvas.loadFromJSON(canvasData);
       }
     },
@@ -155,9 +182,9 @@ export default {
       }
     },
     handleSave() {
-      localStorage.setItem("mapConfig",'')
-      var json = JSON.stringify(canvas)
-      localStorage.setItem("mapConfig",json)
+      localStorage.setItem("mapConfig", "");
+      var json = JSON.stringify(canvas);
+      localStorage.setItem("mapConfig", json);
     },
     exportAsYAML() {
       console.log("Export to yaml");
