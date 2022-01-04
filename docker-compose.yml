@@ -17,7 +17,7 @@ services:
     # ports:
     #   - "8081:8081"
     environment:
-      - VIRTUAL_HOST=127.0.0.1
+      - VIRTUAL_HOST=178.62.217.137
 
   admin-backend:
     container_name: admin-backend
@@ -30,7 +30,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-    - VIRTUAL_HOST=127.0.0.1:8080
+    - VIRTUAL_HOST=178.62.217.137:8080
 
   db:
     image: mariadb
