@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/order")
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://178.62.217.137:8081")
 @RequiredArgsConstructor
 public class OrderController {
 
