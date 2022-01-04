@@ -7,21 +7,18 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      # - ./vhost.d/:/etc/nginx/vhost.d:ro
 
   admin-frontend:
     container_name: admin-frontend
-    image: kodakcms/admin-frontend:latest
     build:
       context: ./frontend/admin-app-frontend
-    # ports:
-    #   - "8081:8081"
+    ports:
+      - "8081:8081"
     environment:
       - VIRTUAL_HOST=178.62.217.137
 
   admin-backend:
     container_name: admin-backend
-    image: kodakcms/admin-backend:latest
     depends_on:
       db:
         condition: service_healthy
