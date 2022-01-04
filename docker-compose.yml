@@ -1,6 +1,24 @@
 ﻿version: "3.9"
 
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      # - ./vhost.d/:/etc/nginx/vhost.d:ro
+
+  admin-frontend:
+    container_name: admin-frontend
+    image: kodakcms/admin-frontend:latest
+    build:
+      context: ./frontend/admin-app-frontend
+    # ports:
+    #   - "8081:8081"
+    environment:
+      - VIRTUAL_HOST=127.0.0.1
+
   admin-backend:
     container_name: admin-backend
     image: kodakcms/admin-backend:latest
@@ -11,14 +29,8 @@ services:
       context: ./backend/admin-app-backend
     ports:
       - "8080:8080"
-
-  admin-frontend:
-    container_name: admin-frontend
-    image: kodakcms/admin-frontend:latest
-    build:
-      context: ./frontend/admin-app-frontend
-    ports:
-      - "8081:8081"
+    environment:
+    - VIRTUAL_HOST=127.0.0.1:8080
 
   db:
     image: mariadb
@@ -28,8 +40,8 @@ services:
     environment:
       MARIADB_DATABASE: "rigs_db"
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "true"
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     healthcheck:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
             timeout: 20s
