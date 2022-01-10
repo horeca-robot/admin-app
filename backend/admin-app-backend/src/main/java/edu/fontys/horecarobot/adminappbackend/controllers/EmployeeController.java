@@ -40,7 +40,7 @@ public class EmployeeController {
         if(employeeRequestModel.getUsername().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if(employeeRequestModel.getPincode() < 1111 || employeeRequestModel.getPincode() > 9999)
+        if(String.valueOf(employeeRequestModel.getPincode()).length() != 4)
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         EmployeeResponseModel employeeResponseModel;
@@ -66,7 +66,7 @@ public class EmployeeController {
         if(employeeRequestModel.getUsername().isBlank())
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
-        if(employeeRequestModel.getPincode() < 1111 || employeeRequestModel.getPincode() > 9999)
+        if(String.valueOf(employeeRequestModel.getPincode()).length() != 4)
             return ResponseEntity.badRequest().body(ApiResponse.REQUIRED_FIELDS_ERROR);
 
         try {
