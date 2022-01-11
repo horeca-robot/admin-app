@@ -29,15 +29,17 @@ public class RestaurantService {
         var restaurantInfo = getRestaurantInfo();
         restaurantInfo.setName(model.getName());
         restaurantInfo.setRestaurantLogo(model.getRestaurantLogo());
+        restaurantInfo.setContactPersonName(model.getContactPersonName());
+        restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
+        restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
+
         restaurantInfo.setOpeningTimes(
                 model.getOpeningPeriods() == null ? new ArrayList<>() : model.getOpeningPeriods()
                         .stream()
                         .map(m -> new OpeningPeriod(null, m.getDayOfWeek(), m.getOpeningTime(), m.getClosingTime()))
                         .collect(Collectors.toList())
         );
-        restaurantInfo.setContactPersonName(model.getContactPersonName());
-        restaurantInfo.setContactPersonEmail(model.getContactPersonEmail());
-        restaurantInfo.setContactPersonPhone(model.getContactPersonPhone());
+
         restaurantInfoRepository.saveAndFlush(restaurantInfo);
     }
 
@@ -63,5 +65,4 @@ public class RestaurantService {
 
         return restaurantInfo.get();
     }
-
 }
