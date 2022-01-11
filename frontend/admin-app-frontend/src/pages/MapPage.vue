@@ -7,31 +7,31 @@
       <br />
       <div class="map-navigation">
         <div class="map-navigation-item">
-          <button @click="placeRobotStart">Place Robot Start Position</button>
+          <button @click="placeRobotStart">{{text.MapPage_RobotStart}}</button>
         </div>
         <div class="map-navigation-item">
-          <button @click="placeTable">Place A Table</button>
+          <button @click="placeTable">{{text.MapPage_PlaceTable}}</button>
         </div>
         <div class="map-navigation-item">
-          <button @click="placeWall">Place A Wall</button>
+          <button @click="placeWall">{{text.MapPage_PlaceWall}}</button>
         </div>
 
         <div class="map-navigation-item">
           <button class="danger-action" @click="deleteSelected">
-            Delete Selected
+            {{text.MapPage_Delete}}
           </button>
         </div>
         <div id="scaleView" ref="scaleView">
-            Map Scale: 
+            {{text.MapPage_MapScale}}
             <div id="scale">
                 &nbsp;
             </div> = {{customScale}}cm
         </div>
         <div id="customScale" class="map-navigation-item">
-            Custom Scale: <input type="number" v-model="customScale">
+            {{text.MapPage_CustomScale}} <input type="number" v-model="customScale">
         </div>
         <div class="map-navigation-item">
-            <button @click="saveScale">Save</button>
+            <button @click="saveScale">{{text.MapPage_Save}}</button>
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@
 
 <script>
 import { fabric } from "fabric";
+import LanguageUtil from '../utils/LanguageUtil'
 
 let canvas;
 let clientHeight;
@@ -53,6 +54,7 @@ const wallStroke = "#686868";
 export default {
   data() {
     return {
+      text: LanguageUtil.getTextObject(),
       canvasZoom: 0,
       nummm: 0,
       customScale: 50
