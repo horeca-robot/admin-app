@@ -24,12 +24,14 @@
 
 <script>
 import notification from '../../utils/NotificationUtil'
+import LanguageUtil from '../../utils/LanguageUtil'
 
 export default {
     name: 'Robot',
     emits: ['addRobot', 'updateRobot', 'getRobots', 'deleteRobot'],
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             name: '',
             id: '',
             isEditing: false
@@ -51,7 +53,7 @@ export default {
         },
         handleSubmit(){
             if(!this.id.trim() || !this.name.trim()){
-                notification.showErrorNotification('All fields need to be filled in.')
+                notification.showErrorNotification(this.text.RobotComp_FieldErr)
                 return
             }
 
@@ -74,7 +76,7 @@ export default {
                 this.$emit('getRobots')
             }
             else{
-                if(!confirm('Are you sure you want to delete robot: ' + this.name + ' #' + this.id + '?')){
+                if(!confirm(this.text.RobotComp_Delete + this.name + ' #' + this.id + '?')){
                     return;
                 }
 

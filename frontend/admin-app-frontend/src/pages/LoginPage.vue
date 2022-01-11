@@ -12,7 +12,7 @@
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
-                <input v-model="password" type="password" class="input-field" placeholder="Password"/>
+                <input v-model="password" type="password" class="input-field" :placeholder="text.LoginPage_PlaceHolder_Pass"/>
             </div>
         </div>
         <div class="section" >
@@ -39,7 +39,7 @@ export default {
         async handleLogIn() {
 
             if(!this.email.trim() || !this.password.trim()){
-                notification.showErrorNotification('All fields need to be filled in.')
+                notification.showErrorNotification("this.text.LoginPage_FieldErr")
                 return
             }
 

@@ -42,9 +42,6 @@ export default {
 <style scoped>
 .language_col
 {
-  border: 2px solid black;
-  width: 200px;
-  height: 100px;
   margin-top: 5px;
 }
 </style>

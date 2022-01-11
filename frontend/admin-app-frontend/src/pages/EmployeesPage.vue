@@ -59,16 +59,16 @@ export default {
         },
         async addEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username)) {
-                notification.showErrorNotification('Already exists an employee with this username.')
+                notification.showErrorNotification(this.text.EmpPage_Err1)
             }
             else if(payload.pincode < 1111 || payload.pincode > 9999) {
-                notification.showErrorNotification('Pin should be a four digit number.')
+                notification.showErrorNotification(this.text.EmpPage_Err2)
             }
             else {
                 const response = await EmployeeWrapper.postEmployees(payload)
 
                 if(response.success) {
-                    notification.showSuccessNotification(`Succesfully added employee ${payload.username}.`)
+                    notification.showSuccessNotification(`${payload.username} ` + this.text.EmpPage_Succes1)
                 }
                 else {
                     notification.showErrorNotification(response.message)
@@ -79,16 +79,16 @@ export default {
         },
         async updateEmployees(payload) {
             if(this.doesEmployeesListContainUsername(payload.username, payload.id)) {
-                notification.showErrorNotification('Already exists an employee with this username.')
+                notification.showErrorNotification(this.text.EmpPage_Err1)
             }
             else if(payload.pincode < 1111 || payload.pincode > 9999) {
-                notification.showErrorNotification('Pin should be a four digit number.')
+                notification.showErrorNotification(this.text.EmpPage_Err2)
             }
             else {
                 const response = await EmployeeWrapper.putEmployees(payload)
 
                 if(response.success) {                    
-                    notification.showSuccessNotification(`Succesfully updated employee ${payload.username}.`)
+                    notification.showSuccessNotification(`${payload.username} ` + this.text.EmpPage_Succes2)
                 }
                 else {
                     notification.showErrorNotification(response.message)
