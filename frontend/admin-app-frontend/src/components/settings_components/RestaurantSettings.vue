@@ -3,56 +3,59 @@
     <div class="grid container-element">
       <div class="restaurant-details-wrapper">
         <div>
-          <label for="restaurantname">Restaurant Name</label>
+          <label for="restaurantname">{{text.ResSet_RestaurantName}}</label>
           <input id="restaurantname" v-model="restaurantName" type="text" />
-        </div> 
+        </div>
+
         <div>
-          <label for="contactperson">Contact Person</label>
+          <label for="contactperson">{{text.ResSet_ContactPerson}}</label>
           <input id="contactperson" v-model="contactName" type="text" />
         </div>
+
         <div>
-          <label for="contactemail">Contact Email</label>
+          <label for="contactemail">{{text.ResSet_ContactEmail}}</label>
           <input id="contactemail" v-model="contactEmail" type="email" />
         </div>
+
         <div>
-          <label for="contactphone">Contact Phone</label>
+          <label for="contactphone">{{text.ResSet_ContactPhone}}</label>
           <input id="contactphone" v-model="contactPhone" type="tel" />
-        </div>
-      </div>   
+          </div>
+        </div>   
       <div class="days-open-wrapper">
-        <label>Opening and Closing Time</label>
+        <label>{{text.ResSet_OpenCloseTime}}</label>
         <div class="days-open">
-          <label>Monday</label>
+          <label>{{text.WeekComp_Monday}}</label>
           <input class="openingtime" v-model="openingTimeMonday" type="time" />
           <input class="closingtime" v-model="closingTimeMonday" type="time" />
         </div> 
         <div class="days-open">
-          <label>Tuesday</label>
+          <label>{{text.WeekComp_Tuesday}}</label>
           <input class="openingtime" v-model="openingTimeTuesday" type="time" />
           <input class="closingtime" v-model="closingTimeTuesday" type="time" />
         </div>
         <div class="days-open">
-          <label>Wednesday</label>
+          <label>{{text.WeekComp_Wednesday}}</label>
           <input class="openingtime" v-model="openingTimeWednesday" type="time" />
           <input class="closingtime" v-model="closingTimeWednesday" type="time" />
         </div>
         <div class="days-open">
-          <label>Thursday</label>
+          <label>{{text.WeekComp_Thursday}}</label>
           <input class="openingtime" v-model="openingTimeThursday" type="time" />
           <input class="closingtime" v-model="closingTimeThursday" type="time" />
         </div> 
         <div class="days-open">
-          <label>Friday</label>
+          <label>{{text.WeekComp_Friday}}</label>
           <input class="openingtime" v-model="openingTimeFriday" type="time" />
           <input class="closingtime" v-model="closingTimeFriday" type="time" />
         </div> 
         <div class="days-open">
-          <label>Saturday</label>
+          <label>{{text.WeekComp_Saturday}}</label>
           <input class="openingtime" v-model="openingTimeSaturday" type="time" />
           <input class="closingtime" v-model="closingTimeSaturday" type="time" />
         </div>
         <div class="days-open">
-          <label>Sunday</label>
+          <label>{{text.WeekComp_Sunday}}</label>
           <input class="openingtime" v-model="openingTimeSunday" type="time" />
           <input class="closingtime" v-model="closingTimeSunday" type="time" />
         </div>
@@ -60,11 +63,11 @@
     </div>
     <div class="image-preview-wrapper">
       <div id="img-preview" class="container-element">
-        <label for="logo">Restaurant Logo</label>
+        <label for="logo">{{text.ResSet_RestaurantLogo}}</label>
         <ImagePreview ref="logo"/>
       </div>
       <div>
-        <button @click="handleSave">Save Settings</button>
+        <button @click="handleSave">{{text.ResSet_SaveSettings}}</button>
       </div>
     </div>
   </div>
@@ -73,6 +76,7 @@
 <script>
 import ImagePreview from "../ImagePreview.vue";
 import api from "../../wrappers/InfoWrapper.js";
+import LanguageUtil from '../../utils/LanguageUtil';
 
 export default {
   async mounted() {
@@ -123,6 +127,7 @@ export default {
   },
   data() {
       return {
+          text: LanguageUtil.getTextObject(),
           restaurantName : '',
           contactName : '',
           contactEmail : '',

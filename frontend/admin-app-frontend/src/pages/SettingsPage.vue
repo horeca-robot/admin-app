@@ -3,8 +3,8 @@
     <div id="base">
       <div id="base-nav" class="tabs">
         <ul class="tabs-list">
-          <li ref="websiteBtn" v-on:click.prevent="setTab" data-tab="website" class="active"><a data-tab="website" href="#">Website Settings</a></li>
-          <li ref="restaurantBtn" v-on:click.prevent="setTab" data-tab="restaurant"><a data-tab="restaurant" href="#">Restaurant Settings</a></li>
+          <li ref="websiteBtn" v-on:click.prevent="setTab" data-tab="website" class="active"><a data-tab="website" href="#">{{text.SetPage_WebsiteSettings}}</a></li>
+          <li ref="restaurantBtn" v-on:click.prevent="setTab" data-tab="restaurant"><a data-tab="restaurant" href="#">{{text.SetPage_RestaurantSettings}}</a></li>
         </ul>
       </div>
       <div id="base-content">
@@ -22,16 +22,18 @@
 <script>
 import WebsiteSettings from "../components/settings_components/WebsiteSettings.vue"
 import RestaurantSettings from "../components/settings_components/RestaurantSettings.vue"
+import LanguageUtil from '../utils/LanguageUtil';
 
 
 export default{
     data() {
         return {
+          text: LanguageUtil.getTextObject(),
         }
     },
     components:{
         WebsiteSettings,
-        RestaurantSettings,
+        RestaurantSettings
     },
     methods: {
         setTab(e){
@@ -48,7 +50,7 @@ export default{
                     this.$refs.restaurantBtn.classList.remove('active')
                     this.$refs.restaurantTab.classList.remove('active')
                     this.$refs.restaurantTab.style.display = 'none !important';
-                break;
+                    break;
 
                 case 'restaurant':
                     this.$refs.restaurantBtn.classList.add('active')
@@ -102,7 +104,7 @@ export default{
   padding: 0px;
 }
 .tabs .tabs-list li {
-  width: 175px;
+  width: 210px;
   height: 5px;
   float: left;
   padding-top: 15px;

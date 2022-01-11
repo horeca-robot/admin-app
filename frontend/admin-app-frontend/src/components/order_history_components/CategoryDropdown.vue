@@ -7,7 +7,7 @@
         </div>
         <div id="products" v-if="droppedDown">
             <label v-for="product in allProducts.sort((a,b) => (a.amount < b.amount) ? 1 : ((b.amount < a.amount) ? -1 : 0))" :key="product.id">
-                <label>{{ product.name }}</label> was ordered: <label>{{ product.amount }}</label> time(s)
+                <label>{{ product.name }}</label> {{text.CatDropDownComp_Ordered}} <label>{{ product.amount }}</label> {{text.CatDropDownComp_Times}}
             </label>
         </div>
     </div>
@@ -15,10 +15,12 @@
 <script>
 import ProductWrapper from '../../wrappers/ProductWrapper'
 import NotificationUtil from '../../utils/NotificationUtil'
+import LanguageUtil from '../../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             droppedDown: false,
             allProducts: []
         }
