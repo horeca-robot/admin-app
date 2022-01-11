@@ -1,74 +1,74 @@
 <template>
-    <form id="panel" @submit.prevent="onSubmit">
+    <form id="panel" @submit="onSubmit">
         <div class="panel-side">
             <div class="product-property">
-                <label class="property-title">Name: (Required)</label>
-                <input v-model="name" type="text" placeholder="Name..."/>
+                <label class="property-title">{{text.ProdPage_Title}}</label> <!-- required toevoegen in vertaling !-->
+                <input v-model="name" type="text" :placeholder="text.ProdPage_PlaceHolderName"/>
             </div>
             <div class="product-property">
-                <label class="property-title">Description:</label>
-                <textarea v-model="description" placeholder="Description..."/>
+                <label class="property-title">{{text.ProdPage_Description}}</label>
+                <textarea v-model="description" :placeholder="text.ProdPage_PlaceHolderDescription"/>
             </div>
             <div class="product-property">
-                <label class="property-title">Price: (Required)</label>
-                <input v-model="price" type="number" placeholder="Price..." step="any"/>
+                <label class="property-title">{{text.ProdPage_Price}}</label> <!-- required toevoegen in vertaling !-->
+                <input v-model="price" type="number" :placeholder="text.ProdPage_PlaceHolderPrice" step="any"/>
             </div>
             <div class="product-property">
-                <label class="property-title">Discount Price:</label>
-                <input v-model="discountPrice" type="number" placeholder="Discount..." step="any"/>
+                <label class="property-title">{{text.ProdPage_Discount}}</label>
+                <input v-model="discountPrice" type="number" :placeholder="text.ProdPage_PlaceHolderDiscount" step="any"/>
             </div>
             <div class="product-property">
                 <div>
-                    <label class="property-title">Contains Alcohol:</label> 
+                    <label class="property-title">{{text.ProdPage_Alcohol}}</label> 
                     <input v-model="alcohol" type="checkbox"/>
                 </div>
             </div>
             <div class="product-property">
                 <div>
-                    <label class="property-title">Is A By-Product:</label> 
+                    <label class="property-title">{{text.ProdPage_IsByProduct}}</label> 
                     <input v-model="canBeServedAsByProduct" type="checkbox" @click="byProducts.forEach(p => p.selected = false)"/>
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">Image:</label> 
+                <label class="property-title">{{text.ProdPage_Image}}</label> 
                 <ImagePreview ref="image"/>
             </div>
             <div id="buttons">
-                <input class="button save" type="submit" value="Save" />
-                <button class="button delete" @click="deleteProduct()">Delete</button>
+                <input class="button save" type="submit" :value="text.ProdPage_Save" />
+                <button class="button delete" @click="deleteProduct">{{text.ProdPage_Delete}}</button>
             </div>
         </div>
         <div class="panel-side">
             <div class="product-property">
-                <label class="property-title">Ingredients:</label> 
+                <label class="property-title">{{text.ProdPage_Ingredients}}</label> 
                 <div class="property-list">
                     <div class="list-entry" v-for="ingredient in displayIngredients.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="ingredient.id">
                         <input type="checkbox" v-model="ingredient.selected" /><label>{{ingredient.name}}</label>
                         <select v-if="ingredient.selected" v-model="ingredient.required">
-                            <option :value=true>Required</option>
-                            <option :value=false>Not Required</option>
+                            <option :value=true>{{text.ProdPage_Required}}</option>
+                            <option :value=false>{{text.ProdPage_NotRequired}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="list-search">
-                    <input type="text" @input="searchIngredients" placeholder="Search Ingredient..." v-model="ingredient" />
-                    <button class="button" @click="createIngredient">Add</button>
+                    <input type="text" @input="searchIngredients" :placeholder="text.ProdPage_PlaceHolderSearchIngredient" v-model="ingredient" />
+                    <button class="button" @click="createIngredient">{{text.ProdPage_Add}}</button>
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">Tags:</label> 
+                <label class="property-title">{{text.ProdPage_Tags}}</label> 
                 <div class="property-list">
                     <div class="list-entry" v-for="tag in displayTags.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="tag.id">
                         <input type="checkbox" v-model="tag.selected" /><label>{{tag.name}}</label>
                     </div>
                 </div>
                 <div class="list-search">
-                    <input type="text" @input="searchTags" placeholder="Search Tag..." v-model="tag" />
-                    <button class="button" @click="createTag">Add</button>
+                    <input type="text" @input="searchTags" :placeholder="text.ProdPage_PlaceHolderSearchTag" v-model="tag" />
+                    <button class="button" @click="createTag">{{text.ProdPage_Add}}</button>
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">Categories:</label> 
+                <label class="property-title">{{text.ProdPage_Categories}}</label> 
                 <div class="property-list">
                     <div class="list-entry" v-for="category in categories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id">
                         <input type="checkbox" v-model="category.selected" /><label>{{category.name}}</label>
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="product-property">
-                <label class="property-title">By-Products:</label> 
+                <label class="property-title">{{text.ProdPage_ByProducts}}</label>
                 <div class="property-list">
                     <div class="list-entry" v-for="product in byProducts.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="product.id">
                         <input v-if="!this.canBeServedAsByProduct" type="checkbox" v-model="product.selected" /><label>{{product.name}}</label>
@@ -93,11 +93,13 @@ import CategoryWrapper from '../wrappers/CategoryWrapper'
 import notification from '../utils/NotificationUtil'
 import ImagePreview from '../components/ImagePreview.vue'
 import TagWrapper from '../wrappers/TagWrapper'
+import LanguageUtil from '../utils/LanguageUtil'
 import IngredientWrapper from '../wrappers/IngredientWrapper'
 
 export default {
     data(){
         return{
+            text: LanguageUtil.getTextObject(),
             id: '',
             isEditing: false,
             name: '',
@@ -225,7 +227,7 @@ export default {
             e.preventDefault()
 
             if(!this.name || !this.price){
-                notification.showErrorNotification('Not all required fields are filled in.')
+                notification.showErrorNotification(this.text.ProdPage_FieldErr)
                 return
             }
 
@@ -263,7 +265,7 @@ export default {
             const response = await ProductWrapper.postProduct(payload)
 
             if(response.success){
-                notification.showSuccessNotification(`Succesfully added ${payload.name} to the menu.`)
+                notification.showSuccessNotification(`${payload.name} ` + this.text.ProdPage_SuccesAdd)
             }
             else{
                 notification.showErrorNotification(response.message)
@@ -293,7 +295,7 @@ export default {
             const response = await ProductWrapper.putProduct(payload)
 
             if(response.success){
-                notification.showSuccessNotification(`Succesfully updated ${payload.name}.`)
+                notification.showSuccessNotification(`${payload.name} ` + this.text.ProdPage_SuccesUpdate)
             }
             else{
                 notification.showErrorNotification(response.message)
@@ -304,7 +306,7 @@ export default {
             e.preventDefault()
 
             if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
-                notification.showErrorNotification('A tag with this name already exists')
+                notification.showErrorNotification(this.text.ProdPage_AlreadyExistTag)
                 return
             }
 
@@ -341,7 +343,7 @@ export default {
             e.preventDefault()
 
             if (this.ingredients.some(t => t.name.toLowerCase() === this.ingredient.toLowerCase())) {
-                notification.showErrorNotification('A ingredient with this name already exists')
+                notification.showErrorNotification(this.text.ProdPage_AlreadyExistIngredient)
                 return
             }
 
@@ -382,10 +384,10 @@ export default {
                 return
             }
 
-            if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
+            if(confirm(`${this.name} ` + this.text.ProdPage_ConfirmDelete)){
                 await ProductWrapper.deleteProduct(this.id)
                 this.$router.push('menu')
-                notification.showSuccessNotification(`Succesfully deleted ${this.name}.`)
+                notification.showSuccessNotification(`${this.name} ` + this.text.ProdPage_DeleteSucces)
                 this.resetValues()
             }
         },

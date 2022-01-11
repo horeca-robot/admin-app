@@ -16,12 +16,14 @@
 
 <script>
 import notification from '../../utils/NotificationUtil'
+import LanguageUtil from '../../utils/LanguageUtil'
 
 export default {
     name: 'Employee',
     emits: ['addEmployees', 'updateEmployees', 'getEmployees', 'deleteEmployees'],
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             username: '',
             pincode: 0,
             isEditing: false
@@ -44,7 +46,7 @@ export default {
         },
         handleSubmit() {
             if(!this.username.trim() || !this.pincode) {
-                notification.showErrorNotification('All fields need to be filled in.')
+                notification.showErrorNotification(this.text.EmpComp_FieldErr)
                 return
             }
 
@@ -73,7 +75,7 @@ export default {
                 this.$emit('getEmployees')
             }
             else {
-                if(!confirm('Are you sure you want to delete employee ' + this.username + '?')) {
+                if(!confirm(this.text.EmpComp_DelConfirm + this.username)) {
                     return;
                 }
                 

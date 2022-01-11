@@ -2,6 +2,7 @@ package edu.fontys.horecarobot.adminappbackend.controllers;
 
 import edu.fontys.horecarobot.adminappbackend.AdminAppBackendApplication;
 import edu.fontys.horecarobot.adminappbackend.dtos.request.ProductRequestModel;
+import edu.fontys.horecarobot.adminappbackend.security.SecurityConfigurer;
 import edu.fontys.horecarobot.adminappbackend.utilities.JsonConverterUtil;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
@@ -40,6 +41,8 @@ public class ProductControllerTest {
     @Autowired
     private JwtUtil jwtUtil;
     private String token;
+    @Autowired
+    private SecurityConfigurer securityConfigurer;
 
     @BeforeAll
     public void setUp(){
@@ -82,7 +85,7 @@ public class ProductControllerTest {
 
     public void createAccount(){
         var user = new AdminUser();
-        user.setPassword("Test");
+        user.setPassword(securityConfigurer.passwordEncoder().encode("Test"));
         user.setEmail("test@gmail.com");
         adminUserRepository.saveAndFlush(user);
 
