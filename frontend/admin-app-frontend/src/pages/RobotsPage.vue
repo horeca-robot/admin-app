@@ -58,16 +58,16 @@ export default {
         },
         async addRobot(payload){
             if(this.doesRobotListContainId(payload.id)){
-                notification.showErrorNotification('Already exists a robot with this id.')
+                notification.showErrorNotification(this.text.RobotPage_IdExistErr)
             }
             else if(this.doesRobotListContainName(payload.name)){
-                notification.showErrorNotification('Already exists a robot with this name.')
+                notification.showErrorNotification(this.text.RobotPage_NameExistErr)
             }
             else{
                 const response = await RobotWrapper.postRobot(payload)
 
                 if(response.success){
-                    notification.showSuccessNotification('Succesfully added robot #' + payload.id)
+                    notification.showSuccessNotification('robot #' + payload.id + this.text.RobotPage_AddSuccess)
                 }
                 else{
                     notification.showErrorNotification(response.message)
@@ -78,13 +78,13 @@ export default {
         },
         async updateRobot(payload){
             if(this.doesRobotListContainName(payload.name)){
-                notification.showErrorNotification('Already exists a robot with this name.')
+                notification.showErrorNotification(this.text.RobotPage_NameExistErr)
             }
             else{
                 const response = await RobotWrapper.putRobot(payload)
 
                 if(response.success){
-                    notification.showSuccessNotification('Succesfully updated robot #' + payload.id)
+                    notification.showSuccessNotification('robot #' + payload.id + this.text.RobotPage_UpdateSuccess)
                 }
                 else{
                     notification.showErrorNotification(response.message)

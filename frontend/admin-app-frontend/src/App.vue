@@ -14,12 +14,14 @@ import Notifications from './components/Notifications.vue'
 import ColorUtil from './utils/ColorUtil.js'
 import api from './wrappers/InfoWrapper.js'
 import notification from './utils/NotificationUtil'
+import LanguageUtil from './utils/LanguageUtil'
 
 export default {
   name: 'App',
   components: { Background, NavigationBar, Notifications},
   data() {
     return {
+      text: LanguageUtil.getTextObject(),
       restaurantSettings: {}
     }
   },
@@ -52,7 +54,7 @@ export default {
         this.restaurantSettings = response.data["data"]["info"]
       }
       else{
-        notification.showErrorNotification('Something went wrong, try again later.')
+        notification.showErrorNotification(this.text.App_Error)
       }
     }
   },

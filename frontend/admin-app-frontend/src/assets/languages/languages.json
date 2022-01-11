@@ -28,10 +28,14 @@
             "ForgotPassPage_PassChanged": "Password has been changed",
             "ForgotPassPage_Error": "Something went wrong, please try again later.",
             "ForgotPassPage_PassErr": "Filled in passwords do not match.",
+            "ForgotPassPage_PlaceHolder_Pass": "Password",
+            "ForgotPassPage_PlaceHolder_PassConfirm": "Confirm Password",
             
             "LoginPage_FieldErr": "All fields need to be filled in.",
+            "LoginPage_PlaceHolder_Pass": "Password",
 
             "MenuPage_CatErr": "You'll need to add a category first.",
+            "MenuPage_ByProduct": "ByProducts",
 
             "SetPage_WebsiteSettings": "Website Settings",
             "SetPage_RestaurantSettings": "Restaurant Settings",
@@ -59,6 +63,12 @@
             "EmpPage_Succes1": "has been added succesfully",
             "EmpPage_Succes2": "has been updated succesfully.",
 
+            "EmpComp_FieldErr": "All fields need to be filled in.",
+            "EmpComp_DelConfirm": "Delete this user? ",
+
+            "CatDropDownComp_Ordered": "was ordered:",
+            "CatDropDownComp_Times": "time(s).",
+
             "ProdComp_Edit": "Edit",
 
             "CatPage_Name": "Name:",
@@ -73,11 +83,12 @@
             "CatPage_Succes2": "has been updated.",
             "CatPage_DelConfirm": "will be deleted from the menu, proceed?",
             "CatPage_DelSucces": "has been deleted.",
+            "CatPage_PlaceHolder_Name": "Name...",
 
 
-            "ProdPage_Title": "*Title:",
+            "ProdPage_Title": "*Name: (Required)",
             "ProdPage_Description": "Description:",
-            "ProdPage_Price": "*Price:",
+            "ProdPage_Price": "*Price: (Required)",
             "ProdPage_Discount": "Discount price:",
             "ProdPage_Alcohol": "Contains Alcohol:",
             "ProdPage_IsByProduct": "Is A By-Product:",
@@ -97,7 +108,15 @@
             "ProdPage_PlaceHolderDiscount": "Discount...",
             "ProdPage_PlaceHolderSearchIngredient": "Search Ingredient...",
             "ProdPage_PlaceHolderSearchTag": "Search Tag...",
+            "ProdPage_FieldErr": "Not all required fields are filled in.",
+            "ProdPage_SuccesAdd": "has been succesfully added to the menu.",
+            "ProdPage_SuccesUpdate": "has been updated succesfully.",
+            "ProdPage_AlreadyExistTag": "A tag with this name already exists.",
+            "ProdPage_AlreadyExistIngredient": "An ingredient with this name already exists.",
+            "ProdPage_ConfirmDelete": "Will be deleted from the menu, proceed?",
+            "ProdPage_DeleteSucces": "has been deleted succesfully.",
 
+            "App_Error": "Something went wrong, try again later.",
 
             "LogPage_Forgot": "Forgot Password?",
             "LogPage_Login": "Log in",
@@ -114,6 +133,12 @@
             
             "RobotPage_Edit": "Edit",
             "RobotPage_Add": "Add Robot",
+            "RobotPage_IdExistErr": "A robot with this id already exists.",
+            "RobotPage_NameExistErr": "A robot with this name already exists.",
+            "RobotPage_AddSuccess": " has been added succesfully",
+            "RobotPage_UpdateSuccess": " has been updated succesfully",
+            "RobotComp_FieldErr": "All fields need to be filled in.",
+
 
             "OrderHisPage_Last7": "Last 7 days",
             "OrderHisPage_Last30": "Last 30 days",
@@ -165,10 +190,14 @@
             "ForgotPassPage_PassChanged": "Wachtwoord is aangepast.",
             "ForgotPassPage_Error": "Er is een fout opgetreden, probeer het later opnieuw.",
             "ForgotPassPage_PassErr": "De ingevulde wachtwoorden komen niet overeen.",
+            "ForgotPassPage_PlaceHolder_Pass": "Wachtwoord",
+            "ForgotPassPage_PlaceHolder_PassConfirm": "Wachtwoord Bevestigen",
 
             "LoginPage_FieldErr": "Alle velden moeten ingevuld worden.",
+            "LoginPage_PlaceHolder_Pass": "Wachtwoord",
             
             "MenuPage_CatErr": "Voeg eerst een categorie toe.",
+            "MenuPage_ByProduct": "BijProducten",
 
             "SetPage_WebsiteSettings": "Website Instellingen",
             "SetPage_RestaurantSettings": "Restaurant Instellingen",
@@ -196,6 +225,12 @@
             "EmpPage_Succes1": "is succesvol toegevoegd.",
             "EmpPage_Succes2": "is succesvol aangepast.",
 
+            "EmpComp_FieldErr": "Alle velden moeten ingevuld worden.",
+            "EmpComp_DelConfirm": "Deze gebruiker verwijderen? ",
+
+            "CatDropDownComp_Ordered": "is:",
+            "CatDropDownComp_Times": "keer besteld.",
+
             "ProdComp_Edit": "Bewerk",
             
             "CatPage_Name": "Naam:",
@@ -210,10 +245,11 @@
             "CatPage_Succes2": "is aangepast.",
             "CatPage_DelConfirm": "zal uit het menu worden verwijderd, wilt u doorgaan?",
             "CatPage_DelSucces": "is verwijderd.",
+            "CatPage_PlaceHolder_Name": "Naam...",
 
-            "ProdPage_Title": "*Titel:",
+            "ProdPage_Title": "*Titel: (Verplicht)",
             "ProdPage_Description": "Beschrijving:",
-            "ProdPage_Price": "*Prijs:",
+            "ProdPage_Price": "*Prijs: (Verplicht)",
             "ProdPage_Discount": "Kortingsprijs:",
             "ProdPage_Alcohol": "Bevat alcohol:",
             "ProdPage_IsByProduct": "Is Een Bij-Product:",
@@ -233,6 +269,15 @@
             "ProdPage_PlaceHolderDiscount": "Korting...",
             "ProdPage_PlaceHolderSearchIngredient": "Zoek Ingrediënt...",
             "ProdPage_PlaceHolderSearchTag": "Zoek Label...",
+            "ProdPage_FieldErr": "Niet alle verplichte velden zijn ingevuld.",
+            "ProdPage_SuccesAdd": "is succesvol toegevoegd aan het menu.",
+            "ProdPage_SuccesUpdate": "is succesvol aangepast.",
+            "ProdPage_AlreadyExistTag": "Een label met deze naam bestaat al.",
+            "ProdPage_AlreadyExistIngredient": "Een ingredient met deze naam bestaat al.",
+            "ProdPage_ConfirmDelete": "Wordt van het menu verwijderd, doorgaan?",
+            "ProdPage_DeleteSucces": "is succesvol verwijderd.",
+
+            "App_Error": "Er is iets fout gegaan, probeer het later opnieuw.",
 
             "LogPage_Forgot": "Wachtwoord vergeten?",
             "LogPage_Login": "Inloggen",
@@ -249,6 +294,12 @@
 
             "RobotPage_Edit": "Bewerk",
             "RobotPage_Add": "Voeg Robot",
+            "RobotComp_FieldErr": "Alle velden moeten worden ingevuld.",
+            "RobotPage_IdExistErr": "A robot with this id already exists.",
+            "RobotPage_NameExistErr": "A robot with this name already exists.",
+            "RobotPage_AddSuccess": " is succesvol toegevoegd.",
+            "RobotPage_UpdateSuccess": " is succesvol aangepast.",
+            "RobotComp_Delete": "Weet u zeker dat u deze robot wilt verwijderen? ",
 
             "OrderHisPage_Last7": "Laatste 7 dagen",
             "OrderHisPage_Last30": "Laatste 30 dagen",

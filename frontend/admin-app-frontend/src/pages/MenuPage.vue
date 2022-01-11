@@ -14,7 +14,7 @@
                 </div>
                 <h1 class="box-message" v-else>{{text.MenuPage_CatExist}}</h1>
                 <div id="bottom-categories">
-                    <button :class="selectedCategory === 'byProducts' ? 'categories by-products category-selected' : 'categories by-products'" @click="selectByProductCategory">ByProducts</button> <!-- vertaal !-->
+                    <button :class="selectedCategory === 'byProducts' ? 'categories by-products category-selected' : 'categories by-products'" @click="selectByProductCategory">{{text.MenuPage_ByProduct}}</button>
                     <button :class="selectedCategory === 'archive' ? 'categories last-item category-selected' : 'categories last-item'" @click="selectArchivedCategory">{{text.MenuPage_Archive}}</button>
                 </div>
             </div>

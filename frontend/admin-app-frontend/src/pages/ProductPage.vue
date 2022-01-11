@@ -3,19 +3,19 @@
         <div class="panel-side">
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Title}}</label> <!-- required toevoegen in vertaling !-->
-                <input v-model="name" type="text" placeholder:{{text.ProdPage_PlaceHolderName}}/>
+                <input v-model="name" type="text" :placeholder="text.ProdPage_PlaceHolderName"/>
             </div>
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Description}}</label>
-                <textarea v-model="description" placeholder="Description..."/>
+                <textarea v-model="description" :placeholder="text.ProdPage_PlaceHolderDescription"/>
             </div>
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Price}}</label> <!-- required toevoegen in vertaling !-->
-                <input v-model="price" type="number" placeholder="Price..." step="any"/>
+                <input v-model="price" type="number" :placeholder="text.ProdPage_PlaceHolderPrice" step="any"/>
             </div>
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Discount}}</label>
-                <input v-model="discountPrice" type="number" placeholder="Discount..." step="any"/>
+                <input v-model="discountPrice" type="number" :placeholder="text.ProdPage_PlaceHolderDiscount" step="any"/>
             </div>
             <div class="product-property">
                 <div>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="list-search">
-                    <input type="text" @input="searchIngredients" placeholder="Search Ingredient..." v-model="ingredient" />
+                    <input type="text" @input="searchIngredients" :placeholder="text.ProdPage_PlaceHolderSearchIngredient" v-model="ingredient" />
                     <button class="button" @click="createIngredient">{{text.ProdPage_Add}}</button>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="list-search">
-                    <input type="text" @input="searchTags" placeholder="Search Tag..." v-model="tag" />
+                    <input type="text" @input="searchTags" :placeholder="text.ProdPage_PlaceHolderSearchTag" v-model="tag" />
                     <button class="button" @click="createTag">{{text.ProdPage_Add}}</button>
                 </div>
             </div>
@@ -227,7 +227,7 @@ export default {
             e.preventDefault()
 
             if(!this.name || !this.price){
-                notification.showErrorNotification('Not all required fields are filled in.')
+                notification.showErrorNotification(this.text.ProdPage_FieldErr)
                 return
             }
 
@@ -265,7 +265,7 @@ export default {
             const response = await ProductWrapper.postProduct(payload)
 
             if(response.success){
-                notification.showSuccessNotification(`Succesfully added ${payload.name} to the menu.`)
+                notification.showSuccessNotification(`${payload.name} ` + this.text.ProdPage_SuccesAdd)
             }
             else{
                 notification.showErrorNotification(response.message)
@@ -295,7 +295,7 @@ export default {
             const response = await ProductWrapper.putProduct(payload)
 
             if(response.success){
-                notification.showSuccessNotification(`Succesfully updated ${payload.name}.`)
+                notification.showSuccessNotification(`${payload.name} ` + this.text.ProdPage_SuccesUpdate)
             }
             else{
                 notification.showErrorNotification(response.message)
@@ -306,7 +306,7 @@ export default {
             e.preventDefault()
 
             if (this.tags.some(t => t.name.toLowerCase() === this.tag.toLowerCase())) {
-                notification.showErrorNotification('A tag with this name already exists')
+                notification.showErrorNotification(this.text.ProdPage_AlreadyExistTag)
                 return
             }
 
@@ -343,7 +343,7 @@ export default {
             e.preventDefault()
 
             if (this.ingredients.some(t => t.name.toLowerCase() === this.ingredient.toLowerCase())) {
-                notification.showErrorNotification('A ingredient with this name already exists')
+                notification.showErrorNotification(this.text.ProdPage_AlreadyExistIngredient)
                 return
             }
 
@@ -384,10 +384,10 @@ export default {
                 return
             }
 
-            if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
+            if(confirm(`${this.name} ` + this.text.ProdPage_ConfirmDelete)){
                 await ProductWrapper.deleteProduct(this.id)
                 this.$router.push('menu')
-                notification.showSuccessNotification(`Succesfully deleted ${this.name}.`)
+                notification.showSuccessNotification(`${this.name} ` + this.text.ProdPage_DeleteSucces)
                 this.resetValues()
             }
         },

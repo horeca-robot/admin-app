@@ -4,12 +4,12 @@
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
-                <input v-model="password" type="password" class="input-field" placeholder="Password"/>
+                <input v-model="password" type="password" class="input-field" :placeholder="text.ForgotPassPage_PlaceHolder_Pass"/>
             </div>
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
-                <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
+                <input v-model="confirmPassword" type="password" class="input-field" :placeholder="text.ForgotPassPage_PlaceHolder_Pass"/>
             </div>
             <div >
                 <button class="btn" @click="changePassword">{{text.PassPage_Change}}</button>

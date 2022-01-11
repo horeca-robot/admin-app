@@ -3,7 +3,7 @@
     <div class="panel-side">
       <div class="panel-section">
         <label>{{text.CatPage_Name}}</label>
-        <input placeholder="Name..." v-model="name" type="text"/>
+        <input :placeholder="text.CatPage_PlaceHolder_Name" v-model="name" type="text"/>
       </div>
       <div style="margin-bottom: 5px;">
         <label class="isVisible">{{text.CatPage_Visible}}</label><input type="checkbox" v-model="visible"/>
