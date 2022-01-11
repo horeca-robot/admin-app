@@ -4,7 +4,6 @@ import edu.fontys.horecarobot.databaselibrary.models.RestaurantInfo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
