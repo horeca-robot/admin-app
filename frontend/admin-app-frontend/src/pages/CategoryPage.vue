@@ -2,27 +2,30 @@
   <form id="panel" @submit="onSubmit">
     <div class="panel-side">
       <div class="panel-section">
-        <label>Name:</label>
-        <input placeholder="Name..." v-model="name" type="text"/>
+        <label>{{text.CatPage_Name}}</label>
+        <input :placeholder="text.CatPage_PlaceHolder_Name" v-model="name" type="text"/>
+      </div>
+      <div style="margin-bottom: 5px;">
+        <label class="isVisible">{{text.CatPage_Visible}}</label><input type="checkbox" v-model="visible"/>
       </div>
       <div class="panel-section">
-        <label>Image:</label>
+        <label>{{text.CatPage_Image}}</label>
         <ImagePreview ref="image" />
       </div>
     </div>
     <div class="panel-side">
       <div class="panel-section">
-        <label>Select Parent-Categories:</label>
+        <label>{{text.CatPage_Parent}}</label>
         <div id="categories">
-          <div class="category" v-for="category in filteredCategories" :key="category.id"> 
+          <div class="category" v-for="category in filteredCategories.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))" :key="category.id"> 
               <input type="checkbox" v-model="category.selected"> 
               <label>{{ category.name }}</label>
           </div>
         </div>
       </div>
       <div id="buttons">
-        <input class="button" id="save" type="submit" value="Save">
-        <button class="button" id="delete" @click="deleteCategory">Delete</button>
+        <input class="button" id="save" type="submit" :value="text.CatPage_Save"/>
+        <button class="button" id="delete" @click="deleteCategory">{{text.CatPage_Delete}}</button>
       </div>
     </div>
   </form>
@@ -32,13 +35,16 @@
 import CategoryWrapper from '../wrappers/CategoryWrapper'
 import ImagePreview from '../components/ImagePreview.vue'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
       return {
+        text: LanguageUtil.getTextObject(),
         id: '',
         isEditing: false,
         name: '',
+        visible: true,
         filteredCategories: [],
         allCategories: []
       }
@@ -72,6 +78,7 @@ export default {
       },
 
       setCategoryValues(category){
+        this.visible = category.visible
         this.id = category.id
         this.name = category.name
 
@@ -93,12 +100,12 @@ export default {
         e.preventDefault()
 
         if(!this.name){
-          notification.showErrorNotification('Not all required fields are filled in, please check again')
+          notification.showErrorNotification(this.text.CatPage_Err1)
           return
         }
 
         if(this.filteredCategories.some(c => c.name.toLowerCase() === this.name.toLowerCase())){
-          notification.showErrorNotification('Already a category exist with the same name.')
+          notification.showErrorNotification(this.text.CatPage_Err2)
           return
         }
 
@@ -118,13 +125,14 @@ export default {
         const payload = {
           name: this.name,
           image : this.$refs.image.base64,
-          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id)
+          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id),
+          visible: this.visible
         }
 
         const response = await CategoryWrapper.postCategory(payload)
 
         if(response.success){
-          notification.showSuccessNotification(`Successfully added ${payload.name} to the menu.`)
+          notification.showSuccessNotification(`${payload.name} ` + this.text.CatPage_Succes1)
         }
         else {
           notification.showErrorNotification(response.message)
@@ -136,13 +144,14 @@ export default {
           id: this.id,
           name: this.name,
           image : this.$refs.image.base64,
-          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id)
+          parentCategories: this.filteredCategories.filter(i => i.selected).map(i => i.id),
+          visible: this.visible
         }
 
         const response = await CategoryWrapper.putCategory(payload)
 
         if(response.success){
-          notification.showSuccessNotification(`Successfully updated ${payload.name}.`)
+          notification.showSuccessNotification(`${payload.name} ` + this.text.CatPage_Succes2)
         }
         else {
           notification.showErrorNotification(response.message)
@@ -157,10 +166,10 @@ export default {
           return
         }
 
-        if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){
+        if(confirm(`${this.name} ` + this.text.CatPage_DelConfirm)){
           await CategoryWrapper.deleteCategory(this.id)
           this.$router.push('menu')
-          notification.showSuccessNotification(`Successfully deleted ${this.name}.`)
+          notification.showSuccessNotification(`${this.name} ` + this.text.CatPage_DelSucces)
           this.resetValues()
         }
       },
@@ -168,9 +177,11 @@ export default {
       resetValues(){
         this.id = ''
         this.name = ''
+        this.visible = true;
         this.filteredCategories.forEach(function (category) {
           category.selected = false
         })
+        this.$refs.image.setBase64(null);
       }
     }
 }
@@ -183,15 +194,15 @@ export default {
   right: 0;
   margin: auto;
   min-width: 500px;
-  width: 30vw;
-  min-height: fit-content;
-  height: 30vh;
+  width: 25vw;
+  height: fit-content;
   background-color: var(--secondary-color);
   box-shadow: 5px 5px 5px 1px rgb(0 0 0 / 50%);
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   padding: 30px;
+  color: var(--text-color);
 }
 
 .panel-side{
@@ -217,7 +228,7 @@ input[type=text] {
   border: 2px solid var(--primary-color);
   border-radius: 5px;
   width: calc(100% - 14px);
-  height: 30px;
+  height: 20px;
   padding: 5px;
   margin-bottom: 5%;
 }
@@ -260,6 +271,10 @@ input[type=checkbox]{
   font-family: inherit;
   cursor: pointer;
   padding: 5px;
+}
+
+.isVisible{
+  margin-right: 5px;
 }
 
 #save{

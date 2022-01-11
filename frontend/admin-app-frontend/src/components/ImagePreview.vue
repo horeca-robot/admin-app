@@ -1,21 +1,25 @@
 <template>
   <div>
+    <img id="preview" :src="base64" />
+    <label for="file-upload" id="upload" class="custom-file-upload">{{text.ImgPrev_UploadImage}}</label>
     <input
       @input="previewImage"
       ref="fileInput"
       type="file"
       accept="image/png, image/gif, image/jpeg"
+      id="file-upload"
     />
-    <br />
-    <img id="preview" :src="base64" />
   </div>
 </template>
 
 <script>
+import LanguageUtil from '../utils/LanguageUtil';
+
 export default {
   name: "ImagePreview",
   data() {
     return {
+      text: LanguageUtil.getTextObject(),
       base64: null,
     };
   },
@@ -69,14 +73,45 @@ export default {
 </script>
 
 <style scoped>
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  width: fit-content;
+}
+
 #preview {
   width: 150px;
   height: 150px;
   object-fit: cover;
 }
 
-div {
-  max-width: 100%;
-  max-height: 100%;
+input[type=file]{
+  display: none;
 }
+
+#upload{
+  margin-top: 10px;
+  width: calc(100% - 20px);
+  display: flex;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: inherit;
+  padding: 5px;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  transition: 0.2s ease transform;
+  justify-content: center;
+}
+
+  #upload:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+    box-shadow: 2px 2px 5px 0px rgb(0 0 0 / 50%);
+  }
 </style>

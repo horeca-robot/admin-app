@@ -4,15 +4,15 @@
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
-                <input v-model="password" type="password" class="input-field" placeholder="Password"/>
+                <input v-model="password" type="password" class="input-field" :placeholder="text.ForgotPassPage_PlaceHolder_Pass"/>
             </div>
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
-                <input v-model="confirmPassword" type="password" class="input-field" placeholder="Confirm password"/>
+                <input v-model="confirmPassword" type="password" class="input-field" :placeholder="text.ForgotPassPage_PlaceHolder_Pass"/>
             </div>
             <div >
-                <button class="btn" @click="changePassword">Change Password</button>
+                <button class="btn" @click="changePassword">{{text.PassPage_Change}}</button>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
                 <input v-model="email" type="text" class="input-field" placeholder="email"/>
             </div>
             <div>
-                <button class="btn" @click="sendResetMail">Send Resetlink</button>
+                <button class="btn" @click="sendResetMail">{{text.PassPage_ResetLink}}</button>
             </div>
         </div>
     </div>
@@ -34,10 +34,12 @@
 import api from '../wrappers/PasswordWrapper.js'
 import JwtUtil from '../utils/JwtUtil.js'
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data(){
         return{
+            text: LanguageUtil.getTextObject(),
             token: '',
             hasToken: false,
             password: '',
@@ -52,7 +54,7 @@ export default {
             const isExpired = JwtUtil.checkExpiration(claims["exp"])
             
             if(isExpired){
-                notification.showErrorNotification("Token has expired.")
+                notification.showErrorNotification(this.text.ForgotPassPage_TokenErr)
                 this.$router.push("login")
             }
             this.hasToken = true
@@ -61,17 +63,17 @@ export default {
     methods:{
         async sendResetMail(){
             if(!this.email){
-                notification.showErrorNotification("Please fill in an email to receive a reset link.")
+                notification.showErrorNotification(this.text.ForgotPassPage_EmailErr)
                 return
             }
 
             const response = await api.postResetPasswordRequest(this.email)
             if(response.success){
-                notification.showInfoNotification("A mail to reset your password has been sent.")
+                notification.showInfoNotification(this.text.ForgotPassPage_EmailReset)
                 this.$router.push("login");
             }
             else{
-                notification.showErrorNotification("No user found with given email.")
+                notification.showErrorNotification(this.text.ForgotPassPage_UserMailErr)
             }
         },
         async changePassword(){
@@ -87,15 +89,15 @@ export default {
 
                 const response = await api.changePassword(payload)
                 if(response.success){
-                    notification.showSuccessNotification("Password has been changed")
+                    notification.showSuccessNotification(this.text.ForgotPassPage_PassChanged)
                     this.$router.push("login")
                 }
                 else{
-                    notification.showErrorNotification("Something went wrong, please try again later.")
+                    notification.showErrorNotification(this.text.ForgotPassPage_Error)
                 }
             }
             else{
-                notification.showErrorNotification("Filled in passwords do not match.")
+                notification.showErrorNotification(this.text.ForgotPassPage_PassErr)
             }
         }
     }

@@ -12,12 +12,12 @@
             <div class="input">
                 <i class="icon fas fa-lock"/>
                 <div class="line" />
-                <input v-model="password" type="password" class="input-field" placeholder="Password"/>
+                <input v-model="password" type="password" class="input-field" :placeholder="text.LoginPage_PlaceHolder_Pass"/>
             </div>
         </div>
         <div class="section" >
-            <p class="forgot-password" @click="redirectToForgotPasswordPage">Forgot Password?</p>
-            <button class="btn" @click="handleLogIn">Log In</button>
+            <p class="forgot-password" @click="redirectToForgotPasswordPage">{{text.LogPage_Forgot}}</p>
+            <button class="btn" @click="handleLogIn">{{text.LogPage_Login}}</button>
         </div>
     </div>
 </template>
@@ -25,10 +25,12 @@
 <script>
 import api from "../wrappers/AuthenticationWrapper.js"
 import notification from '../utils/NotificationUtil'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             email: '',
             password: ''
         }
@@ -37,7 +39,7 @@ export default {
         async handleLogIn() {
 
             if(!this.email.trim() || !this.password.trim()){
-                notification.showErrorNotification('All fields need to be filled in.')
+                notification.showErrorNotification("this.text.LoginPage_FieldErr")
                 return
             }
 

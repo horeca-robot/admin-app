@@ -19,13 +19,22 @@ public class ProductResponseModel {
         discountPrice = product.getDiscountPrice();
         description = product.getDescription();
         containsAlcohol = product.isContainsAlcohol();
+        canBeServedAsByProduct = product.isCanBeServedAsByProduct();
         categories = product.getCategories()
                 .stream()
                 .map(Category::getId)
                 .collect(Collectors.toList());
+        byProducts = product.getByProducts()
+                .stream()
+                .map(Product::getId)
+                .collect(Collectors.toList());
         tags = product.getTags()
                 .stream()
                 .map(TagResponseModel::new)
+                .collect(Collectors.toList());
+        ingredients = product.getIngredients()
+                .stream()
+                .map(IngredientProductResponseModel::new)
                 .collect(Collectors.toList());
     }
 
@@ -36,7 +45,10 @@ public class ProductResponseModel {
     private final double discountPrice;
     private final String description;
     private final boolean containsAlcohol;
+    private final boolean canBeServedAsByProduct;
     private final List<UUID> categories;
+    private final List<UUID> byProducts;
     private final List<TagResponseModel> tags;
+    private final List<IngredientProductResponseModel> ingredients;
 
 }
