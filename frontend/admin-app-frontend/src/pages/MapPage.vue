@@ -58,7 +58,6 @@ export default {
       customScale: 50
     };
   },
-  setup() {},
   mounted() {
     this.initCanvas();
 
