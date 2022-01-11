@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 ENV NODE_ENV production
-RUN npm run build_prod
+RUN npm run build
 EXPOSE 8081
 CMD ["npm", "run", "serve"]
 
