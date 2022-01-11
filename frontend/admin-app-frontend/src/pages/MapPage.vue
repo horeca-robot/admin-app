@@ -21,8 +21,17 @@
             Delete Selected
           </button>
         </div>
-
-         <div ref="scaleView" class="map-navigation-item">
+        <div id="scaleView" ref="scaleView">
+            Map Scale: 
+            <div id="scale">
+                &nbsp;
+            </div> = {{customScale}}cm
+        </div>
+        <div id="customScale" class="map-navigation-item">
+            Custom Scale: <input type="number" v-model="customScale">
+        </div>
+        <div class="map-navigation-item">
+            <button @click="saveScale">Save</button>
         </div>
       </div>
     </div>
@@ -35,6 +44,7 @@ import { fabric } from "fabric";
 let canvas;
 let clientHeight;
 let clientWidth;
+var unitScale = 10;
 const barFill = "rgba(0, 93, 127, 0.7)";
 const barStroke = "#003e54";
 const wallFill = "rgba(136, 136, 136, 0.7)";
@@ -45,28 +55,35 @@ export default {
     return {
       canvasZoom: 0,
       nummm: 0,
+      customScale: 50
     };
   },
-  setup(){
-  },
+  setup() {},
   mounted() {
     this.initCanvas();
+
+    if(localStorage.getItem("scale"))
+        this.customScale = localStorage.getItem("scale")
   },
   methods: {
     genId() {
       return "_" + Math.random().toString(36).substr(2, 9);
     },
+    saveScale(){
+        localStorage.setItem("scale", this.customScale)
+    },
     initCanvas() {
       clientHeight = document.getElementById("map").clientHeight;
       clientWidth = document.getElementById("map").clientWidth;
+
+     var grid = 50;
 
       canvas = new fabric.Canvas("canvas", {});
 
       canvas.setWidth(clientWidth);
       canvas.setHeight(clientHeight);
 
-      if(localStorage.getItem("mapZoom"))
-      {
+      if (localStorage.getItem("mapZoom")) {
         this.canvasZoom = parseFloat(localStorage.getItem("mapZoom"));
         canvas.setZoom(this.canvasZoom);
       }
@@ -82,7 +99,6 @@ export default {
         opt.e.stopPropagation();
 
         localStorage.setItem("mapZoom", this.canvasZoom);
-        console.log(this.$refs)
       });
 
       canvas.on("mouse:down", () => this.handleSave());
@@ -92,6 +108,34 @@ export default {
       if (canvasData) {
         canvas.loadFromJSON(canvasData);
       }
+
+      // create grid
+      for (var i = 0; i < clientWidth / grid; i++) {
+        canvas.add(
+          new fabric.Line([i * grid, 0, i * grid, clientHeight], {
+            type: "line",
+            stroke: "#gray",
+            selectable: false,
+            hasControl: false
+          })
+        );
+        canvas.add(
+          new fabric.Line([0, i * grid, clientWidth, i * grid], {
+            type: "line",
+            stroke: "#gray",
+            selectable: false,
+            hasControl: false
+          })
+        );
+      }
+
+      // snap to grid
+      canvas.on("object:moving", function (options) {
+        options.target.set({
+          left: Math.round(options.target.left / grid) * grid,
+          top: Math.round(options.target.top / grid) * grid,
+        });
+      });
     },
     placeRobotStart() {
       const o = new fabric.Circle({
@@ -106,8 +150,8 @@ export default {
     },
     placeTable() {
       const o = new fabric.Rect({
-        width: 50,
-        height: 25,
+        width: 5 * unitScale,
+        height: 5 * unitScale,
         fill: barFill,
         stroke: barStroke,
         strokeWidth: 2,
@@ -194,6 +238,17 @@ export default {
 </script>
 
 <style scoped>
+#scaleView{
+    margin-left: 15px;
+    margin-top: 20px;
+}
+#scale{
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 1px solid black;
+    display: inline-block;
+}
 .canvas-container {
   width: 100% !important;
   height: 100% !important;
@@ -235,7 +290,7 @@ canvas {
 .panel {
   min-width: 875px;
   width: 40vw;
-  min-height: 500px;
+  min-height: 525px;
   max-height: 60vh;
   padding: 20px;
   background-color: var(--secondary-color);
