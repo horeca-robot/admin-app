@@ -100,12 +100,12 @@ export default {
         e.preventDefault()
 
         if(!this.name){
-          notification.showErrorNotification('Not all required fields are filled in, please check again') // nog niet vertaald
+          notification.showErrorNotification(this.text.CatPage_Err1)
           return
         }
 
         if(this.filteredCategories.some(c => c.name.toLowerCase() === this.name.toLowerCase())){
-          notification.showErrorNotification('Already a category exist with the same name.') // nog niet vertaald
+          notification.showErrorNotification(this.text.CatPage_Err2)
           return
         }
 
@@ -132,7 +132,7 @@ export default {
         const response = await CategoryWrapper.postCategory(payload)
 
         if(response.success){
-          notification.showSuccessNotification(`Successfully added ${payload.name} to the menu.`) //nog niet vertaald
+          notification.showSuccessNotification(`${payload.name} ` + this.text.CatPage_Succes1)
         }
         else {
           notification.showErrorNotification(response.message)
@@ -151,7 +151,7 @@ export default {
         const response = await CategoryWrapper.putCategory(payload)
 
         if(response.success){
-          notification.showSuccessNotification(`Successfully updated ${payload.name}.`) // nog niet vertaald
+          notification.showSuccessNotification(`${payload.name} ` + this.text.CatPage_Succes2)
         }
         else {
           notification.showErrorNotification(response.message)
@@ -166,10 +166,10 @@ export default {
           return
         }
 
-        if(confirm(`Are you sure you wan't to delete ${this.name} from the menu?`)){ // nog niet vertaald
+        if(confirm(`${this.name} ` + this.text.CatPage_DelConfirm)){
           await CategoryWrapper.deleteCategory(this.id)
           this.$router.push('menu')
-          notification.showSuccessNotification(`Successfully deleted ${this.name}.`) // nog niet vertaald
+          notification.showSuccessNotification(`${this.name} ` + this.text.CatPage_DelSucces)
           this.resetValues()
         }
       },

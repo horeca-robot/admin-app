@@ -3,7 +3,7 @@
         <div class="panel-side">
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Title}}</label> <!-- required toevoegen in vertaling !-->
-                <input v-model="name" type="text" placeholder="Name..."/>
+                <input v-model="name" type="text" placeholder:{{text.ProdPage_PlaceHolderName}}/>
             </div>
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Description}}</label>

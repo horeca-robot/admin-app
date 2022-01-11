@@ -21,6 +21,18 @@
             "WeekComp_Saturday": "Saturday",
             "WeekComp_Sunday": "Sunday",
 
+            "ForgotPassPage_TokenErr": "Token has expired",
+            "ForgotPassPage_EmailErr": "Please fill in an email to receive a reset link.",
+            "ForgotPassPage_EmailReset": "A mail to reset your password has been sent.",
+            "ForgotPassPage_UserMailErr": "No user found with given email.",
+            "ForgotPassPage_PassChanged": "Password has been changed",
+            "ForgotPassPage_Error": "Something went wrong, please try again later.",
+            "ForgotPassPage_PassErr": "Filled in passwords do not match.",
+            
+            "LoginPage_FieldErr": "All fields need to be filled in.",
+
+            "MenuPage_CatErr": "You'll need to add a category first.",
+
             "SetPage_WebsiteSettings": "Website Settings",
             "SetPage_RestaurantSettings": "Restaurant Settings",
 
@@ -42,6 +54,10 @@
             "EmpPage_Pin": "Pin",
             "EmpPage_Edit": "Edit",
             "EmpPage_Add": "Add Employee",
+            "EmpPage_Err1": "An employee with this username already exists.",
+            "EmpPage_Err2": "Pin should be a four digit number.",
+            "EmpPage_Succes1": "has been added succesfully",
+            "EmpPage_Succes2": "has been updated succesfully.",
 
             "ProdComp_Edit": "Edit",
 
@@ -51,6 +67,13 @@
             "CatPage_Parent": "Select Parent-Categories:",
             "CatPage_Save": "Save",
             "CatPage_Delete": "Delete",
+            "CatPage_Err1": "Not all required fields are filled in, please check again",
+            "CatPage_Err2": "A category with the same name already exists.",
+            "CatPage_Succes1": "has been added to the menu.",
+            "CatPage_Succes2": "has been updated.",
+            "CatPage_DelConfirm": "will be deleted from the menu, proceed?",
+            "CatPage_DelSucces": "has been deleted.",
+
 
             "ProdPage_Title": "*Title:",
             "ProdPage_Description": "Description:",
@@ -68,6 +91,13 @@
             "ProdPage_ByProducts": "By-Products:",
             "ProdPage_Save": "Save",
             "ProdPage_Delete": "Delete",
+            "ProdPage_PlaceHolderName": "Name...",
+            "ProdPage_PlaceHolderDescription": "Description...",
+            "ProdPage_PlaceHolderPrice": "Price...",
+            "ProdPage_PlaceHolderDiscount": "Discount...",
+            "ProdPage_PlaceHolderSearchIngredient": "Search Ingredient...",
+            "ProdPage_PlaceHolderSearchTag": "Search Tag...",
+
 
             "LogPage_Forgot": "Forgot Password?",
             "LogPage_Login": "Log in",
@@ -128,6 +158,18 @@
             "WeekComp_Saturday": "Zaterdag",
             "WeekComp_Sunday": "Zondag",
 
+            "ForgotPassPage_TokenErr": "Token is vervallen.",
+            "ForgotPassPage_EmailErr": "Vul een e-mailadres in om een herstel link te ontvangen.",
+            "ForgotPassPage_EmailReset": "Een e-mail om je wachtwoord te herstellen is verstuurd.",
+            "ForgotPassPage_UserMailErr": "Geen gebruiker gevonden met deze mail.",
+            "ForgotPassPage_PassChanged": "Wachtwoord is aangepast.",
+            "ForgotPassPage_Error": "Er is een fout opgetreden, probeer het later opnieuw.",
+            "ForgotPassPage_PassErr": "De ingevulde wachtwoorden komen niet overeen.",
+
+            "LoginPage_FieldErr": "Alle velden moeten ingevuld worden.",
+            
+            "MenuPage_CatErr": "Voeg eerst een categorie toe.",
+
             "SetPage_WebsiteSettings": "Website Instellingen",
             "SetPage_RestaurantSettings": "Restaurant Instellingen",
 
@@ -148,7 +190,11 @@
             "EmpPage_Employee": "Werknemer",
             "EmpPage_Pin": "Pin",
             "EmpPage_Edit": "Bewerk",
-            "EmpPage_Add": "Werknemer Toevoegen",
+            "EmpPage_Add": "Medewerker toevoegen",
+            "EmpPage_Err1": "Een medewerker met deze gebruikersnaam bestaat al.",
+            "EmpPage_Err2": "Je pincode hoort uit 4 getallen te bestaan.",
+            "EmpPage_Succes1": "is succesvol toegevoegd.",
+            "EmpPage_Succes2": "is succesvol aangepast.",
 
             "ProdComp_Edit": "Bewerk",
             
@@ -158,6 +204,12 @@
             "CatPage_Parent": "Selecteer Hoofdcategorieën:",
             "CatPage_Save": "Opslaan",
             "CatPage_Delete": "Verwijder",
+            "CatPage_Err1": "Niet alle verplichte velden zijn ingevuld, controlleer uw invoer opnieuw",
+            "CatPage_Err2": "Er bestaat al een categorie met dezelfde naam.",
+            "CatPage_Succes1": "is aan het menu toegevoegd.",
+            "CatPage_Succes2": "is aangepast.",
+            "CatPage_DelConfirm": "zal uit het menu worden verwijderd, wilt u doorgaan?",
+            "CatPage_DelSucces": "is verwijderd.",
 
             "ProdPage_Title": "*Titel:",
             "ProdPage_Description": "Beschrijving:",
@@ -175,6 +227,12 @@
             "ProdPage_ByProducts": "Bij-Producten:",
             "ProdPage_Save": "Opslaan",
             "ProdPage_Delete": "Verwijder",
+            "ProdPage_PlaceHolderName": "Naam...",
+            "ProdPage_PlaceHolderDescription": "Beschrijving...",
+            "ProdPage_PlaceHolderPrice": "Prijs...",
+            "ProdPage_PlaceHolderDiscount": "Korting...",
+            "ProdPage_PlaceHolderSearchIngredient": "Zoek Ingrediënt...",
+            "ProdPage_PlaceHolderSearchTag": "Zoek Label...",
 
             "LogPage_Forgot": "Wachtwoord vergeten?",
             "LogPage_Login": "Inloggen",

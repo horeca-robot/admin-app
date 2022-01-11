@@ -39,7 +39,7 @@ export default {
         async handleLogIn() {
 
             if(!this.email.trim() || !this.password.trim()){
-                notification.showErrorNotification('All fields need to be filled in.')
+                notification.showErrorNotification("this.text.LoginPage_FieldErr")
                 return
             }
 

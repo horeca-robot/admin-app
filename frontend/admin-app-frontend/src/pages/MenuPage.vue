@@ -123,7 +123,7 @@ export default {
         },
         redirectToProduct(){
             if(!this.categories.length){
-                notification.showErrorNotification("You'll need to add a category first.")
+                notification.showErrorNotification(this.text.LoginPage_FieldErr)
                 return
             }
 
