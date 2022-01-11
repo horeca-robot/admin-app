@@ -47,9 +47,8 @@
 
             "ResSet_RestaurantName": "Restaurant Name",
             "ResSet_ContactPerson": "Contact Person",
-            "ResSet_OpeningTime": "Opening Time",
+            "ResSet_OpenCloseTime": "Opening and Closing Time",
             "ResSet_ContactEmail": "Contact Email",
-            "ResSet_ClosingTime": "Closing Time",
             "ResSet_ContactPhone": "Contact Phone",
             "ResSet_SaveSettings": "Save Settings",
             "ResSet_RestaurantLogo": "Restaurant Logo",
@@ -115,6 +114,14 @@
             "ProdPage_AlreadyExistIngredient": "An ingredient with this name already exists.",
             "ProdPage_ConfirmDelete": "Will be deleted from the menu, proceed?",
             "ProdPage_DeleteSucces": "has been deleted succesfully.",
+
+            "MapPage_RobotStart": "Place robot start position.",
+            "MapPage_PlaceTable": "Place a table.",
+            "MapPage_PlaceWall": "Place a wall.",
+            "MapPage_Delete": "Delete Selected.",
+            "MapPage_MapScale": "Map Scale:",
+            "MapPage_CustomScale": "Custom Scale:",
+            "MapPage_Save": "Save",
 
             "App_Error": "Something went wrong, try again later.",
 
@@ -209,9 +216,8 @@
 
             "ResSet_RestaurantName": "Restaurant Naam",
             "ResSet_ContactPerson": "Contact Persoon",
-            "ResSet_OpeningTime": "OpeningsTijd",
+            "ResSet_OpenCloseTime": "Opening- en Sluitingstijden",
             "ResSet_ContactEmail": "Contact Email",
-            "ResSet_ClosingTime": "Sluitingstijd",
             "ResSet_ContactPhone": "Telefoonnummer",
             "ResSet_SaveSettings": "Instellingen Opslaan",
             "ResSet_RestaurantLogo": "Restaurant Logo",
@@ -276,6 +282,14 @@
             "ProdPage_AlreadyExistIngredient": "Een ingredient met deze naam bestaat al.",
             "ProdPage_ConfirmDelete": "Wordt van het menu verwijderd, doorgaan?",
             "ProdPage_DeleteSucces": "is succesvol verwijderd.",
+
+            "MapPage_RobotStart": "Plaats robot start positie.",
+            "MapPage_PlaceTable": "Plaats een tafel.",
+            "MapPage_PlaceWall": "Place een muur.",
+            "MapPage_Delete": "Verwijder Geselecteerde.",
+            "MapPage_MapScale": "Map Schaal:",
+            "MapPage_CustomScale": "Aangepaste Schaal:",
+            "MapPage_Save": "Opslaan",
 
             "App_Error": "Er is iets fout gegaan, probeer het later opnieuw.",
 
