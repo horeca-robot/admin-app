@@ -17,6 +17,7 @@
         <input id="secondary" type="color" v-model="secondaryColor" />
       </div>
     </div>
+    <LanguageSettings />
   </div>
 </template>
 
@@ -24,6 +25,7 @@
 import ImagePreview from "../ImagePreview.vue";
 import api from "../../wrappers/InfoWrapper.js";
 import LanguageUtil from '../../utils/LanguageUtil';
+import LanguageSettings from './LanguageSettings.vue';
 
 export default {
   async mounted() {
@@ -63,6 +65,7 @@ export default {
   },
   components: {
     ImagePreview,
+    LanguageSettings
   },
 };
 </script>

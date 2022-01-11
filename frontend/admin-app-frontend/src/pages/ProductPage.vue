@@ -1,5 +1,5 @@
 <template>
-    <form id="panel" @submit.prevent="onSubmit">
+    <form id="panel" @submit="onSubmit">
         <div class="panel-side">
             <div class="product-property">
                 <label class="property-title">{{text.ProdPage_Title}}</label> <!-- required toevoegen in vertaling !-->
@@ -35,7 +35,7 @@
             </div>
             <div id="buttons">
                 <input class="button save" type="submit" :value="text.ProdPage_Save" />
-                <button class="button delete" @click="deleteProduct()">{{text.ProdPage_Delete}}</button>
+                <button class="button delete" @click="deleteProduct">{{text.ProdPage_Delete}}</button>
             </div>
         </div>
         <div class="panel-side">

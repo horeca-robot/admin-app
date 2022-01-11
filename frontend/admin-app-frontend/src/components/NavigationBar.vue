@@ -6,7 +6,7 @@
                 <h1 v-else class="restaurant-name">{{text.Nav_Welcome}}<br/>Administrator</h1>
             </div>
             <div class="section">
-                <a class="link" href="employees"> <!-- TODO: Add link to employee app -->
+                <a class="link" :href="employeeApp">
                     {{text.Nav_Ref}}
                     <i class="link-icon fas fa-external-link-alt"/>
                 </a>
@@ -68,7 +68,8 @@ export default {
     name: 'NavigationBar',
     data(){
         return{
-            text: LanguageUtil.getTextObject()
+            text: LanguageUtil.getTextObject(),
+            employeeApp: process.env.VUE_APP_EMPLOYEE_APP_URL
         }
     },
     props: {

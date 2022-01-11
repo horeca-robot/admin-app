@@ -70,7 +70,7 @@
 
             "ProdComp_Edit": "Edit",
 
-            "CatPage_Name": "Name:",
+            "CatPage_Name": "Name: (Required)",
             "CatPage_Visible": "Is Visible:",
             "CatPage_Image": "Image:",
             "CatPage_Parent": "Select Parent-Categories:",
@@ -85,9 +85,9 @@
             "CatPage_PlaceHolder_Name": "Name...",
 
 
-            "ProdPage_Title": "*Name: (Required)",
+            "ProdPage_Title": "Name: (Required)",
             "ProdPage_Description": "Description:",
-            "ProdPage_Price": "*Price: (Required)",
+            "ProdPage_Price": "Price: (Required)",
             "ProdPage_Discount": "Discount price:",
             "ProdPage_Alcohol": "Contains Alcohol:",
             "ProdPage_IsByProduct": "Is A By-Product:",
@@ -239,7 +239,7 @@
 
             "ProdComp_Edit": "Bewerk",
             
-            "CatPage_Name": "Naam:",
+            "CatPage_Name": "Naam: (Verplicht)",
             "CatPage_Visible": "Is Zichtbaar:",
             "CatPage_Image": "Afbeelding:",
             "CatPage_Parent": "Selecteer Hoofdcategorieën:",
@@ -253,9 +253,9 @@
             "CatPage_DelSucces": "is verwijderd.",
             "CatPage_PlaceHolder_Name": "Naam...",
 
-            "ProdPage_Title": "*Titel: (Verplicht)",
+            "ProdPage_Title": "Naam: (Verplicht)",
             "ProdPage_Description": "Beschrijving:",
-            "ProdPage_Price": "*Prijs: (Verplicht)",
+            "ProdPage_Price": "Prijs: (Verplicht)",
             "ProdPage_Discount": "Kortingsprijs:",
             "ProdPage_Alcohol": "Bevat alcohol:",
             "ProdPage_IsByProduct": "Is Een Bij-Product:",

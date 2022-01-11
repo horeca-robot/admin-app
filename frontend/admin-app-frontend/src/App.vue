@@ -26,10 +26,16 @@ export default {
     }
   },
   async created(){
+    this.setStandardLanguage()
     await this.updateCss()
     await this.getRestaurantSettings()
   },
   methods: {
+    setStandardLanguage(){
+      if(localStorage.getItem('language') === null){
+        localStorage.setItem('language', 'English')
+      }
+    },
     async updateBackground(){
       await this.$refs.background.update()
     },
