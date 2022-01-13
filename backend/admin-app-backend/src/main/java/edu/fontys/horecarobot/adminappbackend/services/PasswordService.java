@@ -3,8 +3,10 @@ package edu.fontys.horecarobot.adminappbackend.services;
 import edu.fontys.horecarobot.adminappbackend.utilities.JwtUtil;
 import edu.fontys.horecarobot.databaselibrary.models.AdminUser;
 import edu.fontys.horecarobot.databaselibrary.repositories.AdminUserRepository;
+import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.User;
@@ -22,6 +24,8 @@ public class PasswordService {
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
     private final static long EXPIRATION_TIME = 1000 * 60 * 30;
+    @Value("${frontend.url}")
+    private String url;
 
     public boolean sendResetLink(String email){
 
@@ -29,7 +33,7 @@ public class PasswordService {
             final UserDetails userDetails = getAdminUser(email);
             final String jwt = jwtUtil.generateToken(userDetails, EXPIRATION_TIME);
 
-            String resetLink = "http://localhost:4000/forgot-password?token=" + jwt;
+            String resetLink = url + jwt;
             emailService.sendEmail(email, resetLink);
             return true;
         }

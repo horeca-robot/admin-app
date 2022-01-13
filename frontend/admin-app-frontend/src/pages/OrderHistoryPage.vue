@@ -3,32 +3,32 @@
         <div class="panel">
             <div id="time-section">
                 <div id="time-options">
-                    <label @click="setDatesByPreviousDaysAmount(7)">Last 7 days</label>
-                    <label @click="setDatesByPreviousDaysAmount(30)">Last 30 days</label>
-                    <label @click="setDatesByPreviousDaysAmount(90)">Last 90 days</label>
-                    <label @click="setDatesByPreviousDaysAmount(180)">Last 180 days</label>
-                    <label @click="setDatesByPreviousDaysAmount(365)">Last 365 days</label>
-                    <label @click="setDefaultDateValues()">All time</label>
+                    <label @click="setDatesByPreviousDaysAmount(7)">{{text.OrderHisPage_Last7}}</label>
+                    <label @click="setDatesByPreviousDaysAmount(30)">{{text.OrderHisPage_Last30}}</label>
+                    <label @click="setDatesByPreviousDaysAmount(90)">{{text.OrderHisPage_Last90}}</label>
+                    <label @click="setDatesByPreviousDaysAmount(180)">{{text.OrderHisPage_Last180}}</label>
+                    <label @click="setDatesByPreviousDaysAmount(365)">{{text.OrderHisPage_Last365}}</label>
+                    <label @click="setDefaultDateValues()">{{text.OrderHisPage_AllTime}}</label>
                 </div>
                 <div id="time-select">
                     <div>
-                        <label>From:</label>
+                        <label>{{text.OrderHisPage_From}}</label>
                         <input type="date" :value="dateToYYYYMMDD(this.fromTemp)" @input="fromTemp = $event.target.valueAsDate" :max="dateToYYYYMMDD(this.toTemp)"/>
                     </div>
                     <div>
-                        <label>To:</label>
+                        <label>{{text.OrderHisPage_To}}</label>
                         <input type="date" :value="dateToYYYYMMDD(this.toTemp)" @input="toTemp = $event.target.valueAsDate" :min="dateToYYYYMMDD(this.fromTemp)" :max="dateToYYYYMMDD(new Date())"/>
                     </div>
                 </div>
-                <button id="time-apply" @click="applyDates">Apply</button>
+                <button id="time-apply" @click="applyDates">{{text.OrderHisPage_Apply}}</button>
             </div>
             <div id="data-section">
-                <label>Total Revenue: <label>€{{ getSumOfArray(this.orders.map(i => i.subTotal)) }}</label></label>
-                <label>Total Orders: <label>{{ this.orders.length }}</label></label>
-                <label>Average Order Revenue: <label>€{{ this.orders.length ? parseFloat(getSumOfArray(this.orders.map(i => i.subTotal)) / this.orders.length).toFixed(2) : 0 }}</label></label>
-                <label>Total Products Ordered: <label>{{ this.products.length }}</label></label>
+                <label>{{text.OrderHisPage_TotRev}} <label>€{{ getSumOfArray(this.orders.map(i => i.subTotal)) }}</label></label>
+                <label>{{text.OrderHisPage_TotOrders}} <label>{{ this.orders.length }}</label></label>
+                <label>{{text.OrderHisPage_AvgOrderRev}} <label>€{{ this.orders.length ? parseFloat(getSumOfArray(this.orders.map(i => i.subTotal)) / this.orders.length).toFixed(2) : 0 }}</label></label>
+                <label>{{text.OrderHisPage_TotProdOrdered}} <label>{{ this.products.length }}</label></label>
             </div>
-            <label id="export" @click="exportOrderHistory()">Export Order History</label>
+            <label id="export" @click="exportOrderHistory()">{{text.OrderHisPage_ExpOrderHis}}</label>
         </div>
         <div class="panel">
             <WeekOverview :orders="orders"/>
@@ -48,10 +48,12 @@ import NotificationUtil from '../utils/NotificationUtil'
 import ExportUtil from '../utils/ExportUtil'
 import WeekOverview from '../components/order_history_components/WeekOverview.vue'
 import CategoryDropdown from '../components/order_history_components/CategoryDropdown.vue'
+import LanguageUtil from '../utils/LanguageUtil'
 
 export default {
     data() {
         return {
+            text: LanguageUtil.getTextObject(),
             from: String,
             fromTemp: Date,
             to: String,

@@ -22,9 +22,6 @@ public class SignInService implements UserDetailsService {
     private final JwtUtil jwtUtil;
     private final AdminUserRepository adminUserRepository;
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         AdminUser exampleAdmin = new AdminUser();
@@ -36,8 +33,6 @@ public class SignInService implements UserDetailsService {
         if (optionalAdmin.isPresent()) {
             AdminUser admin = optionalAdmin.get();
             return new User(admin.getEmail(), admin.getPassword(), new ArrayList<>());
-        } else if (profile.equals("dev") && userName.equalsIgnoreCase("test")) {
-            return new User("test", "test", new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("User with username (email) not found!");
         }

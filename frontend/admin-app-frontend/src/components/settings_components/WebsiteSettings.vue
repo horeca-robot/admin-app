@@ -1,28 +1,31 @@
 <template>
   <div id="container">
     <div style="float: left !important">
-      <label for="background">Background Image</label>
+      <label for="background">{{text.WebSet_BackgroundImage}}</label>
       <ImagePreview ref="backgroundPreview" id="background" />
-      <button @click="handleSave" type="button">Save Settings</button>
+      <button @click="handleSave" type="button">{{text.WebSet_SaveSettings}}</button>
     </div>
 
     <div id="colors">
       <div>
-        <label for="primary">PrimaryColor&nbsp;</label>
+        <label for="primary">{{text.WebSet_PrimaryColor}}&nbsp;</label>
         <input id="primary" type="color" v-model="primaryColor" />
       </div>
 
       <div>
-        <label for="secondary">SecondaryColor&nbsp;</label>
+        <label for="secondary">{{text.WebSet_SecondaryColor}}&nbsp;</label>
         <input id="secondary" type="color" v-model="secondaryColor" />
       </div>
     </div>
+    <LanguageSettings />
   </div>
 </template>
 
 <script>
 import ImagePreview from "../ImagePreview.vue";
 import api from "../../wrappers/InfoWrapper.js";
+import LanguageUtil from '../../utils/LanguageUtil';
+import LanguageSettings from './LanguageSettings.vue';
 
 export default {
   async mounted() {
@@ -42,6 +45,7 @@ export default {
   },
   data() {
     return {
+      text: LanguageUtil.getTextObject(),
       primaryColor: "#0157e4",
       secondaryColor: "#ffffff",
     };
@@ -61,6 +65,7 @@ export default {
   },
   components: {
     ImagePreview,
+    LanguageSettings
   },
 };
 </script>
