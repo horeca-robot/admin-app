@@ -1,4 +1,8 @@
-De RIGS bestel applicatie is opgesplitst in drie sub projecten zoals hieronder beschreven.
+### De RIGS bestel applicatie heeft drie gebruikers groepen
+![alt text](RIGS_System_Context_Diagram.png)
+### Elke gebruikers groep heeft zijn eigen front/back-end
+![alt text](RIGS_Container_Diagram.png)
+
 1. Admin applicatie: Hier stelt de restauranteigenaar het menu in.
 2. Klant applicatie: Hier besteld de klant zijn eten
 3. Medewerker applicatie: Hier komen de bestellingen van de klant binnen zodat de keuken kan beginnen met de bereiding.
