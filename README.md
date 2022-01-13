@@ -36,9 +36,9 @@ Om de een docker image te maken voor het front-end moet je eerst Docker installe
 
 Als docker geïnstalleerd is voer je de volgende commando uit in een terminal/CMD in de root folder van het project waar de Dockerfile zich bevindt. 
 
-Commando: docker build -t rigs-front-end . 
+Commando: `docker build -t rigs-front-end .` 
 
-De naam rigs-front-end kan veranderd woorden naar iets anders 
+De naam `rigs-front-end` kan veranderd woorden naar iets anders 
 
 LET OP DE PUNT OP HET EINDE IS HEEL BELANGRIJK ANDERS WORD DE IMAGE NIET GEMAAKT!.  
 
@@ -52,9 +52,9 @@ Om de een docker image te maken voor het front-end moet je eerst Docker installe
 
 Als docker geïnstalleerd is voer je de volgende commando uit in een terminal/CMD in de root folder van het project waar de Dockerfile zich bevindt. 
 
-Commando: docker build -t rigs-backend . 
+Commando: `docker build -t rigs-backend .` 
 
-De naam rigs-backend kan veranderd woorden naar iets anders 
+De naam `rigs-backend` kan veranderd woorden naar iets anders 
 
 LET OP DE PUNT OP HET EINDE IS HEEL BELANGRIJK ANDERS WORD DE IMAGE NIET GEMAAKT!.  
 
@@ -66,7 +66,7 @@ Om beide applicaties live te zetten en om er voor te zorgen dat ze met elkaar ku
 
 In de docker-compose.yml wordt er gebruik gemaakt van een reverse proxy zodat beide applicaties hun eigen host hebben maar toch met elkaar kunnen communiceren. Om de docker-compose.yml uit te voeren moet je de volgende commando uitvoeren in een terminal/CMD. 
 
-Commando: docker-compose up --build beide applicaties worden gebouwd en gestart.
+Commando: `docker-compose up --build` beide applicaties worden gebouwd en gestart.
 
 # API Documentatie
 De documentatie voor de api is
